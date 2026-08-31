@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Toán Tư Duy — Luyện Tập Lớp 1-5</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #141922; --panel: #1c2330; --panel-2: #202836; --panel-3: #232c3c; --line: #2c3444;
+    --text: #E8ECF1; --text-dim: #8B95A7;
+    --s: #5B8DEF; --s-bg: rgba(91,141,239,0.14);
+    --v: #9B8AE6; --v-bg: rgba(155,138,230,0.14);
+    --aux: #E8A33D; --aux-bg: rgba(232,163,61,0.14);
+    --accent: #9B8AE6; --good: #4CAF7D; --mid: #E8A33D; --bad: #E86A92;
+    --radius: 10px;
+  }
+  *{box-sizing:border-box;}
+  body{ margin:0; background: radial-gradient(circle at 15% 0%, #1a2130 0%, var(--bg) 55%); color: var(--text);
+    font-family: 'Inter', system-ui, sans-serif; min-height:100vh; padding: 28px 20px 40px; }
+  .wrap{ max-width: 1200px; margin: 0 auto; }
+  header{ margin-bottom: 16px; }
+  .eyebrow{ font-family:'JetBrains Mono', monospace; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin: 0 0 8px; }
+  h1{ font-family:'Space Grotesk', sans-serif; font-size: clamp(24px, 4vw, 34px); margin: 0 0 6px; font-weight: 700; letter-spacing: -0.01em; }
+  .sub{ color: var(--text-dim); font-size: 14.5px; max-width: 720px; line-height:1.5; }
+  .layout{ display:grid; grid-template-columns: 1.55fr 1fr; gap: 20px; align-items:start; }
+  @media (max-width: 860px){ .layout{ grid-template-columns: 1fr; } }
+  .stage{ background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 22px 22px 20px; min-height: 430px; position: relative; }
+  .placeholder{ display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; min-height: 380px; color: var(--text-dim); gap:10px; }
+  .placeholder .big{ font-size: 34px; }
+  .placeholder .t1{ font-family:'Space Grotesk', sans-serif; color: var(--text); font-size:16px; font-weight:700; }
+  .placeholder .t2{ font-size: 13px; max-width: 340px; }
+  .ref-head{ display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; margin-bottom: 14px; }
+  .ref-name{ font-family:'Space Grotesk', sans-serif; font-weight:700; font-size: 17px; }
+  .tag{ display:inline-block; padding: 3px 9px; border-radius: 999px; font-size: 11px; letter-spacing:.04em; border:1px solid var(--line); color: var(--text-dim); font-family:'JetBrains Mono', monospace; }
+  .ref-example{ background: linear-gradient(135deg, rgba(155,138,230,.10), rgba(91,141,239,.06)); border: 1px solid var(--line); border-radius: var(--radius); padding: 11px 14px; margin-bottom: 10px; }
+  .ref-example .en{ font-size: 13.5px; font-weight:600; font-family:'JetBrains Mono', monospace; }
+  .ref-example .vi{ font-size: 12px; color: var(--text-dim); margin-top:2px; }
+  .ref-usage{ font-size: 12.5px; color: var(--text-dim); line-height:1.55; margin-bottom: 16px; }
+  .ref-usage b{ color: var(--text); font-weight:600; }
+  .quiz-toolbar{ display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; border-top: 1px solid var(--line); padding-top: 14px; margin-bottom: 12px; }
+  .quiz-toolbar .title{ font-family:'JetBrains Mono', monospace; font-size: 11.5px; letter-spacing:.06em; text-transform:uppercase; color: var(--text-dim); }
+  .btn{ font-family:'JetBrains Mono', monospace; font-size: 12px; cursor:pointer; border-radius: 8px; padding: 9px 14px; border: 1px solid var(--line); transition: border-color .2s ease, color .2s ease, background .2s ease; }
+  .btn-ghost{ background: var(--panel-2); color: var(--text-dim); }
+  .btn-ghost:hover{ color: var(--text); border-color: var(--accent); }
+  .btn-primary{ background: rgba(155,138,230,.16); color: var(--accent); border-color: var(--accent); font-weight:600; }
+  .btn-primary:hover{ background: rgba(155,138,230,.24); }
+  .qlist{ display:flex; flex-direction:column; gap: 10px; }
+  .qrow{ background: var(--panel-2); border:1px solid var(--line); border-radius: var(--radius); padding: 12px 14px;
+    opacity:0; transform: translateY(6px); transition: opacity .35s ease, transform .35s ease, border-color .2s ease, background .2s ease; }
+  .qrow.show{ opacity:1; transform: translateY(0); }
+  .qrow.correct{ border-color: rgba(76,175,125,.5); background: rgba(76,175,125,.07); }
+  .qrow.wrong{ border-color: rgba(232,106,146,.5); background: rgba(232,106,146,.06); }
+  .qnum{ font-family:'JetBrains Mono', monospace; font-size: 10.5px; color: var(--text-dim); letter-spacing:.06em; text-transform:uppercase; margin-bottom:6px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .lvl{ display:inline-block; padding: 2px 8px; border-radius: 999px; font-size: 9.5px; letter-spacing:.04em; font-weight:600; }
+  .lvl-basic{ background: rgba(76,175,125,.14); color: var(--good); }
+  .lvl-medium{ background: rgba(232,163,61,.14); color: var(--mid); }
+  .lvl-hard{ background: rgba(232,106,146,.14); color: var(--bad); }
+  .qsentence{ display:flex; flex-wrap:wrap; align-items:center; gap: 6px 8px; font-size: 14.5px; line-height:1.6; }
+  .qshapes{ font-size: 20px; letter-spacing: 6px; }
+  .qinput{ font-family:'JetBrains Mono', monospace; font-size: 13.5px; font-weight:600; background: var(--panel-3); border: 1px solid var(--line); border-radius: 7px; color: var(--text); padding: 6px 10px; min-width: 110px; outline:none; transition: border-color .2s ease; }
+  .qinput:focus{ border-color: var(--accent); }
+  .qrow.correct .qinput{ border-color: var(--good); color: var(--good); }
+  .qrow.wrong .qinput{ border-color: var(--bad); color: var(--bad); }
+  .qvi{ font-family:'Inter'; font-size: 12px; color: var(--text-dim); font-style: italic; margin-top:4px; }
+  .qfeedback{ font-size: 12.5px; color: var(--text-dim); margin-top: 6px; }
+  .qfeedback b{ color: var(--good); }
+  .score-bar{ display:none; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; margin-top: 14px; padding: 12px 16px; border-radius: var(--radius); border:1px solid var(--line); font-family:'JetBrains Mono', monospace; font-size: 13px; }
+  .score-bar.good{ background: rgba(76,175,125,.1); border-color: rgba(76,175,125,.4); color: var(--good); }
+  .score-bar.mid{ background: rgba(232,163,61,.1); border-color: rgba(232,163,61,.4); color: var(--mid); }
+  .score-bar.low{ background: rgba(232,106,146,.1); border-color: rgba(232,106,146,.4); color: var(--bad); }
+  .picker{ background: var(--panel); border: 1px solid var(--line); border-radius: 16px; overflow:hidden; }
+  .picker-head{ display:flex; align-items:center; justify-content:space-between; padding: 16px 18px; cursor:pointer; user-select:none; }
+  .picker-head .t{ font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:15px; display:flex; align-items:center; gap:9px; }
+  .picker-head .t .dot{ width:8px; height:8px; border-radius:50%; background: var(--accent); }
+  .chev{ width: 22px; height:22px; color: var(--text-dim); transition: transform .35s ease; }
+  .picker.open .chev{ transform: rotate(180deg); }
+  .picker-body{ max-height: 0; overflow: hidden; transition: max-height .45s cubic-bezier(.2,.8,.2,1); }
+  .picker.open .picker-body{ max-height: 1000px; }
+  .picker-inner{ padding: 4px 14px 16px; }
+  .grid12{ display:grid; grid-template-columns: 52px repeat(4, 1fr); gap: 6px; font-size: 11px; }
+  .col-h{ font-family:'JetBrains Mono', monospace; font-size: 9.5px; color: var(--text-dim); text-align:center; padding-bottom:4px; line-height:1.2; }
+  .row-h{ display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono', monospace; font-size: 11px; color: var(--text-dim); }
+  .tbtn{ background: var(--panel-2); border: 1px solid var(--line); border-radius: 8px; color: var(--text); padding: 10px 6px; font-size: 11px; line-height:1.3; cursor:pointer; text-align:center; transition: border-color .2s ease, background .2s ease, transform .15s ease; }
+  .tbtn:hover{ border-color: rgba(155,138,230,.4); transform: translateY(-1px); }
+  .tbtn.active{ background: rgba(155,138,230,.16); border-color: var(--accent); color: var(--accent); font-weight:600; }
+  .mix-row{ display:flex; align-items:center; gap:8px; padding: 10px 18px 4px; font-size: 12.5px; color: var(--text-dim); cursor:pointer; user-select:none; }
+  .mix-row input{ accent-color: var(--accent); width:15px; height:15px; cursor:pointer; }
+  .mix-hint{ font-size: 11.5px; color: var(--accent); padding: 0 18px 10px; font-family:'JetBrains Mono', monospace; }
+  .count-row{ display:flex; align-items:center; gap:10px; padding: 8px 18px 12px; flex-wrap:wrap; }
+  .count-label{ font-family:'JetBrains Mono', monospace; font-size: 11.5px; color: var(--text-dim); }
+  .count-btns{ display:flex; gap:6px; }
+  .cbtn{ font-family:'JetBrains Mono', monospace; font-size: 12px; font-weight:600; cursor:pointer; background: var(--panel-2); border: 1px solid var(--line); border-radius: 8px; color: var(--text-dim); padding: 6px 12px; transition: border-color .2s ease, color .2s ease, background .2s ease; }
+  .cbtn:hover{ color: var(--text); border-color: var(--accent); }
+  .cbtn.active{ background: rgba(155,138,230,.16); border-color: var(--accent); color: var(--accent); }
+  .pool-note{ padding: 12px 18px 16px; border-top: 1px solid var(--line); font-size: 11.5px; color: var(--text-dim); line-height:1.55; }
+  .pool-note b{ color: var(--text); }
+  .export-row{ display:flex; align-items:center; justify-content:flex-end; gap:8px; flex-wrap:wrap; margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--line); }
+  .export-row .title{ font-family:'JetBrains Mono', monospace; font-size: 11.5px; letter-spacing:.06em; text-transform:uppercase; color: var(--text-dim); margin-right:auto; }
+  .copy-flash{ color: var(--good) !important; border-color: var(--good) !important; }
+  .nav-links{ display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
+  .nav-links a{ font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--text-dim); text-decoration:none; border:1px solid var(--line); border-radius:999px; padding:5px 11px; transition:.2s; }
+  .nav-links a:hover{ color:var(--text); border-color:var(--accent); }
+  .nav-links a.cur{ color:var(--accent); border-color:var(--accent); background:rgba(155,138,230,.12); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Toán học · Tư duy & Suy luận</p>
+    <h1>🧩 Toán Tư Duy — Luyện Tập Lớp 1-5</h1>
+    <p class="sub">Dãy hình quy luật, suy luận logic, đếm hình theo mẫu và toán đố vui — rèn khả năng quan sát, suy luận thay vì chỉ tính toán đơn thuần. Mỗi đề gồm 40% câu cơ bản, 40% câu khó dần và 20% câu tư duy nâng cao.</p>
+    <div class="nav-links">
+      <a href="toan-tieng-anh.html">🇬🇧 Toán Tiếng Anh</a>
+      <a href="toan-nang-cao.html">🚀 Toán Nâng Cao</a>
+      <a class="cur" href="toan-tu-duy.html">🧩 Toán Tư Duy</a>
+    </div>
+  </header>
+
+  <div class="layout">
+    <div class="stage" id="stage">
+      <div class="placeholder" id="placeholder">
+        <div class="big">🧩</div>
+        <div class="t1">Chọn Lớp + Dạng bài ở khung bên phải để bắt đầu</div>
+        <div class="t2">Ngân hàng đề sinh tự động — mỗi lượt "Đổi câu hỏi khác" ra bộ đề mới, gần như không trùng lặp.</div>
+      </div>
+
+      <div id="quizArea" style="display:none;">
+        <div class="ref-head">
+          <span class="ref-name" id="refName">—</span>
+          <span class="tag" id="refTag">TƯ DUY</span>
+        </div>
+        <div class="ref-example" id="refExample">
+          <div class="en">—</div>
+          <div class="vi">—</div>
+        </div>
+        <div class="ref-usage" id="refUsage">—</div>
+
+        <div class="quiz-toolbar">
+          <span class="title" id="quizTitle">10 câu luyện tập</span>
+          <div style="display:flex; gap:8px;">
+            <button class="btn btn-ghost" id="reshuffleBtn">🔀 Đổi câu hỏi khác</button>
+            <button class="btn btn-primary" id="checkBtn">✓ Kiểm tra đáp án</button>
+          </div>
+        </div>
+
+        <div class="qlist" id="qlist"></div>
+        <div class="score-bar" id="scoreBar"></div>
+        <div class="export-row">
+          <span class="title">Xuất bài luyện tập</span>
+          <button class="btn btn-ghost" id="copyBtn">📋 Copy đề bài</button>
+          <button class="btn btn-ghost" id="exportWordBtn">📄 Xuất Word (.doc)</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="picker open" id="picker">
+      <div class="picker-head" id="pickerHead">
+        <span class="t"><span class="dot"></span>Chọn Lớp & Dạng bài</span>
+        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="picker-body">
+        <div class="picker-inner">
+          <div class="grid12" id="grid12"></div>
+        </div>
+        <label class="mix-row"><input type="checkbox" id="mixToggle"> Trộn nhiều dạng bài cùng lúc</label>
+        <div class="mix-hint" id="mixHint" style="display:none;"></div>
+        <div class="count-row">
+          <span class="count-label">Số câu:</span>
+          <div class="count-btns" id="countBtns">
+            <button class="cbtn active" data-count="10">10</button>
+            <button class="cbtn" data-count="15">15</button>
+            <button class="cbtn" data-count="20">20</button>
+            <button class="cbtn" data-count="30">30</button>
+          </div>
+        </div>
+        <div class="pool-note"><b>Mẹo:</b> Với "Đếm hình / dãy hình", đáp án cần gõ đúng <b>tên hình bằng tiếng Việt</b> (vd: hình tròn, hình tam giác…) — có gợi ý ngay dưới mỗi câu.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============ Cấu hình Lớp & Dạng bài ============ */
+const ROWS = ['Lớp 1','Lớp 2','Lớp 3','Lớp 4','Lớp 5'];
+const COLS = ['Dãy hình QL','Suy luận logic','Đếm hình','Đố vui'];
+const TOPICS = {
+  pattern:{ col:0, name:'Shape Patterns', vi:'Dãy hình theo quy luật',
+    en:'● ▲ ● ▲ ● ___', vi2:'Quan sát chu kỳ lặp lại của các hình để tìm hình còn thiếu.',
+    usage:'Nhận diện <b>chu kỳ lặp lại</b> của một dãy hình/ký hiệu để suy ra hình tiếp theo.' },
+  logic:{ col:1, name:'Logical Reasoning', vi:'Suy luận logic',
+    en:'An cao hơn Bình. Bình cao hơn Chi. Hỏi ai thấp nhất?', vi2:'Sắp xếp thứ tự dựa trên các mối quan hệ so sánh đã cho.',
+    usage:'Rèn khả năng <b>suy luận có căn cứ</b> từ các dữ kiện so sánh hoặc số liệu cho trước.' },
+  shapes:{ col:2, name:'Shape Counting', vi:'Đếm hình theo mẫu',
+    en:'●●▲●●▲●●▲ (lặp lại) — Trong 15 hình đầu tiên có bao nhiêu hình ▲?', vi2:'Xác định chu kỳ lặp rồi tính số lần xuất hiện trong một đoạn cho trước.',
+    usage:'Phát hiện <b>chu kỳ lặp</b> trong dãy hình để đếm chính xác số lượng theo yêu cầu.' },
+  puzzle:{ col:3, name:'Fun Puzzles', vi:'Toán đố vui',
+    en:'Trong sân có 3 con gà và 2 con chó. Hỏi có tất cả bao nhiêu cái chân?', vi2:'Bài toán đố dạng vui, cần suy luận thêm một bước trước khi tính.',
+    usage:'Toán đố vui kích thích <b>tư duy tổng hợp</b>: vừa suy luận vừa tính toán.' },
+};
+const MAX_MIX = 4;
+
+function randInt(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
+function pick(arr){ return arr[randInt(0,arr.length-1)]; }
+
+const SHAPES = [
+  {sym:'●', name:'hình tròn'}, {sym:'▲', name:'hình tam giác'}, {sym:'■', name:'hình vuông'},
+  {sym:'★', name:'ngôi sao'}, {sym:'♦', name:'hình thoi'},
+];
+const NAMES = ['An','Bình','Chi','Dũng','Hoa','Khang','Lan','Minh','Nga','Phúc'];
+const ANIMALS = [ {n:'gà', legs:2}, {n:'chó', legs:4}, {n:'vịt', legs:2}, {n:'mèo', legs:4}, {n:'ngựa', legs:4}, {n:'chim', legs:2} ];
+const WEEKDAYS = ['Chủ nhật','thứ Hai','thứ Ba','thứ Tư','thứ Năm','thứ Sáu','thứ Bảy'];
+
+function gradeConfig(g){
+  return {
+    1:{max:20,  shapeCount:2, seqLen:6},
+    2:{max:50,  shapeCount:3, seqLen:7},
+    3:{max:100, shapeCount:3, seqLen:8},
+    4:{max:500, shapeCount:4, seqLen:9},
+    5:{max:1000,shapeCount:4, seqLen:10},
+  }[g];
+}
+
+/* ============ Generator: Shape Patterns (tìm hình còn thiếu) ============ */
+function genPattern(grade, tier, scale){
+  const cfg = gradeConfig(grade);
+  // basic: fewer shapes in the repeating unit (easier cycle); hard: more shapes (harder cycle)
+  const periodBase = Math.min(cfg.shapeCount, SHAPES.length);
+  const period = tier==='basic' ? Math.max(2, periodBase-1)
+                : tier==='medium' ? periodBase
+                : Math.min(SHAPES.length, periodBase+1);
+  const chosen = [];
+  while(chosen.length < period){
+    const s = pick(SHAPES);
+    if(!chosen.find(c=>c.sym===s.sym)) chosen.push(s);
+  }
+  const len = tier==='hard' ? cfg.seqLen+2 : cfg.seqLen;
+  const seq = [];
+  for(let i=0;i<len;i++) seq.push(chosen[i % period]);
+  // basic: blank near the end (easy to spot); hard: blank near the beginning (need to infer the full cycle first)
+  const blankIdx = tier==='basic' ? randInt(Math.floor(len*0.7), len-1)
+                  : tier==='medium' ? randInt(Math.floor(len/2), len-1)
+                  : randInt(Math.floor(period*0.5), Math.floor(len/2));
+  const answerShape = seq[blankIdx];
+  const display = seq.map((s,i)=> i===blankIdx ? '___' : s.sym).join(' ');
+  return { before:'Quan sát dãy hình sau và cho biết hình còn thiếu là hình gì:', hint:`(${display})`, after:'',
+    vi:'Gõ tên hình bằng tiếng Việt, ví dụ: hình tròn, hình tam giác, hình vuông, ngôi sao, hình thoi.', answer: answerShape.name };
+}
+
+/* ============ Generator: Logical Reasoning ============ */
+function genLogic(grade, tier, scale){
+  const cfg = gradeConfig(grade);
+  const pool = [];
+
+  // basic: order 3 items by one relation
+  pool.push(()=>{
+    const names = [...NAMES].sort(()=>Math.random()-0.5).slice(0,3);
+    const askType = pick(['cao nhất','thấp nhất']);
+    const text = `${names[0]} cao hơn ${names[1]}. ${names[1]} cao hơn ${names[2]}. Hỏi ai ${askType}?`;
+    const answer = askType==='cao nhất' ? names[0] : names[2];
+    return { text, answer };
+  });
+  pool.push(()=>{
+    const names = [...NAMES].sort(()=>Math.random()-0.5).slice(0,3);
+    const askType = pick(['nhiều tuổi nhất','ít tuổi nhất']);
+    const text = `${names[0]} ít tuổi hơn ${names[1]}. ${names[1]} ít tuổi hơn ${names[2]}. Hỏi ai ${askType}?`;
+    const answer = askType==='nhiều tuổi nhất' ? names[2] : names[0];
+    return { text, answer };
+  });
+
+  // medium: age-difference reasoning (from grade≥2)
+  if(grade>=2 && tier!=='basic'){
+    pool.push(()=>{
+      const a = pick(NAMES); let b = pick(NAMES); while(b===a) b = pick(NAMES);
+      const diff = randInt(2,10);
+      const bAge = randInt(6, Math.max(7,Math.floor(cfg.max/10)));
+      return { text:`${a} hơn ${b} ${diff} tuổi. Hiện nay ${b} ${bAge} tuổi. Hỏi ${a} bao nhiêu tuổi?`, answer: bAge+diff };
+    });
+  }
+
+  // hard: mystery-number reasoning with digit sum/difference clues (from grade≥3)
+  if(grade>=3 && tier==='hard'){
+    pool.push(()=>{
+      const tens = randInt(1,9), ones = randInt(0,tens-1);
+      const sum = tens+ones, diff = tens-ones;
+      return { text:`Tôi là số có hai chữ số. Tổng hai chữ số của tôi là ${sum}, hiệu hai chữ số là ${diff} (chữ số hàng chục lớn hơn chữ số hàng đơn vị). Hỏi tôi là số nào?`, answer: tens*10+ones };
+    });
+  }
+
+  // hard: rank 4 people by two chained relations — higher-order thinking
+  if(tier==='hard'){
+    pool.push(()=>{
+      const names = [...NAMES].sort(()=>Math.random()-0.5).slice(0,4);
+      const askType = pick(['cao nhất','thấp nhất']);
+      const text = `${names[0]} cao hơn ${names[1]}. ${names[1]} cao hơn ${names[2]}. ${names[2]} cao hơn ${names[3]}. Hỏi ai ${askType}?`;
+      const answer = askType==='cao nhất' ? names[0] : names[3];
+      return { text, answer };
+    });
+  }
+
+  const chosen = pool[randInt(0,pool.length-1)]();
+  return { before: chosen.text, hint:'', after:'', vi:'Đọc kỹ từng dữ kiện và suy luận từng bước để tìm câu trả lời.', answer: String(chosen.answer) };
+}
+
+/* ============ Generator: Shape Counting ============ */
+function genShapes(grade, tier, scale){
+  const cfg = gradeConfig(grade);
+  const periodBase = Math.min(cfg.shapeCount, SHAPES.length);
+  const period = tier==='basic' ? Math.max(2, periodBase-1)
+                : tier==='medium' ? periodBase
+                : Math.min(SHAPES.length, periodBase+1);
+  const chosen = [];
+  while(chosen.length < period){
+    const s = pick(SHAPES);
+    if(!chosen.find(c=>c.sym===s.sym)) chosen.push(s);
+  }
+  const repeatsBase = grade<=2 ? 3 : (grade<=4 ? 4 : 5);
+  const repeats = tier==='hard' ? repeatsBase+2 : repeatsBase;
+  const fullSeq = [];
+  for(let i=0;i<period*repeats;i++) fullSeq.push(chosen[i % period]);
+  const target = pick(chosen);
+  const countInFull = Math.min(period*repeats, fullSeq.length);
+  // basic: ask about a short, whole-cycle-aligned slice (easy count); hard: ask about a longer slice with a partial final cycle (needs the "quotient + remainder" reasoning)
+  const askLen = tier==='basic' ? Math.min(countInFull, period*randInt(1,2))
+                : tier==='medium' ? randInt(Math.max(period*2,Math.floor(countInFull*0.5)), countInFull)
+                : randInt(Math.max(period*2, Math.floor(countInFull*0.75)), countInFull);
+  const slice = fullSeq.slice(0, askLen);
+  const answer = slice.filter(s=>s.sym===target.sym).length;
+  const displayUnit = chosen.map(s=>s.sym).join('');
+  return { before:`Dãy hình lặp lại theo chu kỳ: <b>${displayUnit}</b> (lặp lại nhiều lần). Trong ${askLen} hình đầu tiên, có bao nhiêu`, hint:`(${target.name})`, after:'?',
+    vi:'Xác định chu kỳ lặp, tính số chu kỳ trọn vẹn rồi cộng phần dư để đếm chính xác.', answer: String(answer) };
+}
+
+/* ============ Generator: Fun Puzzles ============ */
+function genPuzzle(grade, tier, scale){
+  const cfg = gradeConfig(grade);
+  const pool = [];
+  const legFactor = tier==='basic' ? 0.4 : tier==='medium' ? (0.5+0.5*scale) : 1;
+
+  // basic/medium: count total legs of two kinds of animals — scaled by tier
+  pool.push(()=>{
+    const a1 = pick(ANIMALS); let a2 = pick(ANIMALS); while(a2.n===a1.n) a2 = pick(ANIMALS);
+    const cap = Math.max(2, Math.round((grade<=2?6:15)*legFactor));
+    const c1 = randInt(2, cap), c2 = randInt(2, cap);
+    return { text:`Trong sân có ${c1} con ${a1.n} và ${c2} con ${a2.n}. Hỏi có tất cả bao nhiêu cái chân?`, answer: c1*a1.legs + c2*a2.legs };
+  });
+
+  // medium: weekday reasoning (from grade≥2)
+  if(grade>=2 && tier!=='basic'){
+    pool.push(()=>{
+      const startIdx = randInt(0,6);
+      const n = randInt(3,30);
+      const endIdx = (startIdx + n) % 7;
+      return { text:`Hôm nay là ${WEEKDAYS[startIdx]}. Hỏi ${n} ngày nữa là thứ mấy?`, answer: WEEKDAYS[endIdx] };
+    });
+  }
+
+  // basic: round-ten mystery number (small grades)
+  if(grade<=3 && tier==='basic'){
+    pool.push(()=>{
+      const target = randInt(1,Math.floor(cfg.max/10))*10;
+      const x = target - randInt(1,9), y = target + randInt(1,9);
+      return { text:`Tôi là một số tròn chục. Tôi lớn hơn ${x} và nhỏ hơn ${y}. Hỏi tôi là số nào?`, answer: target };
+    });
+  }
+
+  // hard: classic chickens-and-dogs (heads & legs) system-reasoning puzzle (from grade≥4)
+  if(grade>=4 && tier==='hard'){
+    pool.push(()=>{
+      const total = randInt(10,40);
+      const heads = total;
+      const legsTotal = randInt(heads*2+2, heads*4-2);
+      const d = Math.round((legsTotal - 2*heads)/2);
+      const c = heads - d;
+      if(d<1 || c<1) return { text:`Một sân có ${heads} con vừa gà vừa chó, tổng cộng có 2 chân + 4 chân là 40. Hỏi số chó là bao nhiêu?`, answer: 5 };
+      const realLegs = c*2 + d*4;
+      return { text:`Một sân có ${heads} con vừa gà vừa chó, tổng cộng ${realLegs} cái chân. Hỏi có bao nhiêu con chó?`, answer: d };
+    });
+  }
+
+  // hard: two-step puzzle combining leg-count with an extra condition — higher-order thinking at any grade
+  if(tier==='hard'){
+    pool.push(()=>{
+      const a1 = pick(ANIMALS); let a2 = pick(ANIMALS); while(a2.n===a1.n) a2 = pick(ANIMALS);
+      const c1 = randInt(2,10), c2 = randInt(2,10), extra=randInt(1,10);
+      const totalLegs = c1*a1.legs + c2*a2.legs;
+      return { text:`Trong sân có ${c1} con ${a1.n} và ${c2} con ${a2.n}. Sau đó có thêm ${extra} con ${a1.n} vào sân. Hỏi lúc này có tất cả bao nhiêu cái chân?`, answer: totalLegs + extra*a1.legs };
+    });
+  }
+
+  const chosen = pool[randInt(0,pool.length-1)]();
+  return { before: chosen.text, hint:'', after:'', vi:'Đọc đề thật kỹ — có thể cần suy luận thêm một bước trước khi tính ra đáp số.', answer: String(chosen.answer) };
+}
+
+const GEN = { pattern:genPattern, logic:genLogic, shapes:genShapes, puzzle:genPuzzle };
+const TIER_LABEL = { basic:'Cơ bản', medium:'Nâng cao', hard:'Tư duy' };
+
+/* ============ State ============ */
+let selectedTopics = []; let mixMode = false; let currentGrade = null; let currentTopics = []; let quizCount = 10; let currentQuiz = [];
+
+const placeholder = document.getElementById('placeholder');
+const quizArea = document.getElementById('quizArea');
+const refName = document.getElementById('refName');
+const refTag = document.getElementById('refTag');
+const refExample = document.getElementById('refExample');
+const refUsage = document.getElementById('refUsage');
+const quizTitle = document.getElementById('quizTitle');
+const qlist = document.getElementById('qlist');
+const scoreBar = document.getElementById('scoreBar');
+const checkBtn = document.getElementById('checkBtn');
+const reshuffleBtn = document.getElementById('reshuffleBtn');
+const copyBtn = document.getElementById('copyBtn');
+const exportWordBtn = document.getElementById('exportWordBtn');
+const mixToggle = document.getElementById('mixToggle');
+const mixHint = document.getElementById('mixHint');
+const countBtns = document.getElementById('countBtns');
+
+function renderReference(gradeId, topicIds){
+  const tid = topicIds[0]; const t = TOPICS[tid];
+  refName.textContent = `${ROWS[gradeId-1]} · ${t.name}`;
+  refTag.textContent = topicIds.length>1 ? `${topicIds.length} DẠNG BÀI` : t.vi.toUpperCase();
+  refExample.querySelector('.en').textContent = t.en;
+  refExample.querySelector('.vi').textContent = t.vi2;
+  refUsage.innerHTML = t.usage;
+}
+
+function buildDifficultyPlan(count){
+  const nBasic = Math.round(count*0.4);
+  const nMedium = Math.round(count*0.4);
+  const nHard = Math.max(0, count - nBasic - nMedium);
+  const plan = [];
+  for(let i=0;i<nBasic;i++) plan.push({tier:'basic', scale:0});
+  for(let i=0;i<nMedium;i++) plan.push({tier:'medium', scale: nMedium<=1 ? 1 : i/(nMedium-1)});
+  for(let i=0;i<nHard;i++) plan.push({tier:'hard', scale:1});
+  return plan;
+}
+
+function generateQuiz(gradeId, topicIds, count){
+  const plan = buildDifficultyPlan(count);
+  const arr = [];
+  for(let i=0;i<count;i++){
+    const tid = topicIds[randInt(0,topicIds.length-1)];
+    const {tier, scale} = plan[i];
+    arr.push({ ...GEN[tid](gradeId, tier, scale), topic: tid, tier });
+  }
+  return arr;
+}
+
+function normalize(s){ return String(s).trim().toLowerCase().replace(/\s+/g,' '); }
+
+function renderQuiz(){
+  qlist.innerHTML = '';
+  scoreBar.style.display = 'none';
+  currentQuiz.forEach((q,i)=>{
+    const row = document.createElement('div');
+    row.className = 'qrow';
+    row.innerHTML = `
+      <div class="qnum">Câu ${i+1} · ${TOPICS[q.topic].name} <span class="lvl lvl-${q.tier}">${TIER_LABEL[q.tier]}</span></div>
+      <div class="qsentence">${q.before} <input type="text" class="qinput" data-idx="${i}" placeholder="?"> ${q.after}</div>
+      ${q.hint?`<div class="qvi qshapes">${q.hint}</div>`:''}
+      <div class="qvi">${q.vi}</div>
+      <div class="qfeedback" style="display:none;"></div>
+    `;
+    qlist.appendChild(row);
+    setTimeout(()=> row.classList.add('show'), 20*i);
+  });
+}
+
+function checkAnswers(){
+  let correct = 0;
+  document.querySelectorAll('.qrow').forEach((row,i)=>{
+    const input = row.querySelector('.qinput');
+    const fb = row.querySelector('.qfeedback');
+    const q = currentQuiz[i];
+    const ok = normalize(input.value) === normalize(q.answer);
+    row.classList.remove('correct','wrong');
+    row.classList.add(ok ? 'correct' : 'wrong');
+    fb.style.display = 'block';
+    fb.innerHTML = ok ? `<b>✓ Chính xác!</b>` : `✕ Đáp án đúng: <b style="color:var(--bad)">${q.answer}</b>`;
+    input.disabled = true;
+    if(ok) correct++;
+  });
+  const pct = Math.round(100*correct/currentQuiz.length);
+  scoreBar.style.display = 'flex';
+  scoreBar.className = 'score-bar ' + (pct>=80?'good':pct>=50?'mid':'low');
+  const msg = pct>=80?'Xuất sắc! 🎉' : pct>=50?'Khá tốt, cố thêm nhé!' : 'Cần luyện thêm — thử lại nào!';
+  scoreBar.innerHTML = `<span>Kết quả: <b>${correct}/${currentQuiz.length}</b> (${pct}%)</span><span>${msg}</span>`;
+}
+
+function startTopics(gradeId, topicIds){
+  currentGrade = gradeId; currentTopics = topicIds;
+  document.querySelectorAll('.tbtn').forEach(b=> b.classList.toggle('active', b.dataset.grade==gradeId && topicIds.includes(b.dataset.topic)));
+  placeholder.style.display = 'none';
+  quizArea.style.display = 'block';
+  renderReference(gradeId, topicIds);
+  quizTitle.textContent = quizCount + ' câu luyện tập';
+  currentQuiz = generateQuiz(gradeId, topicIds, quizCount);
+  renderQuiz();
+}
+
+/* ============ Picker grid ============ */
+const grid = document.getElementById('grid12');
+function buildGrid(){
+  let html = `<div></div>`;
+  COLS.forEach(c=> html += `<div class="col-h">${c}</div>`);
+  grid.innerHTML = html;
+  ROWS.forEach((r,ri)=>{
+    grid.innerHTML += `<div class="row-h">${r}</div>`;
+    Object.entries(TOPICS).forEach(([id,t])=>{
+      grid.innerHTML += `<button class="tbtn" data-grade="${ri+1}" data-topic="${id}" style="grid-column:${t.col+2}">${t.vi}</button>`;
+    });
+  });
+}
+buildGrid();
+
+const picker = document.getElementById('picker');
+document.getElementById('pickerHead').addEventListener('click', ()=> picker.classList.toggle('open'));
+
+mixToggle.addEventListener('change', ()=>{
+  mixMode = mixToggle.checked;
+  selectedTopics = [];
+  document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('active'));
+  mixHint.style.display = mixMode ? 'block' : 'none';
+  mixHint.textContent = mixMode ? `Chọn 1 lớp rồi chọn 2-${MAX_MIX} dạng bài để trộn` : '';
+});
+
+grid.addEventListener('click', (e)=>{
+  const btn = e.target.closest('.tbtn');
+  if(!btn) return;
+  const gradeId = parseInt(btn.dataset.grade,10);
+  const topicId = btn.dataset.topic;
+
+  if(!mixMode){ startTopics(gradeId, [topicId]); return; }
+
+  if(currentGrade !== null && currentGrade !== gradeId){
+    selectedTopics = [];
+    document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('active'));
+  }
+  currentGrade = gradeId;
+
+  const idx = selectedTopics.indexOf(topicId);
+  if(idx >= 0){ selectedTopics.splice(idx,1); btn.classList.remove('active'); }
+  else {
+    if(selectedTopics.length >= MAX_MIX){
+      const oldId = selectedTopics.shift();
+      const oldBtn = document.querySelector(`.tbtn[data-grade="${gradeId}"][data-topic="${oldId}"]`);
+      if(oldBtn) oldBtn.classList.remove('active');
+    }
+    selectedTopics.push(topicId); btn.classList.add('active');
+  }
+
+  if(selectedTopics.length >= 2){
+    mixHint.textContent = `${ROWS[gradeId-1]} — Đang trộn (${selectedTopics.length}/${MAX_MIX}): ` + selectedTopics.map(tid=>TOPICS[tid].vi).join(' + ');
+    startTopics(gradeId, selectedTopics.slice());
+  } else if(selectedTopics.length === 1){
+    mixHint.textContent = `${ROWS[gradeId-1]} — Đã chọn ${TOPICS[selectedTopics[0]].vi} — chọn thêm ít nhất 1 dạng nữa`;
+  } else {
+    mixHint.textContent = `Chọn 1 lớp rồi chọn 2-${MAX_MIX} dạng bài để trộn`;
+  }
+});
+
+countBtns.addEventListener('click', (e)=>{
+  const btn = e.target.closest('.cbtn');
+  if(!btn) return;
+  quizCount = parseInt(btn.dataset.count, 10);
+  countBtns.querySelectorAll('.cbtn').forEach(b=> b.classList.toggle('active', b===btn));
+  if(currentTopics.length){
+    quizTitle.textContent = quizCount + ' câu luyện tập';
+    currentQuiz = generateQuiz(currentGrade, currentTopics, quizCount);
+    renderQuiz();
+  }
+});
+
+checkBtn.addEventListener('click', checkAnswers);
+reshuffleBtn.addEventListener('click', ()=>{
+  if(!currentTopics.length) return;
+  currentQuiz = generateQuiz(currentGrade, currentTopics, quizCount);
+  renderQuiz();
+});
+
+/* ============ Copy đề bài ============ */
+function buildPlainText(){
+  const topicNames = currentTopics.map(id=>TOPICS[id].name + ' (' + TOPICS[id].vi + ')').join(' + ');
+  const lines = [];
+  lines.push('PHIẾU BÀI TẬP — TOÁN TƯ DUY');
+  lines.push('Lớp: ' + ROWS[currentGrade-1] + ' | Dạng bài: ' + topicNames);
+  lines.push('Số câu: ' + currentQuiz.length);
+  lines.push(''); lines.push('--- ĐỀ BÀI ---');
+  currentQuiz.forEach((q,i)=>{ lines.push(`${i+1}. ${q.before.replace(/<[^>]+>/g,'')} ${q.hint} __________ ${q.after}`.replace(/\s+/g,' ').trim()); });
+  lines.push(''); lines.push('--- ĐÁP ÁN ---');
+  currentQuiz.forEach((q,i)=>{ lines.push(`${i+1}. ${q.answer}`); });
+  return lines.join('\n');
+}
+function flashBtn(btn, text){
+  const old = btn.textContent; btn.textContent = text; btn.classList.add('copy-flash');
+  setTimeout(()=>{ btn.textContent = old; btn.classList.remove('copy-flash'); }, 1600);
+}
+copyBtn.addEventListener('click', async ()=>{
+  if(!currentQuiz.length) return;
+  const text = buildPlainText();
+  try{ await navigator.clipboard.writeText(text); flashBtn(copyBtn, '✓ Đã copy!'); }
+  catch(err){
+    const ta = document.createElement('textarea'); ta.value = text; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select();
+    try{ document.execCommand('copy'); flashBtn(copyBtn, '✓ Đã copy!'); } catch(e2){ flashBtn(copyBtn, '✕ Lỗi copy'); }
+    document.body.removeChild(ta);
+  }
+});
+
+/* ============ Xuất Word (.doc) ============ */
+function escapeHtml(str){ return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function buildWordDoc(){
+  const topicNames = currentTopics.map(id=>TOPICS[id].name + ' (' + TOPICS[id].vi + ')').join(' + ');
+  const dateStr = new Date().toLocaleDateString('vi-VN');
+  const qRows = currentQuiz.map((q,i)=>`<p style="margin:0 0 10px 0; font-size:13pt; line-height:1.5;"><b>${i+1}.</b> ${q.before} ${escapeHtml(q.hint)} ______________________ ${escapeHtml(q.after)}</p>`).join('');
+  const aRows = currentQuiz.map((q,i)=>`<p style="margin:0 0 6px 0; font-size:12pt;"><b>${i+1}.</b> ${escapeHtml(q.answer)}</p>`).join('');
+  return `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
+  <head><meta charset="utf-8"><title>Phiếu bài tập - Toán tư duy</title>
+  <!--[if gte mso 9]><xml><w:WordDocument><w:View>Print</w:View><w:Zoom>100</w:Zoom></w:WordDocument></xml><![endif]-->
+  <style>body{font-family:'Times New Roman',serif;} h1{font-size:18pt;margin-bottom:2px;} .meta{font-size:12pt;color:#333;margin-bottom:14px;}
+  .section-title{font-size:14pt;font-weight:bold;margin:18px 0 10px;border-bottom:1px solid #999;padding-bottom:4px;} .page-break{page-break-before:always;}</style></head>
+  <body>
+    <h1>PHIẾU BÀI TẬP — TOÁN TƯ DUY</h1>
+    <p class="meta">Lớp: <b>${ROWS[currentGrade-1]}</b> &nbsp;|&nbsp; Dạng bài: <b>${escapeHtml(topicNames)}</b><br>
+    Số câu: <b>${currentQuiz.length}</b> &nbsp;|&nbsp; Ngày: ${dateStr}<br>
+    Họ và tên: ______________________________ &nbsp;&nbsp; Lớp: ____________ &nbsp;&nbsp; Điểm: ______ /10</p>
+    <div class="section-title">I. ĐỀ BÀI</div>${qRows}
+    <div class="page-break"></div>
+    <div class="section-title">II. ĐÁP ÁN</div>${aRows}
+  </body></html>`;
+}
+exportWordBtn.addEventListener('click', ()=>{
+  if(!currentQuiz.length) return;
+  const html = buildWordDoc();
+  const blob = new Blob(['\ufeff', html], { type: 'application/msword' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `toan-tu-duy-lop${currentGrade}-${currentQuiz.length}cau.doc`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(()=> URL.revokeObjectURL(url), 2000);
+  flashBtn(exportWordBtn, '✓ Đã tải!');
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Toán Tiếng Anh — Luyện Tập Lớp 1-5</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #141922; --panel: #1c2330; --panel-2: #202836; --panel-3: #232c3c; --line: #2c3444;
+    --text: #E8ECF1; --text-dim: #8B95A7;
+    --s: #5B8DEF; --s-bg: rgba(91,141,239,0.14);
+    --v: #4FC3E0; --v-bg: rgba(79,195,224,0.14);
+    --aux: #9B8AE6; --aux-bg: rgba(155,138,230,0.14);
+    --accent: #5B8DEF; --good: #4CAF7D; --mid: #E8A33D; --bad: #E86A92;
+    --radius: 10px;
+  }
+  *{box-sizing:border-box;}
+  body{ margin:0; background: radial-gradient(circle at 15% 0%, #1a2130 0%, var(--bg) 55%); color: var(--text);
+    font-family: 'Inter', system-ui, sans-serif; min-height:100vh; padding: 28px 20px 40px; }
+  .wrap{ max-width: 1200px; margin: 0 auto; }
+  header{ margin-bottom: 16px; }
+  .eyebrow{ font-family:'JetBrains Mono', monospace; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin: 0 0 8px; }
+  h1{ font-family:'Space Grotesk', sans-serif; font-size: clamp(24px, 4vw, 34px); margin: 0 0 6px; font-weight: 700; letter-spacing: -0.01em; }
+  .sub{ color: var(--text-dim); font-size: 14.5px; max-width: 720px; line-height:1.5; }
+  .layout{ display:grid; grid-template-columns: 1.55fr 1fr; gap: 20px; align-items:start; }
+  @media (max-width: 860px){ .layout{ grid-template-columns: 1fr; } }
+  .stage{ background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 22px 22px 20px; min-height: 430px; position: relative; }
+  .placeholder{ display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; min-height: 380px; color: var(--text-dim); gap:10px; }
+  .placeholder .big{ font-size: 34px; }
+  .placeholder .t1{ font-family:'Space Grotesk', sans-serif; color: var(--text); font-size:16px; font-weight:700; }
+  .placeholder .t2{ font-size: 13px; max-width: 340px; }
+  .ref-head{ display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; margin-bottom: 14px; }
+  .ref-name{ font-family:'Space Grotesk', sans-serif; font-weight:700; font-size: 17px; }
+  .tag{ display:inline-block; padding: 3px 9px; border-radius: 999px; font-size: 11px; letter-spacing:.04em; border:1px solid var(--line); color: var(--text-dim); font-family:'JetBrains Mono', monospace; }
+  .ref-example{ background: linear-gradient(135deg, rgba(91,141,239,.10), rgba(79,195,224,.06)); border: 1px solid var(--line); border-radius: var(--radius); padding: 11px 14px; margin-bottom: 10px; }
+  .ref-example .en{ font-size: 13.5px; font-weight:600; }
+  .ref-example .vi{ font-size: 12px; color: var(--text-dim); margin-top:2px; }
+  .ref-usage{ font-size: 12.5px; color: var(--text-dim); line-height:1.55; margin-bottom: 16px; }
+  .ref-usage b{ color: var(--text); font-weight:600; }
+  .quiz-toolbar{ display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; border-top: 1px solid var(--line); padding-top: 14px; margin-bottom: 12px; }
+  .quiz-toolbar .title{ font-family:'JetBrains Mono', monospace; font-size: 11.5px; letter-spacing:.06em; text-transform:uppercase; color: var(--text-dim); }
+  .btn{ font-family:'JetBrains Mono', monospace; font-size: 12px; cursor:pointer; border-radius: 8px; padding: 9px 14px; border: 1px solid var(--line); transition: border-color .2s ease, color .2s ease, background .2s ease; }
+  .btn-ghost{ background: var(--panel-2); color: var(--text-dim); }
+  .btn-ghost:hover{ color: var(--text); border-color: var(--accent); }
+  .btn-primary{ background: rgba(91,141,239,.16); color: var(--accent); border-color: var(--accent); font-weight:600; }
+  .btn-primary:hover{ background: rgba(91,141,239,.24); }
+  .qlist{ display:flex; flex-direction:column; gap: 10px; }
+  .qrow{ background: var(--panel-2); border:1px solid var(--line); border-radius: var(--radius); padding: 12px 14px;
+    opacity:0; transform: translateY(6px); transition: opacity .35s ease, transform .35s ease, border-color .2s ease, background .2s ease; }
+  .qrow.show{ opacity:1; transform: translateY(0); }
+  .qrow.correct{ border-color: rgba(76,175,125,.5); background: rgba(76,175,125,.07); }
+  .qrow.wrong{ border-color: rgba(232,106,146,.5); background: rgba(232,106,146,.06); }
+  .qnum{ font-family:'JetBrains Mono', monospace; font-size: 10.5px; color: var(--text-dim); letter-spacing:.06em; text-transform:uppercase; margin-bottom:6px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .lvl{ display:inline-block; padding: 2px 8px; border-radius: 999px; font-size: 9.5px; letter-spacing:.04em; font-weight:600; }
+  .lvl-basic{ background: rgba(76,175,125,.14); color: var(--good); }
+  .lvl-medium{ background: rgba(232,163,61,.14); color: var(--mid); }
+  .lvl-hard{ background: rgba(232,106,146,.14); color: var(--bad); }
+  .qsentence{ display:flex; flex-wrap:wrap; align-items:center; gap: 6px 8px; font-size: 14.5px; line-height:1.6; }
+  .qinput{ font-family:'JetBrains Mono', monospace; font-size: 13.5px; font-weight:600; background: var(--panel-3); border: 1px solid var(--line); border-radius: 7px; color: var(--text); padding: 6px 10px; min-width: 110px; outline:none; transition: border-color .2s ease; }
+  .qinput:focus{ border-color: var(--accent); }
+  .qrow.correct .qinput{ border-color: var(--good); color: var(--good); }
+  .qrow.wrong .qinput{ border-color: var(--bad); color: var(--bad); }
+  .qvi{ font-family:'Inter'; font-size: 12px; color: var(--text-dim); font-style: italic; margin-top:4px; }
+  .qfeedback{ font-size: 12.5px; color: var(--text-dim); margin-top: 6px; }
+  .qfeedback b{ color: var(--good); }
+  .score-bar{ display:none; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; margin-top: 14px; padding: 12px 16px; border-radius: var(--radius); border:1px solid var(--line); font-family:'JetBrains Mono', monospace; font-size: 13px; }
+  .score-bar.good{ background: rgba(76,175,125,.1); border-color: rgba(76,175,125,.4); color: var(--good); }
+  .score-bar.mid{ background: rgba(232,163,61,.1); border-color: rgba(232,163,61,.4); color: var(--mid); }
+  .score-bar.low{ background: rgba(232,106,146,.1); border-color: rgba(232,106,146,.4); color: var(--bad); }
+  .picker{ background: var(--panel); border: 1px solid var(--line); border-radius: 16px; overflow:hidden; }
+  .picker-head{ display:flex; align-items:center; justify-content:space-between; padding: 16px 18px; cursor:pointer; user-select:none; }
+  .picker-head .t{ font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:15px; display:flex; align-items:center; gap:9px; }
+  .picker-head .t .dot{ width:8px; height:8px; border-radius:50%; background: var(--accent); }
+  .chev{ width: 22px; height:22px; color: var(--text-dim); transition: transform .35s ease; }
+  .picker.open .chev{ transform: rotate(180deg); }
+  .picker-body{ max-height: 0; overflow: hidden; transition: max-height .45s cubic-bezier(.2,.8,.2,1); }
+  .picker.open .picker-body{ max-height: 1000px; }
+  .picker-inner{ padding: 4px 14px 16px; }
+  .grid12{ display:grid; grid-template-columns: 52px repeat(4, 1fr); gap: 6px; font-size: 11px; }
+  .col-h{ font-family:'JetBrains Mono', monospace; font-size: 9.5px; color: var(--text-dim); text-align:center; padding-bottom:4px; line-height:1.2; }
+  .row-h{ display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono', monospace; font-size: 11px; color: var(--text-dim); }
+  .tbtn{ background: var(--panel-2); border: 1px solid var(--line); border-radius: 8px; color: var(--text); padding: 10px 6px; font-size: 11px; line-height:1.3; cursor:pointer; text-align:center; transition: border-color .2s ease, background .2s ease, transform .15s ease; }
+  .tbtn:hover{ border-color: rgba(91,141,239,.4); transform: translateY(-1px); }
+  .tbtn.active{ background: rgba(91,141,239,.16); border-color: var(--accent); color: var(--accent); font-weight:600; }
+  .mix-row{ display:flex; align-items:center; gap:8px; padding: 10px 18px 4px; font-size: 12.5px; color: var(--text-dim); cursor:pointer; user-select:none; }
+  .mix-row input{ accent-color: var(--accent); width:15px; height:15px; cursor:pointer; }
+  .mix-hint{ font-size: 11.5px; color: var(--accent); padding: 0 18px 10px; font-family:'JetBrains Mono', monospace; }
+  .count-row{ display:flex; align-items:center; gap:10px; padding: 8px 18px 12px; flex-wrap:wrap; }
+  .count-label{ font-family:'JetBrains Mono', monospace; font-size: 11.5px; color: var(--text-dim); }
+  .count-btns{ display:flex; gap:6px; }
+  .cbtn{ font-family:'JetBrains Mono', monospace; font-size: 12px; font-weight:600; cursor:pointer; background: var(--panel-2); border: 1px solid var(--line); border-radius: 8px; color: var(--text-dim); padding: 6px 12px; transition: border-color .2s ease, color .2s ease, background .2s ease; }
+  .cbtn:hover{ color: var(--text); border-color: var(--accent); }
+  .cbtn.active{ background: rgba(91,141,239,.16); border-color: var(--accent); color: var(--accent); }
+  .pool-note{ padding: 12px 18px 16px; border-top: 1px solid var(--line); font-size: 11.5px; color: var(--text-dim); line-height:1.55; }
+  .pool-note b{ color: var(--text); }
+  .export-row{ display:flex; align-items:center; justify-content:flex-end; gap:8px; flex-wrap:wrap; margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--line); }
+  .export-row .title{ font-family:'JetBrains Mono', monospace; font-size: 11.5px; letter-spacing:.06em; text-transform:uppercase; color: var(--text-dim); margin-right:auto; }
+  .copy-flash{ color: var(--good) !important; border-color: var(--good) !important; }
+  .nav-links{ display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
+  .nav-links a{ font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--text-dim); text-decoration:none; border:1px solid var(--line); border-radius:999px; padding:5px 11px; transition:.2s; }
+  .nav-links a:hover{ color:var(--text); border-color:var(--accent); }
+  .nav-links a.cur{ color:var(--accent); border-color:var(--accent); background:rgba(91,141,239,.12); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Toán học · Song ngữ Anh-Việt</p>
+    <h1>🇬🇧 Toán Tiếng Anh — Luyện Tập Lớp 1-5</h1>
+    <p class="sub">Giải toán bằng đề bài tiếng Anh: đọc số, so sánh, bài toán có lời văn và từ vựng số học (digit, multiple, add, subtract...) — vừa luyện tư duy tính toán, vừa luyện từ vựng Toán học tiếng Anh. Mỗi đề gồm 40% câu cơ bản, 40% câu khó dần và 20% câu tư duy nâng cao.</p>
+    <div class="nav-links">
+      <a class="cur" href="toan-tieng-anh.html">🇬🇧 Toán Tiếng Anh</a>
+      <a href="toan-nang-cao.html">🚀 Toán Nâng Cao</a>
+      <a href="toan-tu-duy.html">🧩 Toán Tư Duy</a>
+    </div>
+  </header>
+
+  <div class="layout">
+    <div class="stage" id="stage">
+      <div class="placeholder" id="placeholder">
+        <div class="big">🇬🇧</div>
+        <div class="t1">Chọn Lớp + Dạng bài ở khung bên phải để bắt đầu</div>
+        <div class="t2">Ngân hàng đề sinh tự động — mỗi lượt "Đổi câu hỏi khác" ra bộ đề mới, gần như không trùng lặp.</div>
+      </div>
+
+      <div id="quizArea" style="display:none;">
+        <div class="ref-head">
+          <span class="ref-name" id="refName">—</span>
+          <span class="tag" id="refTag">ENGLISH MATH</span>
+        </div>
+        <div class="ref-example" id="refExample">
+          <div class="en">—</div>
+          <div class="vi">—</div>
+        </div>
+        <div class="ref-usage" id="refUsage">—</div>
+
+        <div class="quiz-toolbar">
+          <span class="title" id="quizTitle">10 câu luyện tập</span>
+          <div style="display:flex; gap:8px;">
+            <button class="btn btn-ghost" id="reshuffleBtn">🔀 Đổi câu hỏi khác</button>
+            <button class="btn btn-primary" id="checkBtn">✓ Kiểm tra đáp án</button>
+          </div>
+        </div>
+
+        <div class="qlist" id="qlist"></div>
+        <div class="score-bar" id="scoreBar"></div>
+        <div class="export-row">
+          <span class="title">Xuất bài luyện tập</span>
+          <button class="btn btn-ghost" id="copyBtn">📋 Copy đề bài</button>
+          <button class="btn btn-ghost" id="exportWordBtn">📄 Xuất Word (.doc)</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="picker open" id="picker">
+      <div class="picker-head" id="pickerHead">
+        <span class="t"><span class="dot"></span>Chọn Lớp & Dạng bài</span>
+        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="picker-body">
+        <div class="picker-inner">
+          <div class="grid12" id="grid12"></div>
+        </div>
+        <label class="mix-row"><input type="checkbox" id="mixToggle"> Trộn nhiều dạng bài cùng lúc</label>
+        <div class="mix-hint" id="mixHint" style="display:none;"></div>
+        <div class="count-row">
+          <span class="count-label">Số câu:</span>
+          <div class="count-btns" id="countBtns">
+            <button class="cbtn active" data-count="10">10</button>
+            <button class="cbtn" data-count="15">15</button>
+            <button class="cbtn" data-count="20">20</button>
+            <button class="cbtn" data-count="30">30</button>
+          </div>
+        </div>
+        <div class="pool-note"><b>Mẹo:</b> Bật "Trộn nhiều dạng bài" để tạo đề tổng hợp nhiều kỹ năng — phù hợp làm bài kiểm tra cuối chương.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============ Cấu hình Lớp & Dạng bài ============ */
+const ROWS = ['Lớp 1','Lớp 2','Lớp 3','Lớp 4','Lớp 5'];
+const COLS = ['Đọc số (TA)','Lời văn','So sánh','Từ vựng số học'];
+const TOPICS = {
+  numwords:{ col:0, name:'Reading Numbers', vi:'Đọc & viết số bằng tiếng Anh',
+    en:'Write this number in words: 42', vi2:'Viết số này bằng chữ tiếng Anh: 42 → forty-two',
+    usage:'Luyện <b>đọc số bằng tiếng Anh</b> — kỹ năng nền tảng để nói/viết Toán bằng tiếng Anh.' },
+  wordproblem:{ col:1, name:'Word Problems', vi:'Bài toán có lời văn (tiếng Anh)',
+    en:'Lan has 8 apples. Minh gives her 5 more. How many apples does Lan have now?', vi2:'Lan có 8 quả táo. Minh cho Lan thêm 5 quả. Hỏi Lan có bao nhiêu quả táo?',
+    usage:'Đọc hiểu đề bài <b>tiếng Anh</b> rồi thực hiện phép tính phù hợp để tìm đáp số.' },
+  compare:{ col:2, name:'Comparing Numbers', vi:'So sánh số bằng tiếng Anh',
+    en:'Compare: 58 ___ 39  (>, <, =)', vi2:'So sánh hai số 58 và 39, điền dấu phù hợp.',
+    usage:'Luyện so sánh số và từ vựng <b>greater than / less than / equal to</b>.' },
+  vocab:{ col:3, name:'Number Concepts', vi:'Từ vựng số học tiếng Anh',
+    en:'What is the digit in the tens place of 47?', vi2:'Chữ số ở hàng chục của số 47 là chữ số nào? → 4',
+    usage:'Học từ vựng số học tiếng Anh: <b>digit, multiple, factor, product, quotient, add, subtract, sum, difference</b>, số liền trước/liền sau (<b>the number before / after</b>), số tròn chục/tròn trăm (<b>round to the nearest ten / hundred</b>).' },
+};
+const MAX_MIX = 4;
+const TIER_LABEL = { basic:'Cơ bản', medium:'Nâng cao', hard:'Tư duy' };
+
+/* ============ Ngân hàng tên & mốc số theo lớp ============ */
+const NAMES = ['Lan','Minh','An','Hoa','Nam','Mai','Huy','Linh','Tom','Anna','Peter','Emma','Duc','Chi'];
+function pickName(exclude){ let n; do{ n = NAMES[Math.floor(Math.random()*NAMES.length)]; }while(n===exclude); return n; }
+function randInt(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
+
+function gradeConfig(g){
+  return {
+    1:{max:20,  mulMax:5,  units:['apples','candies','pencils','balloons']},
+    2:{max:100, mulMax:10, units:['stickers','books','eggs','flowers']},
+    3:{max:1000,mulMax:12, units:['marbles','cards','cookies','students']},
+    4:{max:10000,mulMax:15, fractions:true, units:['toys','trees','books','bricks']},
+    5:{max:10000,mulMax:20, fractions:true, percent:true, units:['students','kg of rice','liters','dollars']},
+  }[g];
+}
+
+/* ============ Đọc số bằng tiếng Anh ============ */
+const ONES=['zero','one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen'];
+const TENS=['','','twenty','thirty','forty','fifty','sixty','seventy','eighty','ninety'];
+function numberToWords(n){
+  function chunk(num){
+    let s='';
+    if(num>=100){ s+=ONES[Math.floor(num/100)]+' hundred'; num%=100; if(num>0) s+=' '; }
+    if(num>=20){ s+=TENS[Math.floor(num/10)]; if(num%10>0) s+='-'+ONES[num%10]; }
+    else if(num>0){ s+=ONES[num]; }
+    return s;
+  }
+  if(n===0) return 'zero';
+  let result='';
+  if(n>=1000){ result+=chunk(Math.floor(n/1000))+' thousand'; n%=1000; if(n>0) result+=' '; }
+  result+=chunk(n);
+  return result.trim();
+}
+
+/* ============ Generator: Reading Numbers ============ */
+function genNumWords(grade, tier, scale){
+  const cfg = gradeConfig(grade);
+  const lo = grade===1?1:11;
+  const hi = cfg.max;
+  let n;
+  if(tier==='basic'){ n = randInt(lo, Math.max(lo+1, Math.round(hi*0.3))); }
+  else if(tier==='medium'){ n = randInt(Math.round(hi*0.2), Math.max(Math.round(hi*0.2)+1, Math.round(hi*(0.3+0.6*scale)))); }
+  else { n = randInt(Math.max(lo,Math.round(hi*0.5)), hi); }
+
+  if(tier==='hard' && Math.random()<0.55){
+    // Higher-order: reverse direction — read the words, write the digits
+    return {
+      before:'Write the number for:', hint:`(${numberToWords(n)})`, after:'',
+      vi:'Đọc từ tiếng Anh rồi viết lại bằng chữ số.', answer: String(n),
+    };
+  }
+  return {
+    before:'Write this number in words:', hint:`(${n})`, after:'',
+    vi:'Viết số này bằng chữ tiếng Anh.', answer: numberToWords(n),
+  };
+}
+
+/* ============ Generator: Word Problems ============ */
+function genWordProblem(grade, tier, scale){
+  const cfg = gradeConfig(grade);
+  const n1 = pickName(); const n2 = pickName(n1);
+  const unit = cfg.units[randInt(0,cfg.units.length-1)];
+  const pool = [];
+  const rangeTop = tier==='basic' ? Math.max(6, Math.round(cfg.max*0.25))
+                  : tier==='medium' ? Math.max(8, Math.round(cfg.max*(0.3+0.55*scale)))
+                  : cfg.max;
+  const halfMax = Math.max(2, Math.floor(rangeTop/2));
+
+  // one-step addition / subtraction — available at every tier
+  pool.push(()=>{
+    const a=randInt(1,halfMax), b=randInt(1,halfMax);
+    return {en:`${n1} has ${a} ${unit}. ${n2} gives ${n1} ${b} more ${unit}. How many ${unit} does ${n1} have now?`,
+      vi:`${n1} có ${a} ${unit}. ${n2} cho ${n1} thêm ${b} ${unit}. Hỏi ${n1} có tất cả bao nhiêu ${unit}?`, answer:a+b};
+  });
+  pool.push(()=>{
+    const a=randInt(Math.ceil(rangeTop/2),Math.max(rangeTop,2)), b=randInt(1,a);
+    return {en:`There are ${a} ${unit} in a basket. ${b} ${unit} are taken out. How many ${unit} are left?`,
+      vi:`Có ${a} ${unit} trong giỏ. Lấy ra ${b} ${unit}. Hỏi còn lại bao nhiêu ${unit}?`, answer:a-b};
+  });
+
+  // multiplication / division — from medium tier upward
+  if(grade>=2 && tier!=='basic'){
+    pool.push(()=>{
+      const rows=randInt(2,9), cols=randInt(2,cfg.mulMax);
+      return {en:`There are ${rows} boxes. Each box has ${cols} ${unit}. How many ${unit} are there in total?`,
+        vi:`Có ${rows} hộp, mỗi hộp có ${cols} ${unit}. Hỏi có tất cả bao nhiêu ${unit}?`, answer:rows*cols};
+    });
+    pool.push(()=>{
+      const divisor=randInt(2,9), quotient=randInt(2,cfg.mulMax); const a=divisor*quotient;
+      return {en:`${a} ${unit} are shared equally among ${divisor} children. How many ${unit} does each child get?`,
+        vi:`Chia đều ${a} ${unit} cho ${divisor} bạn. Hỏi mỗi bạn được bao nhiêu ${unit}?`, answer:quotient};
+    });
+  }
+
+  if(cfg.fractions && tier!=='basic'){
+    pool.push(()=>{
+      const b=[2,3,4,5][randInt(0,3)]; const a=b*randInt(2,10);
+      return {en:`What is 1/${b} of ${a}?`, vi:`Một phần ${b} của ${a} là bao nhiêu?`, answer:a/b};
+    });
+  }
+  if(cfg.percent && tier==='hard'){
+    pool.push(()=>{
+      const p=[10,20,25,50,75][randInt(0,4)]; const total=randInt(4,40)*4;
+      return {en:`${p}% of ${total} ${unit} in the school like Math. How many is that?`,
+        vi:`${p}% trong tổng số ${total} ${unit} thích môn Toán. Hỏi có bao nhiêu?`, answer: Math.round(total*p/100)};
+    });
+  }
+
+  // two-step, higher-order thinking problems — hard tier only
+  if(tier==='hard'){
+    pool.push(()=>{
+      const a=randInt(5,Math.max(6,halfMax)), b=randInt(1,Math.max(2,halfMax)), c=randInt(1,a+b-1);
+      const total=a+b-c;
+      return {en:`${n1} has ${a} ${unit}. ${n2} gives ${n1} ${b} more ${unit}. Then ${n1} gives away ${c} ${unit}. How many ${unit} does ${n1} have left?`,
+        vi:`${n1} có ${a} ${unit}. ${n2} cho thêm ${b} ${unit}. Sau đó ${n1} cho đi ${c} ${unit}. Hỏi ${n1} còn lại bao nhiêu ${unit}?`, answer: total};
+    });
+    if(grade>=2){
+      pool.push(()=>{
+        const rows=randInt(2,9), cols=randInt(2,cfg.mulMax), extra=randInt(1,10);
+        const total = rows*cols+extra;
+        return {en:`There are ${rows} boxes with ${cols} ${unit} each, plus ${extra} extra ${unit}. How many ${unit} are there in total?`,
+          vi:`Có ${rows} hộp, mỗi hộp ${cols} ${unit}, cộng thêm ${extra} ${unit} lẻ. Hỏi tổng cộng có bao nhiêu ${unit}?`, answer: total};
+      });
+    }
+  }
+
+  const chosen = pool[randInt(0,pool.length-1)]();
+  return { before: chosen.en, hint:'', after:'', vi: chosen.vi, answer: String(chosen.answer) };
+}
+
+/* ============ Generator: Comparing Numbers ============ */
+function genCompare(grade, tier, scale){
+  const cfg = gradeConfig(grade);
+  const rangeTop = tier==='basic' ? Math.max(9, Math.round(cfg.max*0.2))
+                  : tier==='medium' ? Math.max(12, Math.round(cfg.max*(0.25+0.55*scale)))
+                  : cfg.max;
+
+  if(tier!=='hard'){
+    const a = randInt(1,rangeTop), b = Math.random()<0.15 ? a : randInt(1,rangeTop);
+    const symbol = a>b ? '>' : (a<b ? '<' : '=');
+    return {
+      before:`Compare the two numbers: ${a} ___ ${b}`, hint:'(gõ dấu: >, <, hoặc =)', after:'',
+      vi:'So sánh hai số và điền dấu đúng.', answer: symbol,
+    };
+  }
+
+  // hard tier: higher-order comparison/ordering tasks
+  if(Math.random()<0.5){
+    const nums = [randInt(1,rangeTop), randInt(1,rangeTop), randInt(1,rangeTop)];
+    const sorted = [...nums].sort((x,y)=>x-y);
+    return {
+      before:`Order these numbers from smallest to largest: ${nums.join(', ')}`, hint:'(viết cách nhau bởi dấu phẩy)', after:'',
+      vi:'Sắp xếp các số theo thứ tự từ bé đến lớn, cách nhau bằng dấu phẩy.', answer: sorted.join(', '),
+    };
+  } else {
+    const a = randInt(1, Math.max(2,rangeTop-5)); const gap = randInt(3,15); const b = a+gap;
+    return {
+      before:`How many whole numbers are between ${a} and ${b}?`, hint:'', after:'',
+      vi:'Đếm xem có bao nhiêu số tự nhiên nằm giữa hai số đã cho (không tính hai số đầu, cuối).', answer: String(gap-1),
+    };
+  }
+}
+
+/* ============ Generator: Number Concepts ============ */
+function genVocab(grade, tier, scale){
+  const cfg = gradeConfig(grade);
+  const factorScale = tier==='basic' ? 0.25 : tier==='medium' ? (0.3+0.55*scale) : 1;
+  const rangeTop = Math.max(20, Math.round(cfg.max*factorScale));
+  const placeNames = ['ones','tens','hundreds','thousands'];
+  const placeNamesVi = { ones:'hàng đơn vị', tens:'hàng chục', hundreds:'hàng trăm', thousands:'hàng nghìn' };
+  const pool = [];
+
+  // 1. add (sum)
+  pool.push({ id: 'add', fn: ()=>{
+    const a=randInt(1,Math.max(4,Math.floor(rangeTop/2))), b=randInt(1,Math.max(4,Math.floor(rangeTop/2)));
+    return {en:`Add ${a} and ${b}. What is the sum?`, vi:`Cộng ${a} và ${b} (add). Tổng (sum) là bao nhiêu?`, answer:a+b};
+  }});
+  
+  // 2. subtract (difference)
+  pool.push({ id: 'sub', fn: ()=>{
+    const a=randInt(Math.max(4,Math.floor(rangeTop/2)),Math.max(6,rangeTop)), b=randInt(1,a);
+    return {en:`Subtract ${b} from ${a}. What is the difference?`, vi:`Lấy ${a} trừ (subtract) ${b}. Hiệu (difference) là bao nhiêu?`, answer:a-b};
+  }});
+
+  // 3. digit
+  pool.push({ id: 'digit', fn: ()=>{
+    const digitsN = grade<=2 ? 2 : (grade===3 ? 3 : 4);
+    const n = randInt(Math.pow(10,digitsN-1), Math.max(Math.pow(10,digitsN)-1, rangeTop));
+    const nStr = String(n);
+    const placeIdx = randInt(0, nStr.length-1);
+    const place = placeNames[placeIdx];
+    const digit = Math.floor(n / Math.pow(10,placeIdx)) % 10;
+    return {en:`What is the digit in the ${place} place of ${n}?`, vi:`Chữ số (digit) ở ${placeNamesVi[place]} của số ${n} là chữ số nào?`, answer:digit};
+  }});
+  if(tier!=='basic'){
+    pool.push({ id: 'digit', fn: ()=>{
+      const digitsN = grade<=2?2:(grade===3?3:4);
+      const n = randInt(Math.pow(10,digitsN-1), Math.max(Math.pow(10,digitsN)-1, rangeTop));
+      return {en:`How many digits does the number ${n} have?`, vi:`Số ${n} có bao nhiêu chữ số (digits)?`, answer: String(n).length};
+    }});
+  }
+
+  // 4. multiple
+  pool.push({ id: 'multiple', fn: ()=>{
+    const base=randInt(2,9), k=randInt(2,6), n=base*k;
+    const isMultiple = Math.random()<0.6;
+    const testNum = isMultiple ? n : n + randInt(1,base-1);
+    return {en:`Is ${testNum} a multiple of ${base}?`, vi:`${testNum} có phải là bội số (multiple) của ${base} không? (yes/no)`, answer: (testNum%base===0)?'yes':'no'};
+  }});
+  if(tier!=='basic'){
+    pool.push({ id: 'multiple', fn: ()=>{
+      const base=randInt(2,9), k=randInt(1,8), n=base*k;
+      return {en:`What is the next multiple of ${base} after ${n}?`, vi:`Bội số (multiple) tiếp theo của ${base} sau ${n} là số nào?`, answer:n+base};
+    }});
+  }
+
+  // 5. factor
+  pool.push({ id: 'factor', fn: ()=>{
+    const a=randInt(2,9), b=randInt(2,9);
+    const isFactor = Math.random()<0.6;
+    const testNum = isFactor ? a*b : (a*b + randInt(1, a-1));
+    return {en:`Is ${a} a factor of ${testNum}?`, vi:`${a} có phải là ước số (factor) của ${testNum} không? (yes/no)`, answer: (testNum%a===0)?'yes':'no'};
+  }});
+
+  // 6. product
+  pool.push({ id: 'product', fn: ()=>{
+    const a=randInt(2,9), b=randInt(2,9);
+    return {en:`What is the product of ${a} and ${b}?`, vi:`Tích (product) của ${a} và ${b} là bao nhiêu?`, answer: a*b};
+  }});
+
+  // 7. quotient
+  pool.push({ id: 'quotient', fn: ()=>{
+    const b=randInt(2,9), q=randInt(2,9), a=b*q;
+    return {en:`What is the quotient when ${a} is divided by ${b}?`, vi:`Thương (quotient) khi chia ${a} cho ${b} là bao nhiêu?`, answer: q};
+  }});
+
+  // 8. before
+  pool.push({ id: 'before', fn: ()=>{
+    const n = randInt(2, rangeTop);
+    return {en:`What number comes right before ${n}?`, vi:`Số liền trước (the number before) ${n} là số nào?`, answer:n-1};
+  }});
+  
+  // 9. after
+  pool.push({ id: 'after', fn: ()=>{
+    const n = randInt(1, Math.max(2,rangeTop-1));
+    return {en:`What number comes right after ${n}?`, vi:`Số liền sau (the number after) ${n} là số nào?`, answer:n+1};
+  }});
+
+  // 10. rounding
+  pool.push({ id: 'round', fn: ()=>{
+    const n = randInt(11, Math.max(99,rangeTop));
+    return {en:`Round ${n} to the nearest ten.`, vi:`Làm tròn ${n} đến số tròn chục gần nhất (round to the nearest ten).`, answer: Math.round(n/10)*10};
+  }});
+  if(grade>=3){
+    pool.push({ id: 'round', fn: ()=>{
+      const n = randInt(101, Math.max(999,rangeTop));
+      return {en:`Round ${n} to the nearest hundred.`, vi:`Làm tròn ${n} đến số tròn trăm gần nhất (round to the nearest hundred).`, answer: Math.round(n/100)*100};
+    }});
+  }
+
+  // higher-order thinking
+  if(tier==='hard'){
+    pool.push({ id: 'round', fn: ()=>{
+      const n = randInt(Math.max(20,Math.floor(rangeTop/2)), Math.max(30,rangeTop));
+      const rounded = Math.round(n/10)*10;
+      return {en:`Round ${n} to the nearest ten, then add 1 to the result. What number do you get?`,
+        vi:`Làm tròn ${n} đến hàng chục, sau đó cộng thêm 1. Kết quả là bao nhiêu?`, answer: rounded+1};
+    }});
+    pool.push({ id: 'sub', fn: ()=>{
+      const a=randInt(10,Math.max(20,rangeTop)), b=randInt(1,a-1); const diff=a-b;
+      return {en:`Subtract ${b} from ${a}. Is the difference a multiple of 5?`, vi:`Lấy ${a} trừ ${b}. Hiệu đó có phải là bội số của 5 không? (yes/no)`, answer: diff%5===0?'yes':'no'};
+    }});
+    pool.push({ id: 'after', fn: ()=>{
+      const n = randInt(Math.max(20,Math.floor(rangeTop/2)), Math.max(30,rangeTop));
+      return {en:`What number comes right after the number before ${n}? (Hint: it should equal ${n} itself)`, vi:`Số liền sau của số liền trước ${n} là số nào?`, answer:n};
+    }});
+  }
+
+  const unseenPool = pool.filter(item => unseenVocabConcepts.includes(item.id));
+  
+  let chosenObj;
+  if(unseenPool.length > 0){
+    chosenObj = unseenPool[randInt(0, unseenPool.length-1)];
+    unseenVocabConcepts = unseenVocabConcepts.filter(id => id !== chosenObj.id);
+  } else {
+    chosenObj = pool[randInt(0, pool.length-1)];
+  }
+
+  const chosen = chosenObj.fn();
+  return { before: chosen.en, hint:'', after:'', vi: chosen.vi, answer: String(chosen.answer) };
+}
+
+const GEN = { numwords:genNumWords, wordproblem:genWordProblem, compare:genCompare, vocab:genVocab };
+
+/* ============ State ============ */
+let selectedTopics = []; let mixMode = false; let currentGrade = null; let currentTopics = []; let quizCount = 10; let currentQuiz = [];
+let unseenVocabConcepts = [];
+
+const placeholder = document.getElementById('placeholder');
+const quizArea = document.getElementById('quizArea');
+const refName = document.getElementById('refName');
+const refTag = document.getElementById('refTag');
+const refExample = document.getElementById('refExample');
+const refUsage = document.getElementById('refUsage');
+const quizTitle = document.getElementById('quizTitle');
+const qlist = document.getElementById('qlist');
+const scoreBar = document.getElementById('scoreBar');
+const checkBtn = document.getElementById('checkBtn');
+const reshuffleBtn = document.getElementById('reshuffleBtn');
+const copyBtn = document.getElementById('copyBtn');
+const exportWordBtn = document.getElementById('exportWordBtn');
+const mixToggle = document.getElementById('mixToggle');
+const mixHint = document.getElementById('mixHint');
+const countBtns = document.getElementById('countBtns');
+
+function renderReference(gradeId, topicIds){
+  const tid = topicIds[0];
+  const t = TOPICS[tid];
+  refName.textContent = `${ROWS[gradeId-1]} · ${t.name}`;
+  refTag.textContent = topicIds.length>1 ? `${topicIds.length} DẠNG BÀI` : t.vi.toUpperCase();
+  refExample.querySelector('.en').textContent = t.en;
+  refExample.querySelector('.vi').textContent = t.vi2;
+  refUsage.innerHTML = t.usage;
+}
+
+function buildDifficultyPlan(count){
+  const nBasic = Math.round(count*0.4);
+  const nMedium = Math.round(count*0.4);
+  const nHard = Math.max(0, count - nBasic - nMedium);
+  const plan = [];
+  for(let i=0;i<nBasic;i++) plan.push({tier:'basic', scale:0});
+  for(let i=0;i<nMedium;i++) plan.push({tier:'medium', scale: nMedium<=1 ? 1 : i/(nMedium-1)});
+  for(let i=0;i<nHard;i++) plan.push({tier:'hard', scale:1});
+  return plan;
+}
+
+function generateQuiz(gradeId, topicIds, count){
+  unseenVocabConcepts = ['add', 'sub', 'digit', 'multiple', 'factor', 'product', 'quotient', 'before', 'after', 'round'];
+  
+  const plan = buildDifficultyPlan(count);
+  const arr = [];
+  for(let i=0;i<count;i++){
+    const tid = topicIds[randInt(0,topicIds.length-1)];
+    const {tier, scale} = plan[i];
+    arr.push({ ...GEN[tid](gradeId, tier, scale), topic: tid, tier });
+  }
+  return arr;
+}
+
+function normalize(s){ return String(s).trim().toLowerCase().replace(/\s+/g,' '); }
+
+function renderQuiz(){
+  qlist.innerHTML = '';
+  scoreBar.style.display = 'none';
+  currentQuiz.forEach((q,i)=>{
+    const row = document.createElement('div');
+    row.className = 'qrow';
+    row.innerHTML = `
+      <div class="qnum">Câu ${i+1} · ${TOPICS[q.topic].name} <span class="lvl lvl-${q.tier}">${TIER_LABEL[q.tier]}</span></div>
+      <div class="qsentence">${q.before} <input type="text" class="qinput" data-idx="${i}" placeholder="?"> ${q.after}</div>
+      ${q.hint?`<div class="qvi">${q.hint}</div>`:''}
+      <div class="qvi">${q.vi}</div>
+      <div class="qfeedback" style="display:none;"></div>
+    `;
+    qlist.appendChild(row);
+    setTimeout(()=> row.classList.add('show'), 20*i);
+  });
+}
+
+function checkAnswers(){
+  let correct = 0;
+  document.querySelectorAll('.qrow').forEach((row,i)=>{
+    const input = row.querySelector('.qinput');
+    const fb = row.querySelector('.qfeedback');
+    const q = currentQuiz[i];
+    const ok = normalize(input.value) === normalize(q.answer);
+    row.classList.remove('correct','wrong');
+    row.classList.add(ok ? 'correct' : 'wrong');
+    fb.style.display = 'block';
+    fb.innerHTML = ok ? `<b>✓ Chính xác!</b>` : `✕ Đáp án đúng: <b style="color:var(--bad)">${q.answer}</b>`;
+    input.disabled = true;
+    if(ok) correct++;
+  });
+  const pct = Math.round(100*correct/currentQuiz.length);
+  scoreBar.style.display = 'flex';
+  scoreBar.className = 'score-bar ' + (pct>=80?'good':pct>=50?'mid':'low');
+  const msg = pct>=80?'Xuất sắc! 🎉' : pct>=50?'Khá tốt, cố thêm nhé!' : 'Cần luyện thêm — thử lại nào!';
+  scoreBar.innerHTML = `<span>Kết quả: <b>${correct}/${currentQuiz.length}</b> (${pct}%)</span><span>${msg}</span>`;
+}
+
+function startTopics(gradeId, topicIds){
+  currentGrade = gradeId; currentTopics = topicIds;
+  document.querySelectorAll('.tbtn').forEach(b=> b.classList.toggle('active', b.dataset.grade==gradeId && topicIds.includes(b.dataset.topic)));
+  placeholder.style.display = 'none';
+  quizArea.style.display = 'block';
+  renderReference(gradeId, topicIds);
+  quizTitle.textContent = quizCount + ' câu luyện tập';
+  currentQuiz = generateQuiz(gradeId, topicIds, quizCount);
+  renderQuiz();
+}
+
+/* ============ Picker grid ============ */
+const grid = document.getElementById('grid12');
+function buildGrid(){
+  let html = `<div></div>`;
+  COLS.forEach(c=> html += `<div class="col-h">${c}</div>`);
+  grid.innerHTML = html;
+  ROWS.forEach((r,ri)=>{
+    grid.innerHTML += `<div class="row-h">${r}</div>`;
+    Object.entries(TOPICS).forEach(([id,t])=>{
+      grid.innerHTML += `<button class="tbtn" data-grade="${ri+1}" data-topic="${id}" style="grid-column:${t.col+2}">${t.vi}</button>`;
+    });
+  });
+}
+buildGrid();
+
+const picker = document.getElementById('picker');
+document.getElementById('pickerHead').addEventListener('click', ()=> picker.classList.toggle('open'));
+
+mixToggle.addEventListener('change', ()=>{
+  mixMode = mixToggle.checked;
+  selectedTopics = [];
+  document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('active'));
+  mixHint.style.display = mixMode ? 'block' : 'none';
+  mixHint.textContent = mixMode ? `Chọn 1 lớp rồi chọn 2-${MAX_MIX} dạng bài để trộn` : '';
+});
+
+grid.addEventListener('click', (e)=>{
+  const btn = e.target.closest('.tbtn');
+  if(!btn) return;
+  const gradeId = parseInt(btn.dataset.grade,10);
+  const topicId = btn.dataset.topic;
+
+  if(!mixMode){
+    startTopics(gradeId, [topicId]);
+    return;
+  }
+
+  if(currentGrade !== null && currentGrade !== gradeId){
+    selectedTopics = [];
+    document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('active'));
+  }
+  currentGrade = gradeId;
+
+  const idx = selectedTopics.indexOf(topicId);
+  if(idx >= 0){
+    selectedTopics.splice(idx,1);
+    btn.classList.remove('active');
+  } else {
+    if(selectedTopics.length >= MAX_MIX){
+      const oldId = selectedTopics.shift();
+      const oldBtn = document.querySelector(`.tbtn[data-grade="${gradeId}"][data-topic="${oldId}"]`);
+      if(oldBtn) oldBtn.classList.remove('active');
+    }
+    selectedTopics.push(topicId);
+    btn.classList.add('active');
+  }
+
+  if(selectedTopics.length >= 2){
+    mixHint.textContent = `${ROWS[gradeId-1]} — Đang trộn (${selectedTopics.length}/${MAX_MIX}): ` + selectedTopics.map(tid=>TOPICS[tid].vi).join(' + ');
+    startTopics(gradeId, selectedTopics.slice());
+  } else if(selectedTopics.length === 1){
+    mixHint.textContent = `${ROWS[gradeId-1]} — Đã chọn ${TOPICS[selectedTopics[0]].vi} — chọn thêm ít nhất 1 dạng nữa`;
+  } else {
+    mixHint.textContent = `Chọn 1 lớp rồi chọn 2-${MAX_MIX} dạng bài để trộn`;
+  }
+});
+
+countBtns.addEventListener('click', (e)=>{
+  const btn = e.target.closest('.cbtn');
+  if(!btn) return;
+  quizCount = parseInt(btn.dataset.count, 10);
+  countBtns.querySelectorAll('.cbtn').forEach(b=> b.classList.toggle('active', b===btn));
+  if(currentTopics.length){
+    quizTitle.textContent = quizCount + ' câu luyện tập';
+    currentQuiz = generateQuiz(currentGrade, currentTopics, quizCount);
+    renderQuiz();
+  }
+});
+
+checkBtn.addEventListener('click', checkAnswers);
+reshuffleBtn.addEventListener('click', ()=>{
+  if(!currentTopics.length) return;
+  currentQuiz = generateQuiz(currentGrade, currentTopics, quizCount);
+  renderQuiz();
+});
+
+/* ============ Copy đề bài ============ */
+function buildPlainText(){
+  const topicNames = currentTopics.map(id=>TOPICS[id].name + ' (' + TOPICS[id].vi + ')').join(' + ');
+  const lines = [];
+  lines.push('PHIẾU BÀI TẬP — TOÁN TIẾNG ANH');
+  lines.push('Lớp: ' + ROWS[currentGrade-1] + ' | Dạng bài: ' + topicNames);
+  lines.push('Số câu: ' + currentQuiz.length);
+  lines.push(''); lines.push('--- ĐỀ BÀI ---');
+  currentQuiz.forEach((q,i)=>{ lines.push(`${i+1}. ${q.before} __________ ${q.after}`.replace(/\s+([.?!])/, '$1')); });
+  lines.push(''); lines.push('--- ĐÁP ÁN ---');
+  currentQuiz.forEach((q,i)=>{ lines.push(`${i+1}. ${q.answer}`); });
+  return lines.join('\n');
+}
+function flashBtn(btn, text){
+  const old = btn.textContent; btn.textContent = text; btn.classList.add('copy-flash');
+  setTimeout(()=>{ btn.textContent = old; btn.classList.remove('copy-flash'); }, 1600);
+}
+copyBtn.addEventListener('click', async ()=>{
+  if(!currentQuiz.length) return;
+  const text = buildPlainText();
+  try{ await navigator.clipboard.writeText(text); flashBtn(copyBtn, '✓ Đã copy!'); }
+  catch(err){
+    const ta = document.createElement('textarea'); ta.value = text; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select();
+    try{ document.execCommand('copy'); flashBtn(copyBtn, '✓ Đã copy!'); } catch(e2){ flashBtn(copyBtn, '✕ Lỗi copy'); }
+    document.body.removeChild(ta);
+  }
+});
+
+/* ============ Xuất Word (.doc) ============ */
+function escapeHtml(str){ return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function buildWordDoc(){
+  const topicNames = currentTopics.map(id=>TOPICS[id].name + ' (' + TOPICS[id].vi + ')').join(' + ');
+  const dateStr = new Date().toLocaleDateString('vi-VN');
+  const qRows = currentQuiz.map((q,i)=>`<p style="margin:0 0 10px 0; font-size:13pt; line-height:1.5;"><b>${i+1}.</b> ${escapeHtml(q.before)} ______________________ ${escapeHtml(q.after)}</p>`).join('');
+  const aRows = currentQuiz.map((q,i)=>`<p style="margin:0 0 6px 0; font-size:12pt;"><b>${i+1}.</b> ${escapeHtml(q.answer)}</p>`).join('');
+  return `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
+  <head><meta charset="utf-8"><title>Phiếu bài tập - Toán tiếng Anh</title>
+  <!--[if gte mso 9]><xml><w:WordDocument><w:View>Print</w:View><w:Zoom>100</w:Zoom></w:WordDocument></xml><![endif]-->
+  <style>body{font-family:'Times New Roman',serif;} h1{font-size:18pt;margin-bottom:2px;} .meta{font-size:12pt;color:#333;margin-bottom:14px;}
+  .section-title{font-size:14pt;font-weight:bold;margin:18px 0 10px;border-bottom:1px solid #999;padding-bottom:4px;} .page-break{page-break-before:always;}</style></head>
+  <body>
+    <h1>PHIẾU BÀI TẬP — TOÁN TIẾNG ANH</h1>
+    <p class="meta">Lớp: <b>${ROWS[currentGrade-1]}</b> &nbsp;|&nbsp; Dạng bài: <b>${escapeHtml(topicNames)}</b><br>
+    Số câu: <b>${currentQuiz.length}</b> &nbsp;|&nbsp; Ngày: ${dateStr}<br>
+    Họ và tên: ______________________________ &nbsp;&nbsp; Lớp: ____________ &nbsp;&nbsp; Điểm: ______ /10</p>
+    <div class="section-title">I. ĐỀ BÀI</div>${qRows}
+    <div class="page-break"></div>
+    <div class="section-title">II. ĐÁP ÁN</div>${aRows}
+  </body></html>`;
+}
+exportWordBtn.addEventListener('click', ()=>{
+  if(!currentQuiz.length) return;
+  const html = buildWordDoc();
+  const blob = new Blob(['\ufeff', html], { type: 'application/msword' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `toan-tieng-anh-lop${currentGrade}-${currentQuiz.length}cau.doc`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(()=> URL.revokeObjectURL(url), 2000);
+  flashBtn(exportWordBtn, '✓ Đã tải!');
+});
+</script>
+</body>
+</html>
