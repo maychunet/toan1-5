@@ -109,7 +109,7 @@
   <header>
     <p class="eyebrow">Toán học · Song ngữ Anh-Việt</p>
     <h1>🇬🇧 Toán Tiếng Anh — Luyện Tập Lớp 1-5</h1>
-    <p class="sub">Giải toán bằng đề bài tiếng Anh: đọc số, so sánh, bài toán có lời văn và từ vựng số học (digit, multiple, add, subtract...) — vừa luyện tư duy tính toán, vừa luyện từ vựng Toán học tiếng Anh. Mỗi đề gồm 40% câu cơ bản, 40% câu khó dần và 20% câu tư duy nâng cao.</p>
+    <p class="sub">Giải toán bằng đề bài tiếng Anh theo khung Cambridge Primary Mathematics: số học & giá trị hàng, so sánh & sắp xếp, bài toán có lời văn (Part-Whole, Equal Groups, Comparison, Change, Money, Time), và hình học & đo lường — vừa luyện tư duy tính toán, vừa luyện từ vựng Toán học tiếng Anh. Mỗi đề gồm 40% câu cơ bản, 40% câu khó dần và 20% câu tư duy nâng cao.</p>
     <div class="nav-links">
       <a class="cur" href="index.html">🇬🇧 Toán Tiếng Anh</a>
       <a href="toan-nang-cao.html">🚀 Toán Nâng Cao</a>
@@ -183,20 +183,20 @@
 <script>
 /* ============ Cấu hình Lớp & Dạng bài ============ */
 const ROWS = ['Lớp 1','Lớp 2','Lớp 3','Lớp 4','Lớp 5'];
-const COLS = ['Đọc số (TA)','Lời văn','So sánh','Từ vựng số học'];
+const COLS = ['Number & Place Value','Comparing & Ordering','Word Problems','Geometry & Measure'];
 const TOPICS = {
-  numwords:{ col:0, name:'Reading Numbers', vi:'Đọc & viết số bằng tiếng Anh',
-    en:'Write this number in words: 42', vi2:'Viết số này bằng chữ tiếng Anh: 42 → forty-two',
-    usage:'Luyện <b>đọc số bằng tiếng Anh</b> — kỹ năng nền tảng để nói/viết Toán bằng tiếng Anh.' },
-  wordproblem:{ col:1, name:'Word Problems', vi:'Bài toán có lời văn (tiếng Anh)',
-    en:'Lan has 8 apples. Minh gives her 5 more. How many apples does Lan have now?', vi2:'Lan có 8 quả táo. Minh cho Lan thêm 5 quả. Hỏi Lan có bao nhiêu quả táo?',
-    usage:'Đọc hiểu đề bài <b>tiếng Anh</b> rồi thực hiện phép tính phù hợp để tìm đáp số.' },
-  compare:{ col:2, name:'Comparing Numbers', vi:'So sánh số bằng tiếng Anh',
-    en:'Compare: 58 ___ 39  (>, <, =)', vi2:'So sánh hai số 58 và 39, điền dấu phù hợp.',
-    usage:'Luyện so sánh số và từ vựng <b>greater than / less than / equal to</b>.' },
-  vocab:{ col:3, name:'Number Concepts', vi:'Từ vựng số học tiếng Anh',
+  numplace:{ col:0, name:'Number & Place Value', vi:'Số học & Giá trị hàng',
     en:'What is the digit in the tens place of 47?', vi2:'Chữ số ở hàng chục của số 47 là chữ số nào? → 4',
-    usage:'Học từ vựng số học tiếng Anh: <b>digit, multiple, factor, product, quotient, add, subtract, sum, difference</b>, số liền trước/liền sau (<b>the number before / after</b>), số tròn chục/tròn trăm (<b>round to the nearest ten / hundred</b>).' },
+    usage:'Đọc/viết số bằng tiếng Anh, giá trị hàng, số chẵn/lẻ, số nguyên tố, làm tròn, và từ vựng 4 phép tính: <b>add/sum/total, subtract/difference, multiply/product, divide/quotient</b>...' },
+  compare:{ col:1, name:'Comparing & Ordering', vi:'So sánh & Sắp xếp',
+    en:'Compare: 58 ___ 39  (>, <, =)', vi2:'So sánh hai số 58 và 39, điền dấu phù hợp.',
+    usage:'So sánh số, sắp xếp thứ tự, từ vựng <b>greatest/largest, smallest/least, between</b>, và so sánh bằng lời văn.' },
+  wordproblem:{ col:2, name:'Word Problems', vi:'Bài toán có lời văn',
+    en:'Lan has 8 apples. Minh gives her 5 more. How many apples does Lan have now?', vi2:'Lan có 8 quả táo. Minh cho Lan thêm 5 quả. Hỏi Lan có bao nhiêu quả táo?',
+    usage:'Đọc hiểu đề bài tiếng Anh theo các mô hình <b>Part-Whole, Equal Groups, Comparison, Change</b>, cùng ngữ cảnh <b>Money</b> và <b>Time</b>.' },
+  geometry:{ col:3, name:'Geometry & Measurement', vi:'Hình học & Đo lường',
+    en:'How many sides does a triangle have?', vi2:'Hình tam giác (triangle) có bao nhiêu cạnh (sides)? → 3',
+    usage:'Tên hình 2D/3D, vị trí & hướng, chu vi/diện tích, và đơn vị đo <b>cm, m, km, g, kg, ml, l</b>.' },
 };
 const MAX_MIX = 4;
 const TIER_LABEL = { basic:'Cơ bản', medium:'Nâng cao', hard:'Tư duy' };
@@ -210,9 +210,9 @@ function gradeConfig(g){
   return {
     1:{max:20,  mulMax:5,  units:['apples','candies','pencils','balloons']},
     2:{max:100, mulMax:10, units:['stickers','books','eggs','flowers']},
-    3:{max:1000,mulMax:12, units:['marbles','cards','cookies','students']},
-    4:{max:10000,mulMax:15, fractions:true, units:['toys','trees','books','bricks']},
-    5:{max:10000,mulMax:20, fractions:true, percent:true, units:['students','kg of rice','liters','dollars']},
+    3:{max:1000,mulMax:12, fractions:true, units:['marbles','cards','cookies','students']},
+    4:{max:10000,mulMax:15, fractions:true, decimals:true, negatives:true, units:['toys','trees','books','bricks']},
+    5:{max:10000,mulMax:20, fractions:true, decimals:true, negatives:true, percent:true, units:['students','kg of rice','liters','dollars']},
   }[g];
 }
 
@@ -233,31 +233,365 @@ function numberToWords(n){
   result+=chunk(n);
   return result.trim();
 }
+const ORDINAL_WORDS = ['zeroth','first','second','third','fourth','fifth','sixth','seventh','eighth','ninth','tenth','eleventh','twelfth'];
 
-/* ============ Generator: Reading Numbers ============ */
-function genNumWords(grade, tier, scale){
-  const cfg = gradeConfig(grade);
-  const lo = grade===1?1:11;
-  const hi = cfg.max;
-  let n;
-  if(tier==='basic'){ n = randInt(lo, Math.max(lo+1, Math.round(hi*0.3))); }
-  else if(tier==='medium'){ n = randInt(Math.round(hi*0.2), Math.max(Math.round(hi*0.2)+1, Math.round(hi*(0.3+0.6*scale)))); }
-  else { n = randInt(Math.max(lo,Math.round(hi*0.5)), hi); }
-
-  if(tier==='hard' && Math.random()<0.55){
-    // Higher-order: reverse direction — read the words, write the digits
-    return {
-      before:'Write the number for:', hint:`(${numberToWords(n)})`, after:'',
-      vi:'Đọc từ tiếng Anh rồi viết lại bằng chữ số.', answer: String(n),
-    };
-  }
-  return {
-    before:'Write this number in words:', hint:`(${n})`, after:'',
-    vi:'Viết số này bằng chữ tiếng Anh.', answer: numberToWords(n),
-  };
+/* ============ Time helpers ============ */
+function formatTime(totalMinutes){
+  totalMinutes = ((totalMinutes % 1440)+1440)%1440;
+  let h = Math.floor(totalMinutes/60); const m = totalMinutes%60;
+  const ampm = h<12 ? 'a.m.' : 'p.m.';
+  let h12 = h%12; if(h12===0) h12=12;
+  return `${h12}:${String(m).padStart(2,'0')} ${ampm}`;
 }
 
-/* ============ Generator: Word Problems ============ */
+/* ============ Unseen-concept rotation (generic, per topic) ============ */
+let unseenByTopic = {};
+function resetUnseen(){ unseenByTopic = {}; }
+function pickFromPool(topicId, pool){
+  if(!unseenByTopic[topicId]) unseenByTopic[topicId] = pool.map(p=>p.id);
+  let unseen = unseenByTopic[topicId];
+  const unseenPool = pool.filter(p=>unseen.includes(p.id));
+  let chosenObj;
+  if(unseenPool.length>0){
+    chosenObj = unseenPool[randInt(0,unseenPool.length-1)];
+    unseenByTopic[topicId] = unseen.filter(id=>id!==chosenObj.id);
+  } else {
+    chosenObj = pool[randInt(0,pool.length-1)];
+  }
+  return chosenObj.fn();
+}
+
+/* ============ Generator 1: Number & Place Value ============ */
+function genNumPlace(grade, tier, scale){
+  const cfg = gradeConfig(grade);
+  const factorScale = tier==='basic' ? 0.25 : tier==='medium' ? (0.3+0.55*scale) : 1;
+  const rangeTop = Math.max(20, Math.round(cfg.max*factorScale));
+  const placeNames = ['ones','tens','hundreds','thousands'];
+  const placeNamesVi = { ones:'hàng đơn vị', tens:'hàng chục', hundreds:'hàng trăm', thousands:'hàng nghìn' };
+  const pool = [];
+
+  // 1. read/write number in words (both directions)
+  pool.push({ id:'words', fn:()=>{
+    const lo = grade===1?1:11;
+    const n = randInt(lo, Math.max(lo+1, rangeTop));
+    if(tier==='hard' && Math.random()<0.5){
+      return {en:`Write the number for: ${numberToWords(n)}`, vi:`Đọc chữ tiếng Anh rồi viết lại bằng chữ số.`, answer:n};
+    }
+    return {en:`Write this number in words: ${n}`, vi:`Viết số ${n} bằng chữ tiếng Anh.`, answer:numberToWords(n)};
+  }});
+
+  // 2. digit in place
+  pool.push({ id:'digitplace', fn:()=>{
+    const digitsN = grade<=2 ? 2 : (grade===3 ? 3 : 4);
+    const n = randInt(Math.pow(10,digitsN-1), Math.max(Math.pow(10,digitsN)-1, rangeTop));
+    const nStr = String(n);
+    const placeIdx = randInt(0, nStr.length-1);
+    const place = placeNames[placeIdx];
+    const digit = Math.floor(n / Math.pow(10,placeIdx)) % 10;
+    return {en:`What is the digit in the ${place} place of ${n}?`, vi:`Chữ số ở ${placeNamesVi[place]} của số ${n} là chữ số nào?`, answer:digit};
+  }});
+
+  // 3. count digits
+  pool.push({ id:'digitcount', fn:()=>{
+    const digitsN = grade<=2?2:(grade===3?3:4);
+    const n = randInt(Math.pow(10,digitsN-1), Math.max(Math.pow(10,digitsN)-1, rangeTop));
+    return {en:`How many digits does the number ${n} have?`, vi:`Số ${n} có bao nhiêu chữ số?`, answer: String(n).length};
+  }});
+
+  // 4. number before
+  pool.push({ id:'before', fn:()=>{
+    const n = randInt(2, rangeTop);
+    return {en:`What number comes right before ${n}?`, vi:`Số liền trước ${n} là số nào?`, answer:n-1};
+  }});
+
+  // 5. number after
+  pool.push({ id:'after', fn:()=>{
+    const n = randInt(1, Math.max(2,rangeTop-1));
+    return {en:`What number comes right after ${n}?`, vi:`Số liền sau ${n} là số nào?`, answer:n+1};
+  }});
+
+  // 6. even / odd
+  pool.push({ id:'evenodd', fn:()=>{
+    const n = randInt(1, rangeTop);
+    return {en:`Is ${n} an even number or an odd number?`, vi:`Số ${n} là số chẵn (even) hay số lẻ (odd)?`, answer: n%2===0?'even':'odd'};
+  }});
+
+  // 7. prime / composite (grade 4+)
+  if(grade>=4){
+    pool.push({ id:'prime', fn:()=>{
+      const primes=[2,3,5,7,11,13,17,19,23,29,31];
+      const composites=[4,6,8,9,10,12,14,15,16,18,20,21,22,24,25,26,27,28];
+      const isPrime = Math.random()<0.5;
+      const n = isPrime ? primes[randInt(0,primes.length-1)] : composites[randInt(0,composites.length-1)];
+      return {en:`Is ${n} a prime number or a composite number?`, vi:`Số ${n} là số nguyên tố (prime) hay hợp số (composite)?`, answer: isPrime?'prime':'composite'};
+    }});
+  }
+
+  // 8. rounding nearest ten
+  pool.push({ id:'round10', fn:()=>{
+    const n = randInt(11, Math.max(99,rangeTop));
+    return {en:`Round ${n} to the nearest ten.`, vi:`Làm tròn ${n} đến hàng chục gần nhất.`, answer: Math.round(n/10)*10};
+  }});
+
+  // 9. rounding nearest hundred (grade 3+)
+  if(grade>=3){
+    pool.push({ id:'round100', fn:()=>{
+      const n = randInt(101, Math.max(999,rangeTop));
+      return {en:`Round ${n} to the nearest hundred.`, vi:`Làm tròn ${n} đến hàng trăm gần nhất.`, answer: Math.round(n/100)*100};
+    }});
+  }
+
+  // 10. rounding nearest thousand (grade 4+)
+  if(grade>=4){
+    pool.push({ id:'round1000', fn:()=>{
+      const n = randInt(1001, Math.max(9999,rangeTop));
+      return {en:`Round ${n} to the nearest thousand.`, vi:`Làm tròn ${n} đến hàng nghìn gần nhất.`, answer: Math.round(n/1000)*1000};
+    }});
+  }
+
+  // 11. estimate
+  pool.push({ id:'estimate', fn:()=>{
+    const n = randInt(Math.max(11,Math.floor(rangeTop*0.3)), Math.max(20,rangeTop));
+    return {en:`About how many tens are there in ${n}? (round to the nearest ten first, then say how many tens)`, vi:`Ước lượng: làm tròn ${n} đến hàng chục, rồi cho biết có bao nhiêu chục.`, answer: Math.round(n/10)};
+  }});
+
+  // 12. negative / positive (grade 4+)
+  if(grade>=4){
+    pool.push({ id:'negpos', fn:()=>{
+      const n = randInt(-20,-1);
+      const isNeg = Math.random()<0.7 ? true : false;
+      const shown = isNeg ? n : -n;
+      return {en:`Is ${shown} a negative number or a positive number?`, vi:`Số ${shown} là số âm (negative) hay số dương (positive)?`, answer: shown<0?'negative':'positive'};
+    }});
+  }
+
+  // 13. ordinal numbers
+  pool.push({ id:'ordinal', fn:()=>{
+    const n = randInt(1,12);
+    if(Math.random()<0.5){
+      return {en:`Write the ordinal number in words for position ${n} (e.g. 1 → first).`, vi:`Viết số thứ tự bằng chữ cho vị trí ${n}.`, answer: ORDINAL_WORDS[n]};
+    }
+    return {en:`"${ORDINAL_WORDS[n]}" is the ordinal word. Write it as a number with its ending (e.g. 1st, 2nd, 3rd).`, vi:`Viết số thứ tự "${ORDINAL_WORDS[n]}" dưới dạng số (ví dụ: 1st, 2nd, 3rd).`, answer: n+(n===1?'st':n===2?'nd':n===3?'rd':'th')};
+  }});
+
+  // 14. addition vocabulary (varied phrasing)
+  pool.push({ id:'addvocab', fn:()=>{
+    const a=randInt(1,Math.max(4,Math.floor(rangeTop/2))), b=randInt(1,Math.max(4,Math.floor(rangeTop/2)));
+    const phr = randInt(0,4);
+    const variants = [
+      {en:`What is the sum of ${a} and ${b}?`, vi:`Tổng (sum) của ${a} và ${b} là bao nhiêu?`},
+      {en:`What is the total of ${a} and ${b} altogether?`, vi:`Tổng cộng (total, altogether) của ${a} và ${b} là bao nhiêu?`},
+      {en:`${a} increased by ${b} is what number?`, vi:`${a} tăng thêm (increased by) ${b} thì được số nào?`},
+      {en:`What do you get when you combine ${a} and ${b}?`, vi:`Kết hợp (combined) ${a} và ${b} thì được bao nhiêu?`},
+      {en:`Add ${a} and ${b}. What is the result?`, vi:`Cộng (add) ${a} và ${b}. Kết quả là bao nhiêu?`},
+    ];
+    return {en:variants[phr].en, vi:variants[phr].vi, answer:a+b};
+  }});
+
+  // 15. subtraction vocabulary (varied phrasing)
+  pool.push({ id:'subvocab', fn:()=>{
+    const a=randInt(Math.max(4,Math.floor(rangeTop/2)),Math.max(6,rangeTop)), b=randInt(1,a);
+    const phr = randInt(0,4);
+    const variants = [
+      {en:`What is the difference between ${a} and ${b}?`, vi:`Hiệu (difference) giữa ${a} và ${b} là bao nhiêu?`},
+      {en:`Subtract ${b} from ${a}. What is left?`, vi:`Lấy ${a} trừ (subtract) ${b}. Còn lại (left) bao nhiêu?`},
+      {en:`${a} decreased by ${b} is what number?`, vi:`${a} giảm đi (decreased by) ${b} thì được số nào?`},
+      {en:`Take away ${b} from ${a}. How many remain?`, vi:`Bớt đi (take away) ${b} từ ${a}. Còn lại (remain) bao nhiêu?`},
+      {en:`How many fewer is ${b} than ${a}?`, vi:`${b} ít hơn (fewer than) ${a} là bao nhiêu?`},
+    ];
+    return {en:variants[phr].en, vi:variants[phr].vi, answer:a-b};
+  }});
+
+  // 16. multiplication vocabulary
+  pool.push({ id:'mulvocab', fn:()=>{
+    const a=randInt(2,9), b=randInt(2,cfg.mulMax);
+    const phr = randInt(0,3);
+    const variants = [
+      {en:`What is the product of ${a} and ${b}?`, vi:`Tích (product) của ${a} và ${b} là bao nhiêu?`, ans:a*b},
+      {en:`What is ${a} multiplied by ${b}?`, vi:`${a} nhân (multiplied by) ${b} bằng bao nhiêu?`, ans:a*b},
+      {en:`What is double ${a}?`, vi:`Số gấp đôi (double) của ${a} là bao nhiêu?`, ans:a*2},
+      {en:`There are ${a} groups of ${b}. How many in total?`, vi:`Có ${a} nhóm (groups of), mỗi nhóm ${b}. Tổng cộng bao nhiêu?`, ans:a*b},
+    ];
+    const v = variants[phr];
+    return {en:v.en, vi:v.vi, answer:v.ans};
+  }});
+
+  // 17. division vocabulary
+  pool.push({ id:'divvocab', fn:()=>{
+    const b=randInt(2,9), q=randInt(2,cfg.mulMax), a=b*q;
+    const phr = randInt(0,3);
+    const variants = [
+      {en:`What is the quotient when ${a} is divided by ${b}?`, vi:`Thương (quotient) khi chia ${a} cho ${b} là bao nhiêu?`, ans:q},
+      {en:`Share ${a} equally into ${b} groups. How many in each group?`, vi:`Chia đều (share equally) ${a} thành ${b} nhóm. Mỗi nhóm có bao nhiêu?`, ans:q},
+      {en:`Is ${b} a factor of ${a}?`, vi:`${b} có phải là ước số (factor) của ${a} không? (yes/no)`, ans:'yes'},
+      {en:`What is ${a} divided by ${b}?`, vi:`${a} chia (divided by) ${b} bằng bao nhiêu?`, ans:q},
+    ];
+    const v = variants[phr];
+    return {en:v.en, vi:v.vi, answer:v.ans};
+  }});
+
+  // 18. fractions (grade 3+)
+  if(cfg.fractions){
+    pool.push({ id:'fraction', fn:()=>{
+      const words=['half','quarter','third'][randInt(0,2)];
+      const denom = words==='half'?2:words==='quarter'?4:3;
+      const a = denom*randInt(2,10);
+      return {en:`What is one ${words} of ${a}?`, vi:`Một ${words==='half'?'nửa':words==='quarter'?'phần tư':'phần ba'} của ${a} là bao nhiêu?`, answer: a/denom};
+    }});
+    pool.push({ id:'numdenom', fn:()=>{
+      const denom = randInt(2,10), numer = randInt(1,denom-1);
+      const askNum = Math.random()<0.5;
+      return {en: askNum ? `In the fraction ${numer}/${denom}, what is the numerator?` : `In the fraction ${numer}/${denom}, what is the denominator?`,
+        vi: askNum ? `Trong phân số ${numer}/${denom}, tử số (numerator) là số nào?` : `Trong phân số ${numer}/${denom}, mẫu số (denominator) là số nào?`,
+        answer: askNum ? numer : denom};
+    }});
+  }
+
+  // 19. decimals (grade 4+)
+  if(cfg.decimals){
+    pool.push({ id:'decimal', fn:()=>{
+      const whole = randInt(1,20), dec = randInt(1,9);
+      return {en:`Write "${whole} point ${dec}" using digits and a decimal point.`, vi:`Viết "${whole} phẩy ${dec}" bằng chữ số và dấu chấm thập phân (decimal point).`, answer: `${whole}.${dec}`};
+    }});
+  }
+
+  // 20. percent (grade 5)
+  if(cfg.percent){
+    pool.push({ id:'percent', fn:()=>{
+      const p=[10,20,25,50,75][randInt(0,4)]; const total=randInt(4,40)*4;
+      return {en:`What is ${p}% of ${total}?`, vi:`${p} phần trăm (percent) của ${total} là bao nhiêu?`, answer: Math.round(total*p/100)};
+    }});
+  }
+
+  // 21. math symbols read as words
+  pool.push({ id:'symbol', fn:()=>{
+    const syms = [
+      {sym:'+', words:['plus']},
+      {sym:'-', words:['minus']},
+      {sym:'×', words:['times','multiplied by']},
+      {sym:'÷', words:['divided by']},
+      {sym:'=', words:['equals','is equal to']},
+    ];
+    const s = syms[randInt(0,syms.length-1)];
+    if(Math.random()<0.5){
+      return {en:`Which symbol means "${s.words[0]}"?`, vi:`Ký hiệu nào có nghĩa là "${s.words[0]}"?`, answer: s.sym};
+    }
+    return {en:`What is the symbol "${s.sym}" called in English?`, vi:`Ký hiệu "${s.sym}" đọc là gì trong tiếng Anh?`, answer: s.words[0]};
+  }});
+
+  // higher-order combos (hard tier)
+  if(tier==='hard'){
+    pool.push({ id:'round10', fn:()=>{
+      const n = randInt(Math.max(20,Math.floor(rangeTop/2)), Math.max(30,rangeTop));
+      const rounded = Math.round(n/10)*10;
+      return {en:`Round ${n} to the nearest ten, then add 1 to the result. What number do you get?`, vi:`Làm tròn ${n} đến hàng chục, sau đó cộng thêm 1. Kết quả là bao nhiêu?`, answer: rounded+1};
+    }});
+    pool.push({ id:'evenodd', fn:()=>{
+      const a=randInt(10,Math.max(20,rangeTop)), b=randInt(1,a-1); const diff=a-b;
+      return {en:`Subtract ${b} from ${a}. Is the difference an even number or an odd number?`, vi:`Lấy ${a} trừ ${b}. Hiệu đó là số chẵn hay số lẻ?`, answer: diff%2===0?'even':'odd'};
+    }});
+  }
+
+  const chosen = pickFromPool('numplace', pool);
+  return { before: chosen.en, hint:'', after:'', vi: chosen.vi, answer: String(chosen.answer) };
+}
+
+/* ============ Generator 2: Comparing & Ordering ============ */
+function genCompare(grade, tier, scale){
+  const cfg = gradeConfig(grade);
+  const rangeTop = tier==='basic' ? Math.max(9, Math.round(cfg.max*0.2))
+                  : tier==='medium' ? Math.max(12, Math.round(cfg.max*(0.25+0.55*scale)))
+                  : cfg.max;
+  const pool = [];
+
+  // 1. compare a pair with >, <, =
+  pool.push({ id:'pair', fn:()=>{
+    const a = randInt(1,rangeTop), b = Math.random()<0.15 ? a : randInt(1,rangeTop);
+    const symbol = a>b ? '>' : (a<b ? '<' : '=');
+    return {en:`Compare the two numbers: ${a} ___ ${b}`, hint:'(gõ dấu: >, <, hoặc =)', vi:'So sánh hai số và điền dấu đúng.', answer: symbol};
+  }});
+
+  // 2. order 3 numbers
+  pool.push({ id:'order3', fn:()=>{
+    const nums = [randInt(1,rangeTop), randInt(1,rangeTop), randInt(1,rangeTop)];
+    const asc = Math.random()<0.6;
+    const sorted = [...nums].sort((x,y)=> asc ? x-y : y-x);
+    return {en:`Order these numbers from ${asc?'smallest to largest':'largest to smallest'}: ${nums.join(', ')}`, hint:'(viết cách nhau bởi dấu phẩy)',
+      vi:`Sắp xếp các số theo thứ tự ${asc?'từ bé đến lớn':'từ lớn đến bé'}, cách nhau bằng dấu phẩy.`, answer: sorted.join(', ')};
+  }});
+
+  // 3. order 4 numbers (grade 3+)
+  if(grade>=3){
+    pool.push({ id:'order4', fn:()=>{
+      const nums = [randInt(1,rangeTop), randInt(1,rangeTop), randInt(1,rangeTop), randInt(1,rangeTop)];
+      const asc = Math.random()<0.6;
+      const sorted = [...nums].sort((x,y)=> asc ? x-y : y-x);
+      return {en:`Order these numbers from ${asc?'smallest to largest':'largest to smallest'}: ${nums.join(', ')}`, hint:'(viết cách nhau bởi dấu phẩy)',
+        vi:`Sắp xếp 4 số theo thứ tự ${asc?'từ bé đến lớn':'từ lớn đến bé'}.`, answer: sorted.join(', ')};
+    }});
+  }
+
+  // 4. superlative: greatest / smallest
+  pool.push({ id:'superlative', fn:()=>{
+    const nums = [randInt(1,rangeTop), randInt(1,rangeTop), randInt(1,rangeTop)];
+    const askGreatest = Math.random()<0.5;
+    const ans = askGreatest ? Math.max(...nums) : Math.min(...nums);
+    return {en:`Which number is the ${askGreatest?'greatest':'smallest'}: ${nums.join(', ')}?`,
+      vi:`Số nào là số ${askGreatest?'lớn nhất (greatest)':'bé nhất (smallest)'} trong các số: ${nums.join(', ')}?`, answer: ans};
+  }});
+
+  // 5. between
+  pool.push({ id:'between', fn:()=>{
+    const a = randInt(1, Math.max(2,rangeTop-10));
+    const b = a + randInt(3,10);
+    const inBetween = randInt(a+1,b-1);
+    const others = [a-randInt(1,3<a?3:1), b+randInt(1,3)];
+    const options = [inBetween, others[0], others[1]].sort(()=>Math.random()-0.5);
+    return {en:`Which number is between ${a} and ${b}: ${options.join(', ')}?`, vi:`Số nào nằm giữa (between) ${a} và ${b}: ${options.join(', ')}?`, answer: inBetween};
+  }});
+
+  // 6. word comparison
+  pool.push({ id:'wordcompare', fn:()=>{
+    const n1=pickName(); const n2=pickName(n1);
+    const contexts = [
+      {label:'tall', unit:'cm', qHigher:'taller', qLower:'shorter'},
+      {label:'heavy', unit:'kg', qHigher:'heavier', qLower:'lighter'},
+    ];
+    const c = contexts[randInt(0,contexts.length-1)];
+    const a = randInt(Math.round(rangeTop*0.3), rangeTop), b = randInt(Math.round(rangeTop*0.3), rangeTop);
+    const askHigher = Math.random()<0.5;
+    const winner = a>b ? n1 : n2;
+    const loser = a>b ? n2 : n1;
+    const ans = askHigher ? winner : loser;
+    return {en:`${n1} is ${a}${c.unit}. ${n2} is ${b}${c.unit}. Who is ${askHigher?c.qHigher:c.qLower}?`,
+      vi:`${n1} ${a}${c.unit}, ${n2} ${b}${c.unit}. Ai ${askHigher?c.qHigher:c.qLower} hơn?`, answer: ans};
+  }});
+
+  // 7. missing digit
+  pool.push({ id:'missingdigit', fn:()=>{
+    const t = randInt(1,9);
+    const wantGreater = Math.random()<0.5;
+    let target, answer;
+    if(wantGreater){
+      const targetOnes = randInt(0,8);
+      target = t*10+targetOnes;
+      answer = targetOnes+1;
+      return {en:`Find the smallest digit to fill in the blank so that ${t}_ > ${target} is true.`, hint:'(gõ 1 chữ số)',
+        vi:`Tìm chữ số nhỏ nhất điền vào chỗ trống để ${t}_ > ${target} đúng.`, answer};
+    } else {
+      const targetOnes = randInt(1,9);
+      target = t*10+targetOnes;
+      answer = targetOnes-1;
+      return {en:`Find the largest digit to fill in the blank so that ${t}_ < ${target} is true.`, hint:'(gõ 1 chữ số)',
+        vi:`Tìm chữ số lớn nhất điền vào chỗ trống để ${t}_ < ${target} đúng.`, answer};
+    }
+  }});
+
+  const chosen = pickFromPool('compare', pool);
+  return { before: chosen.en, hint: chosen.hint||'', after:'', vi: chosen.vi, answer: String(chosen.answer) };
+}
+
+/* ============ Generator 3: Word Problems ============ */
 function genWordProblem(grade, tier, scale){
   const cfg = gradeConfig(grade);
   const n1 = pickName(); const n2 = pickName(n1);
@@ -268,235 +602,330 @@ function genWordProblem(grade, tier, scale){
                   : cfg.max;
   const halfMax = Math.max(2, Math.floor(rangeTop/2));
 
-  // one-step addition / subtraction — available at every tier
-  pool.push(()=>{
+  // Part-Whole: addition
+  pool.push({ id:'partwhole_add', fn:()=>{
     const a=randInt(1,halfMax), b=randInt(1,halfMax);
     return {en:`${n1} has ${a} ${unit}. ${n2} gives ${n1} ${b} more ${unit}. How many ${unit} does ${n1} have now?`,
       vi:`${n1} có ${a} ${unit}. ${n2} cho ${n1} thêm ${b} ${unit}. Hỏi ${n1} có tất cả bao nhiêu ${unit}?`, answer:a+b};
-  });
-  pool.push(()=>{
+  }});
+
+  // Part-Whole: subtraction
+  pool.push({ id:'partwhole_sub', fn:()=>{
     const a=randInt(Math.ceil(rangeTop/2),Math.max(rangeTop,2)), b=randInt(1,a);
     return {en:`There are ${a} ${unit} in a basket. ${b} ${unit} are taken out. How many ${unit} are left?`,
       vi:`Có ${a} ${unit} trong giỏ. Lấy ra ${b} ${unit}. Hỏi còn lại bao nhiêu ${unit}?`, answer:a-b};
-  });
+  }});
 
-  // multiplication / division — from medium tier upward
+  // Equal Groups: multiplication / division (grade 2+, tier != basic)
   if(grade>=2 && tier!=='basic'){
-    pool.push(()=>{
+    pool.push({ id:'equalgroups_mul', fn:()=>{
       const rows=randInt(2,9), cols=randInt(2,cfg.mulMax);
       return {en:`There are ${rows} boxes. Each box has ${cols} ${unit}. How many ${unit} are there in total?`,
         vi:`Có ${rows} hộp, mỗi hộp có ${cols} ${unit}. Hỏi có tất cả bao nhiêu ${unit}?`, answer:rows*cols};
-    });
-    pool.push(()=>{
+    }});
+    pool.push({ id:'equalgroups_div', fn:()=>{
       const divisor=randInt(2,9), quotient=randInt(2,cfg.mulMax); const a=divisor*quotient;
       return {en:`${a} ${unit} are shared equally among ${divisor} children. How many ${unit} does each child get?`,
         vi:`Chia đều ${a} ${unit} cho ${divisor} bạn. Hỏi mỗi bạn được bao nhiêu ${unit}?`, answer:quotient};
-    });
+    }});
   }
 
+  // Comparison model
+  pool.push({ id:'comparison', fn:()=>{
+    const a=randInt(Math.ceil(rangeTop/2),Math.max(rangeTop,2)), diff=randInt(1,halfMax); const b=Math.max(1,a-diff);
+    const askMore = Math.random()<0.5;
+    if(askMore){
+      return {en:`${n1} has ${a} ${unit}. ${n2} has ${b} ${unit}. How many more ${unit} does ${n1} have than ${n2}?`,
+        vi:`${n1} có ${a} ${unit}. ${n2} có ${b} ${unit}. Hỏi ${n1} có nhiều hơn ${n2} bao nhiêu ${unit}?`, answer:a-b};
+    }
+    return {en:`${n1} has ${a} ${unit}. ${n2} has ${b} ${unit}. How many fewer ${unit} does ${n2} have than ${n1}?`,
+      vi:`${n1} có ${a} ${unit}. ${n2} có ${b} ${unit}. Hỏi ${n2} có ít hơn ${n1} bao nhiêu ${unit}?`, answer:a-b};
+  }});
+
+  // Change model (2-step) — medium/hard
+  if(tier!=='basic'){
+    pool.push({ id:'change', fn:()=>{
+      const a=randInt(Math.max(5,Math.floor(halfMax)), Math.max(6,rangeTop)), b=randInt(1,Math.max(2,halfMax)), c=randInt(1,Math.max(2,halfMax));
+      const total=a-b+c;
+      return {en:`${n1} had ${a} ${unit}. ${n1} used ${b} of them, then got ${c} more. How many ${unit} does ${n1} have now?`,
+        vi:`${n1} có ${a} ${unit}. ${n1} dùng hết ${b} ${unit}, sau đó nhận thêm ${c} ${unit}. Hỏi ${n1} hiện có bao nhiêu ${unit}?`, answer: total};
+    }});
+  }
+
+  // Money
+  pool.push({ id:'money', fn:()=>{
+    const price = randInt(1, grade<=2?5:20);
+    const qty = randInt(2, grade<=2?5:9);
+    const kind = Math.random()<0.6 ? 'buy' : 'change';
+    if(kind==='buy'){
+      return {en:`An item costs $${price}. ${n1} buys ${qty} of them. How much does ${n1} pay in total?`,
+        vi:`Một món đồ giá $${price}. ${n1} mua ${qty} món. Hỏi ${n1} phải trả bao nhiêu?`, answer: `$${price*qty}`};
+    }
+    const paid = price*qty + randInt(1, grade<=2?5:10);
+    return {en:`An item costs $${price}. ${n1} buys ${qty} of them and pays with $${paid}. How much change does ${n1} get back?`,
+      vi:`Một món đồ giá $${price}. ${n1} mua ${qty} món và trả $${paid}. Hỏi ${n1} được thối lại bao nhiêu tiền?`, answer: `$${paid-price*qty}`};
+  }});
+
+  // Time
+  pool.push({ id:'time', fn:()=>{
+    const startH = randInt(7,16), startM=[0,15,30,45][randInt(0,3)];
+    const startTotal = startH*60+startM;
+    const durUnits = tier==='basic'?[15,30]:tier==='medium'?[15,30,45,60]:[45,60,75,90];
+    const dur = durUnits[randInt(0,durUnits.length-1)];
+    const endTotal = startTotal+dur;
+    const askEnd = Math.random()<0.7;
+    if(askEnd){
+      return {en:`A class starts at ${formatTime(startTotal)} and lasts ${dur} minutes. What time does it end?`,
+        hint:'(vd: 9:15 a.m.)', vi:`Một tiết học bắt đầu lúc ${formatTime(startTotal)} và kéo dài ${dur} phút. Hỏi tiết học kết thúc lúc mấy giờ?`, answer: formatTime(endTotal)};
+    }
+    return {en:`A class starts at ${formatTime(startTotal)} and ends at ${formatTime(endTotal)}. How many minutes does it last?`,
+      vi:`Một tiết học bắt đầu lúc ${formatTime(startTotal)} và kết thúc lúc ${formatTime(endTotal)}. Hỏi tiết học kéo dài bao nhiêu phút?`, answer: String(dur)};
+  }});
+
+  // fractions (grade 3+, tier != basic)
   if(cfg.fractions && tier!=='basic'){
-    pool.push(()=>{
+    pool.push({ id:'fraction', fn:()=>{
       const b=[2,3,4,5][randInt(0,3)]; const a=b*randInt(2,10);
       return {en:`What is 1/${b} of ${a}?`, vi:`Một phần ${b} của ${a} là bao nhiêu?`, answer:a/b};
-    });
+    }});
   }
+
+  // percent (grade 5, hard)
   if(cfg.percent && tier==='hard'){
-    pool.push(()=>{
+    pool.push({ id:'percent', fn:()=>{
       const p=[10,20,25,50,75][randInt(0,4)]; const total=randInt(4,40)*4;
       return {en:`${p}% of ${total} ${unit} in the school like Math. How many is that?`,
         vi:`${p}% trong tổng số ${total} ${unit} thích môn Toán. Hỏi có bao nhiêu?`, answer: Math.round(total*p/100)};
-    });
+    }});
   }
 
-  // two-step, higher-order thinking problems — hard tier only
+  // hard tier: 2-3 step combos incl. comparison / money / time
   if(tier==='hard'){
-    pool.push(()=>{
+    pool.push({ id:'twostep_add', fn:()=>{
       const a=randInt(5,Math.max(6,halfMax)), b=randInt(1,Math.max(2,halfMax)), c=randInt(1,a+b-1);
       const total=a+b-c;
       return {en:`${n1} has ${a} ${unit}. ${n2} gives ${n1} ${b} more ${unit}. Then ${n1} gives away ${c} ${unit}. How many ${unit} does ${n1} have left?`,
         vi:`${n1} có ${a} ${unit}. ${n2} cho thêm ${b} ${unit}. Sau đó ${n1} cho đi ${c} ${unit}. Hỏi ${n1} còn lại bao nhiêu ${unit}?`, answer: total};
-    });
+    }});
     if(grade>=2){
-      pool.push(()=>{
+      pool.push({ id:'twostep_mul', fn:()=>{
         const rows=randInt(2,9), cols=randInt(2,cfg.mulMax), extra=randInt(1,10);
         const total = rows*cols+extra;
         return {en:`There are ${rows} boxes with ${cols} ${unit} each, plus ${extra} extra ${unit}. How many ${unit} are there in total?`,
           vi:`Có ${rows} hộp, mỗi hộp ${cols} ${unit}, cộng thêm ${extra} ${unit} lẻ. Hỏi tổng cộng có bao nhiêu ${unit}?`, answer: total};
-      });
+      }});
     }
+    pool.push({ id:'twostep_money', fn:()=>{
+      const price1 = randInt(1,10), qty1=randInt(2,5), price2=randInt(1,10), qty2=randInt(2,5);
+      const total = price1*qty1+price2*qty2;
+      return {en:`${n1} buys ${qty1} pens at $${price1} each and ${qty2} notebooks at $${price2} each. How much does ${n1} spend in total?`,
+        vi:`${n1} mua ${qty1} cây bút giá $${price1} mỗi cây và ${qty2} quyển vở giá $${price2} mỗi quyển. Hỏi ${n1} tiêu tất cả bao nhiêu tiền?`, answer: `$${total}`};
+    }});
+    pool.push({ id:'twostep_comparison', fn:()=>{
+      const a=randInt(Math.ceil(rangeTop/2),Math.max(rangeTop,4)), diff=randInt(1,halfMax); const b=Math.max(1,a-diff);
+      const combined = a+b;
+      return {en:`${n1} has ${a} ${unit}. ${n2} has ${diff} fewer ${unit} than ${n1}. How many ${unit} do they have altogether?`,
+        vi:`${n1} có ${a} ${unit}. ${n2} có ít hơn ${n1} là ${diff} ${unit}. Hỏi cả hai có tất cả bao nhiêu ${unit}?`, answer: combined};
+    }});
   }
 
-  const chosen = pool[randInt(0,pool.length-1)]();
-  return { before: chosen.en, hint:'', after:'', vi: chosen.vi, answer: String(chosen.answer) };
+  const chosen = pickFromPool('wordproblem', pool);
+  return { before: chosen.en, hint: chosen.hint||'', after:'', vi: chosen.vi, answer: String(chosen.answer) };
 }
 
-/* ============ Generator: Comparing Numbers ============ */
-function genCompare(grade, tier, scale){
+/* ============ Generator 4: Geometry & Measurement ============ */
+function genGeometry(grade, tier, scale){
   const cfg = gradeConfig(grade);
-  const rangeTop = tier==='basic' ? Math.max(9, Math.round(cfg.max*0.2))
-                  : tier==='medium' ? Math.max(12, Math.round(cfg.max*(0.25+0.55*scale)))
-                  : cfg.max;
-
-  if(tier!=='hard'){
-    const a = randInt(1,rangeTop), b = Math.random()<0.15 ? a : randInt(1,rangeTop);
-    const symbol = a>b ? '>' : (a<b ? '<' : '=');
-    return {
-      before:`Compare the two numbers: ${a} ___ ${b}`, hint:'(gõ dấu: >, <, hoặc =)', after:'',
-      vi:'So sánh hai số và điền dấu đúng.', answer: symbol,
-    };
-  }
-
-  // hard tier: higher-order comparison/ordering tasks
-  if(Math.random()<0.5){
-    const nums = [randInt(1,rangeTop), randInt(1,rangeTop), randInt(1,rangeTop)];
-    const sorted = [...nums].sort((x,y)=>x-y);
-    return {
-      before:`Order these numbers from smallest to largest: ${nums.join(', ')}`, hint:'(viết cách nhau bởi dấu phẩy)', after:'',
-      vi:'Sắp xếp các số theo thứ tự từ bé đến lớn, cách nhau bằng dấu phẩy.', answer: sorted.join(', '),
-    };
-  } else {
-    const a = randInt(1, Math.max(2,rangeTop-5)); const gap = randInt(3,15); const b = a+gap;
-    return {
-      before:`How many whole numbers are between ${a} and ${b}?`, hint:'', after:'',
-      vi:'Đếm xem có bao nhiêu số tự nhiên nằm giữa hai số đã cho (không tính hai số đầu, cuối).', answer: String(gap-1),
-    };
-  }
-}
-
-/* ============ Generator: Number Concepts ============ */
-function genVocab(grade, tier, scale){
-  const cfg = gradeConfig(grade);
-  const factorScale = tier==='basic' ? 0.25 : tier==='medium' ? (0.3+0.55*scale) : 1;
-  const rangeTop = Math.max(20, Math.round(cfg.max*factorScale));
-  const placeNames = ['ones','tens','hundreds','thousands'];
-  const placeNamesVi = { ones:'hàng đơn vị', tens:'hàng chục', hundreds:'hàng trăm', thousands:'hàng nghìn' };
   const pool = [];
+  const shapes2D = [
+    {name:'circle', sides:0, vi:'hình tròn'},
+    {name:'triangle', sides:3, vi:'hình tam giác'},
+    {name:'square', sides:4, vi:'hình vuông'},
+    {name:'rectangle', sides:4, vi:'hình chữ nhật'},
+    {name:'pentagon', sides:5, vi:'hình ngũ giác'},
+    {name:'hexagon', sides:6, vi:'hình lục giác'},
+    {name:'oval', sides:0, vi:'hình bầu dục'},
+  ];
+  const shapes3D = [
+    {name:'cube', faces:6, edges:12, vertices:8, vi:'hình lập phương'},
+    {name:'cuboid', faces:6, edges:12, vertices:8, vi:'hình hộp chữ nhật'},
+    {name:'sphere', faces:1, edges:0, vertices:0, vi:'hình cầu'},
+    {name:'cylinder', faces:3, edges:2, vertices:0, vi:'hình trụ'},
+    {name:'cone', faces:2, edges:1, vertices:1, vi:'hình nón'},
+    {name:'pyramid', faces:5, edges:8, vertices:5, vi:'hình chóp'},
+  ];
 
-  // 1. add (sum)
-  pool.push({ id: 'add', fn: ()=>{
-    const a=randInt(1,Math.max(4,Math.floor(rangeTop/2))), b=randInt(1,Math.max(4,Math.floor(rangeTop/2)));
-    return {en:`Add ${a} and ${b}. What is the sum?`, vi:`Cộng ${a} và ${b} (add). Tổng (sum) là bao nhiêu?`, answer:a+b};
-  }});
-  
-  // 2. subtract (difference)
-  pool.push({ id: 'sub', fn: ()=>{
-    const a=randInt(Math.max(4,Math.floor(rangeTop/2)),Math.max(6,rangeTop)), b=randInt(1,a);
-    return {en:`Subtract ${b} from ${a}. What is the difference?`, vi:`Lấy ${a} trừ (subtract) ${b}. Hiệu (difference) là bao nhiêu?`, answer:a-b};
+  // 1. 2D shape sides
+  pool.push({ id:'sides2d', fn:()=>{
+    const withSides = shapes2D.filter(s=>s.sides>0);
+    const s = withSides[randInt(0,withSides.length-1)];
+    return {en:`How many sides does a ${s.name} have?`, vi:`${s.vi.charAt(0).toUpperCase()+s.vi.slice(1)} (${s.name}) có bao nhiêu cạnh (sides)?`, answer: s.sides};
   }});
 
-  // 3. digit
-  pool.push({ id: 'digit', fn: ()=>{
-    const digitsN = grade<=2 ? 2 : (grade===3 ? 3 : 4);
-    const n = randInt(Math.pow(10,digitsN-1), Math.max(Math.pow(10,digitsN)-1, rangeTop));
-    const nStr = String(n);
-    const placeIdx = randInt(0, nStr.length-1);
-    const place = placeNames[placeIdx];
-    const digit = Math.floor(n / Math.pow(10,placeIdx)) % 10;
-    return {en:`What is the digit in the ${place} place of ${n}?`, vi:`Chữ số (digit) ở ${placeNamesVi[place]} của số ${n} là chữ số nào?`, answer:digit};
+  // 2. name shape from number of sides
+  pool.push({ id:'nameshape', fn:()=>{
+    const withSides = shapes2D.filter(s=>s.sides>=3);
+    const s = withSides[randInt(0,withSides.length-1)];
+    return {en:`What is the name of the shape that has ${s.sides} sides?`, vi:`Hình có ${s.sides} cạnh gọi là hình gì (tiếng Anh)?`, answer: s.name};
   }});
-  if(tier!=='basic'){
-    pool.push({ id: 'digit', fn: ()=>{
-      const digitsN = grade<=2?2:(grade===3?3:4);
-      const n = randInt(Math.pow(10,digitsN-1), Math.max(Math.pow(10,digitsN)-1, rangeTop));
-      return {en:`How many digits does the number ${n} have?`, vi:`Số ${n} có bao nhiêu chữ số (digits)?`, answer: String(n).length};
+
+  // 3. corners/vertices of 2D shape
+  pool.push({ id:'corners', fn:()=>{
+    const withSides = shapes2D.filter(s=>s.sides>0);
+    const s = withSides[randInt(0,withSides.length-1)];
+    return {en:`How many corners (vertices) does a ${s.name} have?`, vi:`${s.vi.charAt(0).toUpperCase()+s.vi.slice(1)} (${s.name}) có bao nhiêu đỉnh (corners/vertices)?`, answer: s.sides};
+  }});
+
+  // 4. 3D shapes (grade 4+)
+  if(grade>=4){
+    pool.push({ id:'faces3d', fn:()=>{
+      const s = shapes3D[randInt(0,shapes3D.length-1)];
+      return {en:`How many faces does a ${s.name} have?`, vi:`${s.vi.charAt(0).toUpperCase()+s.vi.slice(1)} (${s.name}) có bao nhiêu mặt (faces)?`, answer: s.faces};
+    }});
+    pool.push({ id:'edges3d', fn:()=>{
+      const s = shapes3D[randInt(0,shapes3D.length-1)];
+      return {en:`How many edges does a ${s.name} have?`, vi:`${s.vi.charAt(0).toUpperCase()+s.vi.slice(1)} (${s.name}) có bao nhiêu cạnh khối (edges)?`, answer: s.edges};
+    }});
+    pool.push({ id:'name3d', fn:()=>{
+      const clues = [
+        {clue:'looks like a ball', name:'sphere'},
+        {clue:'has 6 equal square faces', name:'cube'},
+        {clue:'has a circular base and comes to a point', name:'cone'},
+        {clue:'has two circular ends and rolls', name:'cylinder'},
+      ];
+      const c = clues[randInt(0,clues.length-1)];
+      return {en:`What is the name of the 3D shape that ${c.clue}?`, vi:`Hình khối 3D nào ${c.clue==='looks like a ball'?'giống quả bóng':c.clue==='has 6 equal square faces'?'có 6 mặt vuông bằng nhau':c.clue==='has a circular base and comes to a point'?'có đáy tròn và chóp nhọn':'có hai đáy tròn và lăn được'}?`, answer: c.name};
     }});
   }
 
-  // 4. multiple
-  pool.push({ id: 'multiple', fn: ()=>{
-    const base=randInt(2,9), k=randInt(2,6), n=base*k;
-    const isMultiple = Math.random()<0.6;
-    const testNum = isMultiple ? n : n + randInt(1,base-1);
-    return {en:`Is ${testNum} a multiple of ${base}?`, vi:`${testNum} có phải là bội số (multiple) của ${base} không? (yes/no)`, answer: (testNum%base===0)?'yes':'no'};
+  // 5. position & direction — opposites
+  pool.push({ id:'position', fn:()=>{
+    const pairs = [['left','right'],['above','below'],['in front of','behind'],['full','empty'],['heavy','light'],['tall','short'],['long','short']];
+    const p = pairs[randInt(0,pairs.length-1)];
+    const askFirst = Math.random()<0.5;
+    return {en:`What is the opposite of "${askFirst?p[0]:p[1]}"?`, vi:`Từ trái nghĩa của "${askFirst?p[0]:p[1]}" là gì (tiếng Anh)?`, answer: askFirst?p[1]:p[0]};
   }});
-  if(tier!=='basic'){
-    pool.push({ id: 'multiple', fn: ()=>{
-      const base=randInt(2,9), k=randInt(1,8), n=base*k;
-      return {en:`What is the next multiple of ${base} after ${n}?`, vi:`Bội số (multiple) tiếp theo của ${base} sau ${n} là số nào?`, answer:n+base};
+
+  // 6. clockwise / anticlockwise (grade 3+)
+  if(grade>=3){
+    pool.push({ id:'turn', fn:()=>{
+      const askOpp = Math.random()<0.5;
+      if(askOpp){
+        return {en:`What is the opposite of "clockwise"?`, vi:`Từ trái nghĩa của "clockwise" (theo chiều kim đồng hồ) là gì?`, answer:'anticlockwise'};
+      }
+      return {en:`What is the opposite of "anticlockwise"?`, vi:`Từ trái nghĩa của "anticlockwise" (ngược chiều kim đồng hồ) là gì?`, answer:'clockwise'};
     }});
   }
 
-  // 5. factor
-  pool.push({ id: 'factor', fn: ()=>{
-    const a=randInt(2,9), b=randInt(2,9);
-    const isFactor = Math.random()<0.6;
-    const testNum = isFactor ? a*b : (a*b + randInt(1, a-1));
-    return {en:`Is ${a} a factor of ${testNum}?`, vi:`${a} có phải là ước số (factor) của ${testNum} không? (yes/no)`, answer: (testNum%a===0)?'yes':'no'};
-  }});
+  // 7. perimeter (grade 3+)
+  if(grade>=3){
+    pool.push({ id:'perimeter_rect', fn:()=>{
+      const l=randInt(4,20), w=randInt(2,Math.max(3,l-1));
+      return {en:`A rectangle has length ${l}cm and width ${w}cm. What is its perimeter?`, hint:'(đơn vị: cm)',
+        vi:`Một hình chữ nhật có chiều dài ${l}cm và chiều rộng ${w}cm. Chu vi (perimeter) của nó là bao nhiêu?`, answer: 2*(l+w)};
+    }});
+    pool.push({ id:'perimeter_square', fn:()=>{
+      const s=randInt(3,20);
+      return {en:`A square has a side of ${s}cm. What is its perimeter?`, hint:'(đơn vị: cm)',
+        vi:`Một hình vuông có cạnh ${s}cm. Chu vi (perimeter) của nó là bao nhiêu?`, answer: 4*s};
+    }});
+    // 8. area
+    pool.push({ id:'area_rect', fn:()=>{
+      const l=randInt(4,20), w=randInt(2,Math.max(3,l-1));
+      return {en:`A rectangle has length ${l}cm and width ${w}cm. What is its area?`, hint:'(đơn vị: cm²)',
+        vi:`Một hình chữ nhật có chiều dài ${l}cm và chiều rộng ${w}cm. Diện tích (area) của nó là bao nhiêu?`, answer: l*w};
+    }});
+    pool.push({ id:'area_square', fn:()=>{
+      const s=randInt(3,15);
+      return {en:`A square has a side of ${s}cm. What is its area?`, hint:'(đơn vị: cm²)',
+        vi:`Một hình vuông có cạnh ${s}cm. Diện tích (area) của nó là bao nhiêu?`, answer: s*s};
+    }});
+  }
 
-  // 6. product
-  pool.push({ id: 'product', fn: ()=>{
-    const a=randInt(2,9), b=randInt(2,9);
-    return {en:`What is the product of ${a} and ${b}?`, vi:`Tích (product) của ${a} và ${b} là bao nhiêu?`, answer: a*b};
-  }});
-
-  // 7. quotient
-  pool.push({ id: 'quotient', fn: ()=>{
-    const b=randInt(2,9), q=randInt(2,9), a=b*q;
-    return {en:`What is the quotient when ${a} is divided by ${b}?`, vi:`Thương (quotient) khi chia ${a} cho ${b} là bao nhiêu?`, answer: q};
-  }});
-
-  // 8. before
-  pool.push({ id: 'before', fn: ()=>{
-    const n = randInt(2, rangeTop);
-    return {en:`What number comes right before ${n}?`, vi:`Số liền trước (the number before) ${n} là số nào?`, answer:n-1};
-  }});
-  
-  // 9. after
-  pool.push({ id: 'after', fn: ()=>{
-    const n = randInt(1, Math.max(2,rangeTop-1));
-    return {en:`What number comes right after ${n}?`, vi:`Số liền sau (the number after) ${n} là số nào?`, answer:n+1};
-  }});
-
-  // 10. rounding
-  pool.push({ id: 'round', fn: ()=>{
-    const n = randInt(11, Math.max(99,rangeTop));
-    return {en:`Round ${n} to the nearest ten.`, vi:`Làm tròn ${n} đến số tròn chục gần nhất (round to the nearest ten).`, answer: Math.round(n/10)*10};
+  // 9. length unit conversion
+  pool.push({ id:'unit_length', fn:()=>{
+    if(tier==='basic'){
+      return {en:`How many centimeters (cm) are there in 1 meter (m)?`, vi:`1 mét (meter) bằng bao nhiêu xăng-ti-mét (centimeters)?`, answer:100};
+    }
+    const m = randInt(2,9);
+    return {en:`Convert ${m} meters to centimeters.`, vi:`Đổi ${m} mét (meters) ra xăng-ti-mét (centimeters).`, answer: m*100};
   }});
   if(grade>=3){
-    pool.push({ id: 'round', fn: ()=>{
-      const n = randInt(101, Math.max(999,rangeTop));
-      return {en:`Round ${n} to the nearest hundred.`, vi:`Làm tròn ${n} đến số tròn trăm gần nhất (round to the nearest hundred).`, answer: Math.round(n/100)*100};
+    pool.push({ id:'unit_length_km', fn:()=>{
+      if(tier==='basic'){
+        return {en:`How many meters (m) are there in 1 kilometer (km)?`, vi:`1 ki-lô-mét (kilometer) bằng bao nhiêu mét (meters)?`, answer:1000};
+      }
+      const km = randInt(2,9);
+      return {en:`Convert ${km} kilometers to meters.`, vi:`Đổi ${km} ki-lô-mét (kilometers) ra mét (meters).`, answer: km*1000};
     }});
   }
 
-  // higher-order thinking
-  if(tier==='hard'){
-    pool.push({ id: 'round', fn: ()=>{
-      const n = randInt(Math.max(20,Math.floor(rangeTop/2)), Math.max(30,rangeTop));
-      const rounded = Math.round(n/10)*10;
-      return {en:`Round ${n} to the nearest ten, then add 1 to the result. What number do you get?`,
-        vi:`Làm tròn ${n} đến hàng chục, sau đó cộng thêm 1. Kết quả là bao nhiêu?`, answer: rounded+1};
+  // 10. mass unit conversion
+  pool.push({ id:'unit_mass', fn:()=>{
+    if(tier==='basic'){
+      return {en:`How many grams (g) are there in 1 kilogram (kg)?`, vi:`1 ki-lô-gam (kilogram) bằng bao nhiêu gam (grams)?`, answer:1000};
+    }
+    const kg = randInt(2,9);
+    return {en:`Convert ${kg} kilograms to grams.`, vi:`Đổi ${kg} ki-lô-gam (kilograms) ra gam (grams).`, answer: kg*1000};
+  }});
+
+  // 11. capacity unit conversion
+  pool.push({ id:'unit_capacity', fn:()=>{
+    if(tier==='basic'){
+      return {en:`How many milliliters (ml) are there in 1 liter (l)?`, vi:`1 lít (liter) bằng bao nhiêu mi-li-lít (milliliters)?`, answer:1000};
+    }
+    const l = randInt(2,9);
+    return {en:`Convert ${l} liters to milliliters.`, vi:`Đổi ${l} lít (liters) ra mi-li-lít (milliliters).`, answer: l*1000};
+  }});
+
+  // higher-order combos (hard)
+  if(tier==='hard' && grade>=3){
+    pool.push({ id:'perimeter_rect', fn:()=>{
+      const l=randInt(6,20), w=randInt(2,Math.max(3,l-2));
+      const p = 2*(l+w);
+      return {en:`A rectangle has a perimeter of ${p}cm and a length of ${l}cm. What is its width?`, hint:'(đơn vị: cm)',
+        vi:`Một hình chữ nhật có chu vi ${p}cm và chiều dài ${l}cm. Chiều rộng của nó là bao nhiêu?`, answer: w};
     }});
-    pool.push({ id: 'sub', fn: ()=>{
-      const a=randInt(10,Math.max(20,rangeTop)), b=randInt(1,a-1); const diff=a-b;
-      return {en:`Subtract ${b} from ${a}. Is the difference a multiple of 5?`, vi:`Lấy ${a} trừ ${b}. Hiệu đó có phải là bội số của 5 không? (yes/no)`, answer: diff%5===0?'yes':'no'};
-    }});
-    pool.push({ id: 'after', fn: ()=>{
-      const n = randInt(Math.max(20,Math.floor(rangeTop/2)), Math.max(30,rangeTop));
-      return {en:`What number comes right after the number before ${n}? (Hint: it should equal ${n} itself)`, vi:`Số liền sau của số liền trước ${n} là số nào?`, answer:n};
+    pool.push({ id:'area_square', fn:()=>{
+      const s=randInt(3,12); const area=s*s;
+      return {en:`A square has an area of ${area}cm². What is the length of its side?`, hint:'(đơn vị: cm)',
+        vi:`Một hình vuông có diện tích ${area}cm². Cạnh của nó dài bao nhiêu?`, answer: s};
     }});
   }
 
-  const unseenPool = pool.filter(item => unseenVocabConcepts.includes(item.id));
-  
-  let chosenObj;
-  if(unseenPool.length > 0){
-    chosenObj = unseenPool[randInt(0, unseenPool.length-1)];
-    unseenVocabConcepts = unseenVocabConcepts.filter(id => id !== chosenObj.id);
-  } else {
-    chosenObj = pool[randInt(0, pool.length-1)];
-  }
-
-  const chosen = chosenObj.fn();
-  return { before: chosen.en, hint:'', after:'', vi: chosen.vi, answer: String(chosen.answer) };
+  const chosen = pickFromPool('geometry', pool);
+  return { before: chosen.en, hint: chosen.hint||'', after:'', vi: chosen.vi, answer: String(chosen.answer) };
 }
 
-const GEN = { numwords:genNumWords, wordproblem:genWordProblem, compare:genCompare, vocab:genVocab };
+const GEN = { numplace:genNumPlace, compare:genCompare, wordproblem:genWordProblem, geometry:genGeometry };
+
+/* ============ Quiz build ============ */
+function buildDifficultyPlan(count){
+  const nBasic = Math.round(count*0.4);
+  const nMedium = Math.round(count*0.4);
+  const nHard = Math.max(0, count - nBasic - nMedium);
+  const plan = [];
+  for(let i=0;i<nBasic;i++) plan.push({tier:'basic', scale:0});
+  for(let i=0;i<nMedium;i++) plan.push({tier:'medium', scale: nMedium<=1 ? 1 : i/(nMedium-1)});
+  for(let i=0;i<nHard;i++) plan.push({tier:'hard', scale:1});
+  return plan;
+}
+function generateQuiz(gradeId, topicIds, count){
+  resetUnseen();
+  const plan = buildDifficultyPlan(count);
+  const arr = [];
+  for(let i=0;i<count;i++){
+    const tid = topicIds[randInt(0,topicIds.length-1)];
+    const {tier, scale} = plan[i];
+    arr.push({ ...GEN[tid](gradeId, tier, scale), topic: tid, tier });
+  }
+  return arr;
+}
 
 /* ============ State ============ */
 let selectedTopics = []; let mixMode = false; let currentGrade = null; let currentTopics = []; let quizCount = 10; let currentQuiz = [];
-let unseenVocabConcepts = [];
+
+function cleanText(s){ return String(s).replace(/\.\.+/g, '.'); }
 
 const placeholder = document.getElementById('placeholder');
 const quizArea = document.getElementById('quizArea');
@@ -559,7 +988,7 @@ function renderQuiz(){
     row.className = 'qrow';
     row.innerHTML = `
       <div class="qnum">Câu ${i+1} · ${TOPICS[q.topic].name} <span class="lvl lvl-${q.tier}">${TIER_LABEL[q.tier]}</span></div>
-      <div class="qsentence">${q.before} <input type="text" class="qinput" data-idx="${i}" placeholder="?"> ${q.after}</div>
+      <div class="qsentence">${cleanText(q.before)} <input type="text" class="qinput" data-idx="${i}" placeholder="?"> ${q.after}</div>
       ${q.hint?`<div class="qvi">${q.hint}</div>`:''}
       <div class="qvi">${q.vi}</div>
       <div class="qfeedback" style="display:none;"></div>
@@ -695,7 +1124,7 @@ function buildPlainText(){
   lines.push('Lớp: ' + ROWS[currentGrade-1] + ' | Dạng bài: ' + topicNames);
   lines.push('Số câu: ' + currentQuiz.length);
   lines.push(''); lines.push('--- ĐỀ BÀI ---');
-  currentQuiz.forEach((q,i)=>{ lines.push(`${i+1}. ${q.before} __________ ${q.after}`.replace(/\s+([.?!])/, '$1')); });
+  currentQuiz.forEach((q,i)=>{ lines.push(`${i+1}. ${cleanText(q.before)} __________ ${q.after}`.replace(/\s+([.?!])/, '$1')); });
   lines.push(''); lines.push('--- ĐÁP ÁN ---');
   currentQuiz.forEach((q,i)=>{ lines.push(`${i+1}. ${q.answer}`); });
   return lines.join('\n');
@@ -721,7 +1150,7 @@ function escapeHtml(str){ return String(str).replace(/&/g,'&amp;').replace(/</g,
 function buildWordDoc(){
   const topicNames = currentTopics.map(id=>TOPICS[id].name + ' (' + TOPICS[id].vi + ')').join(' + ');
   const dateStr = new Date().toLocaleDateString('vi-VN');
-  const qRows = currentQuiz.map((q,i)=>`<p style="margin:0 0 10px 0; font-size:13pt; line-height:1.5;"><b>${i+1}.</b> ${escapeHtml(q.before)} ______________________ ${escapeHtml(q.after)}</p>`).join('');
+  const qRows = currentQuiz.map((q,i)=>`<p style="margin:0 0 10px 0; font-size:13pt; line-height:1.5;"><b>${i+1}.</b> ${escapeHtml(cleanText(q.before))} ______________________ ${escapeHtml(q.after)}</p>`).join('');
   const aRows = currentQuiz.map((q,i)=>`<p style="margin:0 0 6px 0; font-size:12pt;"><b>${i+1}.</b> ${escapeHtml(q.answer)}</p>`).join('');
   return `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
   <head><meta charset="utf-8"><title>Phiếu bài tập - Toán tiếng Anh</title>
