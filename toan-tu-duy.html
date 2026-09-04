@@ -54,9 +54,11 @@
   .qrow.wrong{ border-color: rgba(232,106,146,.5); background: rgba(232,106,146,.06); }
   .qnum{ font-family:'JetBrains Mono', monospace; font-size: 10.5px; color: var(--text-dim); letter-spacing:.06em; text-transform:uppercase; margin-bottom:6px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
   .lvl{ display:inline-block; padding: 2px 8px; border-radius: 999px; font-size: 9.5px; letter-spacing:.04em; font-weight:600; }
-  .lvl-basic{ background: rgba(76,175,125,.14); color: var(--good); }
-  .lvl-medium{ background: rgba(232,163,61,.14); color: var(--mid); }
-  .lvl-hard{ background: rgba(232,106,146,.14); color: var(--bad); }
+  .lvl-1{ background: rgba(76,175,125,.14); color: var(--good); }
+  .lvl-2{ background: var(--s-bg); color: var(--s); }
+  .lvl-3{ background: var(--v-bg); color: var(--v); }
+  .lvl-4{ background: rgba(232,163,61,.14); color: var(--mid); }
+  .lvl-5{ background: rgba(232,106,146,.14); color: var(--bad); }
   .qsentence{ display:flex; flex-wrap:wrap; align-items:center; gap: 6px 8px; font-size: 14.5px; line-height:1.6; }
   .qshapes{ font-size: 20px; letter-spacing: 6px; }
   .qinput{ font-family:'JetBrains Mono', monospace; font-size: 13.5px; font-weight:600; background: var(--panel-3); border: 1px solid var(--line); border-radius: 7px; color: var(--text); padding: 6px 10px; min-width: 110px; outline:none; transition: border-color .2s ease; }
@@ -85,6 +87,14 @@
   .tbtn{ background: var(--panel-2); border: 1px solid var(--line); border-radius: 8px; color: var(--text); padding: 10px 6px; font-size: 11px; line-height:1.3; cursor:pointer; text-align:center; transition: border-color .2s ease, background .2s ease, transform .15s ease; }
   .tbtn:hover{ border-color: rgba(155,138,230,.4); transform: translateY(-1px); }
   .tbtn.active{ background: rgba(155,138,230,.16); border-color: var(--accent); color: var(--accent); font-weight:600; }
+  .step-label{ font-family:'JetBrains Mono', monospace; font-size: 10px; letter-spacing:.08em; text-transform:uppercase; color: var(--text-dim); margin: 14px 0 7px; display:flex; align-items:center; gap:7px; }
+  .step-label .num{ width:16px; height:16px; border-radius:50%; background: rgba(155,138,230,.16); color: var(--accent); display:inline-flex; align-items:center; justify-content:center; font-size:9.5px; font-weight:700; }
+  .step-row:first-child .step-label{ margin-top:0; }
+  .grade-row, .topic-tabs, .sub-grid{ display:flex; flex-wrap:wrap; gap:6px; }
+  .grade-row .tbtn{ min-width: 58px; flex:1 1 58px; }
+  .topic-tabs .tbtn{ min-width: 120px; flex:1 1 120px; }
+  .sub-grid .tbtn{ min-width: 128px; flex:1 1 128px; }
+  .sub-empty{ color: var(--text-dim); font-size: 12px; padding: 6px 2px; font-family:'JetBrains Mono', monospace; }
   .mix-row{ display:flex; align-items:center; gap:8px; padding: 10px 18px 4px; font-size: 12.5px; color: var(--text-dim); cursor:pointer; user-select:none; }
   .mix-row input{ accent-color: var(--accent); width:15px; height:15px; cursor:pointer; }
   .mix-hint{ font-size: 11.5px; color: var(--accent); padding: 0 18px 10px; font-family:'JetBrains Mono', monospace; }
@@ -110,7 +120,7 @@
   <header>
     <p class="eyebrow">Toán học · Tư duy & Suy luận</p>
     <h1>🧩 Toán Tư Duy — Luyện Tập Lớp 1-5</h1>
-    <p class="sub">Dãy hình quy luật, suy luận logic, đếm hình theo mẫu và toán đố vui — rèn khả năng quan sát, suy luận thay vì chỉ tính toán đơn thuần. Mỗi đề gồm 40% câu cơ bản, 40% câu khó dần và 20% câu tư duy nâng cao.</p>
+    <p class="sub">4 chủ đề lớn — Số &amp; Quy luật, Logic &amp; Giải quyết vấn đề, Hình học &amp; Không gian, Toán thực tế &amp; Dữ liệu — mỗi chủ đề gồm nhiều dạng con, sinh đề tự động theo 5 khối lớp. Mỗi đề luyện tập chia đều 5 cấp độ tư duy: Nhận biết → Vận dụng → Tư duy → Chiến lược → Thách thức (20% mỗi cấp).</p>
     <div class="nav-links">
       <a href="index.html">🇬🇧 Toán Tiếng Anh</a>
       <a href="toan-nang-cao.html">🚀 Toán Nâng Cao</a>
@@ -162,9 +172,20 @@
       </div>
       <div class="picker-body">
         <div class="picker-inner">
-          <div class="grid12" id="grid12"></div>
+          <div class="step-row">
+            <div class="step-label"><span class="num">1</span>Chọn lớp</div>
+            <div class="grade-row" id="gradeRow"></div>
+          </div>
+          <div class="step-row">
+            <div class="step-label"><span class="num">2</span>Chọn chủ đề</div>
+            <div class="topic-tabs" id="topicTabs"></div>
+          </div>
+          <div class="step-row">
+            <div class="step-label"><span class="num">3</span>Chọn dạng con</div>
+            <div class="sub-grid" id="subGrid"></div>
+          </div>
         </div>
-        <label class="mix-row"><input type="checkbox" id="mixToggle"> Trộn nhiều dạng bài cùng lúc</label>
+        <label class="mix-row"><input type="checkbox" id="mixToggle"> Trộn nhiều dạng con cùng lúc</label>
         <div class="mix-hint" id="mixHint" style="display:none;"></div>
         <div class="count-row">
           <span class="count-label">Số câu:</span>
@@ -175,230 +196,908 @@
             <button class="cbtn" data-count="30">30</button>
           </div>
         </div>
-        <div class="pool-note"><b>Mẹo:</b> Với "Đếm hình / dãy hình", đáp án cần gõ đúng <b>tên hình bằng tiếng Việt</b> (vd: hình tròn, hình tam giác…) — có gợi ý ngay dưới mỗi câu.</div>
+        <div class="pool-note"><b>5 cấp độ mỗi đề:</b> <span class="lvl lvl-1" style="padding:1px 7px;">L1 Nhận biết</span> · <span class="lvl lvl-2" style="padding:1px 7px;">L2 Vận dụng</span> · <span class="lvl lvl-3" style="padding:1px 7px;">L3 Tư duy</span> · <span class="lvl lvl-4" style="padding:1px 7px;">L4 Chiến lược</span> · <span class="lvl lvl-5" style="padding:1px 7px;">L5 Thách thức</span> — chia đều 20% mỗi cấp trong một đề. Với dạng "Đếm hình", đáp án cần gõ đúng <b>tên hình bằng tiếng Việt</b> (vd: hình tròn, hình tam giác…).</div>
       </div>
     </div>
   </div>
 </div>
 
 <script>
-/* ============ Cấu hình Lớp & Dạng bài ============ */
-const ROWS = ['Lớp 1','Lớp 2','Lớp 3','Lớp 4','Lớp 5'];
-const COLS = ['Dãy hình QL','Suy luận logic','Đếm hình','Đố vui'];
-const TOPICS = {
-  pattern:{ col:0, name:'Shape Patterns', vi:'Dãy hình theo quy luật',
-    en:'● ▲ ● ▲ ● ___', vi2:'Quan sát chu kỳ lặp lại của các hình để tìm hình còn thiếu.',
-    usage:'Nhận diện <b>chu kỳ lặp lại</b> của một dãy hình/ký hiệu để suy ra hình tiếp theo.' },
-  logic:{ col:1, name:'Logical Reasoning', vi:'Suy luận logic',
-    en:'An cao hơn Bình. Bình cao hơn Chi. Hỏi ai thấp nhất?', vi2:'Sắp xếp thứ tự dựa trên các mối quan hệ so sánh đã cho.',
-    usage:'Rèn khả năng <b>suy luận có căn cứ</b> từ các dữ kiện so sánh hoặc số liệu cho trước.' },
-  shapes:{ col:2, name:'Shape Counting', vi:'Đếm hình theo mẫu',
-    en:'●●▲●●▲●●▲ (lặp lại) — Trong 15 hình đầu tiên có bao nhiêu hình ▲?', vi2:'Xác định chu kỳ lặp rồi tính số lần xuất hiện trong một đoạn cho trước.',
-    usage:'Phát hiện <b>chu kỳ lặp</b> trong dãy hình để đếm chính xác số lượng theo yêu cầu.' },
-  puzzle:{ col:3, name:'Fun Puzzles', vi:'Toán đố vui',
-    en:'Trong sân có 3 con gà và 2 con chó. Hỏi có tất cả bao nhiêu cái chân?', vi2:'Bài toán đố dạng vui, cần suy luận thêm một bước trước khi tính.',
-    usage:'Toán đố vui kích thích <b>tư duy tổng hợp</b>: vừa suy luận vừa tính toán.' },
-};
-const MAX_MIX = 4;
-
+/* ============ Helpers ============ */
 function randInt(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
 function pick(arr){ return arr[randInt(0,arr.length-1)]; }
+function shuffle(arr){ const a=arr.slice(); for(let i=a.length-1;i>0;i--){ const j=randInt(0,i); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function gcd(a,b){ a=Math.abs(a); b=Math.abs(b); return b?gcd(b,a%b):a; }
+function mk(before,hint,after,vi,answer){ return { before, hint: hint||'', after: after||'', vi, answer: String(answer) }; }
+function fmtVND(n){ return n.toLocaleString('vi-VN') + ' đồng'; }
 
+const ROWS = ['Lớp 1','Lớp 2','Lớp 3','Lớp 4','Lớp 5'];
+const NAMES = ['An','Bình','Chi','Dũng','Hoa','Khang','Lan','Minh','Nga','Phúc'];
+const ANIMALS = [ {n:'gà', legs:2}, {n:'chó', legs:4}, {n:'vịt', legs:2}, {n:'mèo', legs:4}, {n:'ngựa', legs:4}, {n:'chim', legs:2} ];
+const WEEKDAYS = ['Chủ nhật','thứ Hai','thứ Ba','thứ Tư','thứ Năm','thứ Sáu','thứ Bảy'];
 const SHAPES = [
   {sym:'●', name:'hình tròn'}, {sym:'▲', name:'hình tam giác'}, {sym:'■', name:'hình vuông'},
   {sym:'★', name:'ngôi sao'}, {sym:'♦', name:'hình thoi'},
 ];
-const NAMES = ['An','Bình','Chi','Dũng','Hoa','Khang','Lan','Minh','Nga','Phúc'];
-const ANIMALS = [ {n:'gà', legs:2}, {n:'chó', legs:4}, {n:'vịt', legs:2}, {n:'mèo', legs:4}, {n:'ngựa', legs:4}, {n:'chim', legs:2} ];
-const WEEKDAYS = ['Chủ nhật','thứ Hai','thứ Ba','thứ Tư','thứ Năm','thứ Sáu','thứ Bảy'];
+const ITEMS = ['quyển vở','cây bút','cái kẹo','quả táo','bông hoa','viên bi','cuốn sách','cái bánh'];
+const FRUITS = ['táo','cam','chuối','xoài','nho'];
 
 function gradeConfig(g){
   return {
-    1:{max:20,  shapeCount:2, seqLen:6},
-    2:{max:50,  shapeCount:3, seqLen:7},
-    3:{max:100, shapeCount:3, seqLen:8},
-    4:{max:500, shapeCount:4, seqLen:9},
-    5:{max:1000,shapeCount:4, seqLen:10},
+    1:{max:20,  shapeCount:2, seqLen:6, digits:2, money:20000,  priceUnit:500,  speed:false },
+    2:{max:50,  shapeCount:3, seqLen:7, digits:2, money:50000,  priceUnit:1000, speed:false },
+    3:{max:100, shapeCount:3, seqLen:8, digits:3, money:100000, priceUnit:1000, speed:true  },
+    4:{max:500, shapeCount:4, seqLen:9, digits:4, money:500000, priceUnit:1000, speed:true  },
+    5:{max:1000,shapeCount:4, seqLen:10,digits:5, money:1000000,priceUnit:1000, speed:true  },
   }[g];
 }
 
-/* ============ Generator: Shape Patterns (tìm hình còn thiếu) ============ */
-function genPattern(grade, tier, scale){
+/* ============ CHỦ ĐỀ 1 — SỐ & QUY LUẬT ============ */
+
+function genT1A(grade, level){ // Số tự nhiên
   const cfg = gradeConfig(grade);
-  // basic: fewer shapes in the repeating unit (easier cycle); hard: more shapes (harder cycle)
-  const periodBase = Math.min(cfg.shapeCount, SHAPES.length);
-  const period = tier==='basic' ? Math.max(2, periodBase-1)
-                : tier==='medium' ? periodBase
-                : Math.min(SHAPES.length, periodBase+1);
-  const chosen = [];
-  while(chosen.length < period){
-    const s = pick(SHAPES);
-    if(!chosen.find(c=>c.sym===s.sym)) chosen.push(s);
+  const hi = cfg.max * (grade>=3?10:1);
+  if(level===1){
+    const n = randInt(Math.max(11,Math.floor(hi/5)), hi);
+    const s = String(n);
+    const pos = randInt(0, s.length-1);
+    const digit = Number(s[pos]);
+    const value = digit * Math.pow(10, s.length-1-pos);
+    return mk(`Cho số ${n}. Chữ số ${digit} (tính từ trái, vị trí ${pos+1}) có giá trị là bao nhiêu?`, '', '', 'Giá trị chữ số = chữ số × giá trị hàng nó đứng (đơn vị, chục, trăm...).', value);
   }
-  const len = tier==='hard' ? cfg.seqLen+2 : cfg.seqLen;
-  const seq = [];
-  for(let i=0;i<len;i++) seq.push(chosen[i % period]);
-  // basic: blank near the end (easy to spot); hard: blank near the beginning (need to infer the full cycle first)
-  const blankIdx = tier==='basic' ? randInt(Math.floor(len*0.7), len-1)
-                  : tier==='medium' ? randInt(Math.floor(len/2), len-1)
-                  : randInt(Math.floor(period*0.5), Math.floor(len/2));
-  const answerShape = seq[blankIdx];
-  const display = seq.map((s,i)=> i===blankIdx ? '___' : s.sym).join(' ');
-  return { before:'Quan sát dãy hình sau và cho biết hình còn thiếu là hình gì:', hint:`(${display})`, after:'',
-    vi:'Gõ tên hình bằng tiếng Việt, ví dụ: hình tròn, hình tam giác, hình vuông, ngôi sao, hình thoi.', answer: answerShape.name };
+  if(level===2){
+    const a = randInt(10,hi), b = randInt(10,hi);
+    return mk(`So sánh ${a} và ${b}. Điền số lớn hơn trong hai số đó.`, '', '', 'So sánh từ hàng cao nhất (trái) trở xuống.', Math.max(a,b));
+  }
+  if(level===3){
+    const n = randInt(10,hi);
+    const roundTo = grade<=2?10:(grade<=4?100:1000);
+    const rounded = Math.round(n/roundTo)*roundTo;
+    const roundName = roundTo===10?'chục':roundTo===100?'trăm':'nghìn';
+    return mk(`Làm tròn số ${n} đến hàng ${roundName}.`, '', '', 'Xem chữ số ngay sau hàng cần làm tròn: từ 5 trở lên thì làm tròn lên.', rounded);
+  }
+  if(level===4){
+    const dCount = grade<=2?3:4;
+    const digits = Array.from({length:dCount}, ()=>randInt(0,9));
+    const wantLargest = Math.random()<0.5;
+    let arr;
+    if(wantLargest){ arr = [...digits].sort((a,b)=>b-a); }
+    else{
+      arr = [...digits].sort((a,b)=>a-b);
+      if(arr[0]===0){ const idx = arr.findIndex(x=>x!==0); if(idx>0){ [arr[0],arr[idx]]=[arr[idx],arr[0]]; } }
+    }
+    return mk(`Từ các chữ số ${digits.join(', ')}, hãy lập số ${wantLargest?'lớn nhất':'nhỏ nhất'} có ${dCount} chữ số (chữ số đầu khác 0).`, '', '', 'Số lớn nhất xếp giảm dần, số nhỏ nhất xếp tăng dần (đổi chữ số 0 ra sau nếu cần).', Number(arr.join('')));
+  }
+  // level5
+  const dCount = grade<=2?2:3;
+  const pool = grade<=2?[1,2,3]:[1,2,3,4];
+  let count = pool.length;
+  for(let i=1;i<dCount;i++) count *= (pool.length-i);
+  return mk(`Có bao nhiêu số có ${dCount} chữ số khác nhau lập được từ các chữ số {${pool.join(', ')}} (mỗi chữ số dùng không quá 1 lần)?`, '', '', 'Đếm số cách chọn từng vị trí (không lặp lại) rồi nhân các kết quả với nhau.', count);
 }
 
-/* ============ Generator: Logical Reasoning ============ */
-function genLogic(grade, tier, scale){
+function genT1B(grade, level){ // Bốn phép tính nâng cao
   const cfg = gradeConfig(grade);
-  const pool = [];
-
-  // basic: order 3 items by one relation
-  pool.push(()=>{
-    const names = [...NAMES].sort(()=>Math.random()-0.5).slice(0,3);
-    const askType = pick(['cao nhất','thấp nhất']);
-    const text = `${names[0]} cao hơn ${names[1]}. ${names[1]} cao hơn ${names[2]}. Hỏi ai ${askType}?`;
-    const answer = askType==='cao nhất' ? names[0] : names[2];
-    return { text, answer };
-  });
-  pool.push(()=>{
-    const names = [...NAMES].sort(()=>Math.random()-0.5).slice(0,3);
-    const askType = pick(['nhiều tuổi nhất','ít tuổi nhất']);
-    const text = `${names[0]} ít tuổi hơn ${names[1]}. ${names[1]} ít tuổi hơn ${names[2]}. Hỏi ai ${askType}?`;
-    const answer = askType==='nhiều tuổi nhất' ? names[2] : names[0];
-    return { text, answer };
-  });
-
-  // medium: age-difference reasoning (from grade≥2)
-  if(grade>=2 && tier!=='basic'){
-    pool.push(()=>{
-      const a = pick(NAMES); let b = pick(NAMES); while(b===a) b = pick(NAMES);
-      const diff = randInt(2,10);
-      const bAge = randInt(6, Math.max(7,Math.floor(cfg.max/10)));
-      return { text:`${a} hơn ${b} ${diff} tuổi. Hiện nay ${b} ${bAge} tuổi. Hỏi ${a} bao nhiêu tuổi?`, answer: bAge+diff };
-    });
+  const hi = cfg.max;
+  if(level===1){
+    const op = pick(['+','-','×']);
+    let a=randInt(2,hi), b=randInt(2,Math.min(hi,20));
+    if(op==='-') { if(a<b) [a,b]=[b,a]; }
+    const val = op==='+'?a+b:op==='-'?a-b:a*b;
+    return mk(`Tính: ${a} ${op} ${b} =`, '', '', 'Thực hiện phép tính theo đúng thứ tự.', val);
   }
-
-  // hard: mystery-number reasoning with digit sum/difference clues (from grade≥3)
-  if(grade>=3 && tier==='hard'){
-    pool.push(()=>{
-      const tens = randInt(1,9), ones = randInt(0,tens-1);
-      const sum = tens+ones, diff = tens-ones;
-      return { text:`Tôi là số có hai chữ số. Tổng hai chữ số của tôi là ${sum}, hiệu hai chữ số là ${diff} (chữ số hàng chục lớn hơn chữ số hàng đơn vị). Hỏi tôi là số nào?`, answer: tens*10+ones };
-    });
+  if(level===2){
+    const each = randInt(2,Math.min(20,hi));
+    const groups = randInt(2,9);
+    return mk(`Mỗi hộp có ${each} ${pick(ITEMS)}. Hỏi ${groups} hộp như vậy có tất cả bao nhiêu?`, '', '', 'Số hộp × số lượng mỗi hộp.', each*groups);
   }
-
-  // hard: rank 4 people by two chained relations — higher-order thinking
-  if(tier==='hard'){
-    pool.push(()=>{
-      const names = [...NAMES].sort(()=>Math.random()-0.5).slice(0,4);
-      const askType = pick(['cao nhất','thấp nhất']);
-      const text = `${names[0]} cao hơn ${names[1]}. ${names[1]} cao hơn ${names[2]}. ${names[2]} cao hơn ${names[3]}. Hỏi ai ${askType}?`;
-      const answer = askType==='cao nhất' ? names[0] : names[3];
-      return { text, answer };
-    });
+  if(level===3){
+    const b = randInt(3, Math.min(30,hi));
+    const x = randInt(2, Math.min(30,hi));
+    const total = x + b;
+    return mk(`Tìm số x, biết: x + ${b} = ${total}`, '', '', 'Muốn tìm số hạng chưa biết, lấy tổng trừ đi số hạng đã biết.', x);
   }
-
-  const chosen = pool[randInt(0,pool.length-1)]();
-  return { before: chosen.text, hint:'', after:'', vi:'Đọc kỹ từng dữ kiện và suy luận từng bước để tìm câu trả lời.', answer: String(chosen.answer) };
+  if(level===4){
+    const a=randInt(2,Math.min(50,hi)), b=randInt(2,15), c=randInt(2,15);
+    // a + b*c, must respect order of operations
+    const val = a + b*c;
+    return mk(`Tính giá trị biểu thức: ${a} + ${b} × ${c} =`, '', '', 'Thực hiện phép nhân trước, phép cộng sau (thứ tự thực hiện phép tính).', val);
+  }
+  // level5: đếm số cách điền dấu +,- vào giữa 3 số để ra 1 kết quả cho trước là ví dụ khó -> thay bằng đếm số cặp (x,y) thỏa mãn
+  const s = randInt(6, Math.min(20,hi));
+  let count = 0;
+  for(let x=1;x<s;x++){ const y=s-x; if(y>=1) count++; }
+  return mk(`Có bao nhiêu cặp số tự nhiên khác 0 (x, y) sao cho x + y = ${s}?`, '', '', 'Liệt kê x từ 1 đến ${s-1} và kiểm tra y = ${s} − x có thỏa điều kiện không.'.replace('${s-1}',s-1).replace('${s}',s), count);
 }
 
-/* ============ Generator: Shape Counting ============ */
-function genShapes(grade, tier, scale){
+function genT1C(grade, level){ // Chia hết
+  const cfg = gradeConfig(grade);
+  const hi = cfg.max;
+  if(level===1){
+    const n = randInt(10,hi);
+    return mk(`Số ${n} là số chẵn hay số lẻ? (gõ: chẵn / lẻ)`, '', '', 'Số chẵn có chữ số tận cùng là 0,2,4,6,8; số lẻ có chữ số tận cùng là 1,3,5,7,9.', n%2===0?'chẵn':'lẻ');
+  }
+  if(level===2){
+    const d = pick([2,3,5,9]);
+    let n = randInt(10,hi);
+    return mk(`Số ${n} có chia hết cho ${d} không? (gõ: có / không)`, '', '', d===2?'Xét chữ số tận cùng.':d===5?'Xét chữ số tận cùng.':'Xét tổng các chữ số.', n%d===0?'có':'không');
+  }
+  if(level===3){
+    const d = pick([2,3,5]);
+    const n = randInt(Math.floor(hi/2), hi);
+    const next = n % d === 0 ? n : n + (d - n%d);
+    return mk(`Tìm số nhỏ nhất lớn hơn hoặc bằng ${n} mà chia hết cho ${d}.`, '', '', 'Tăng dần từ số đã cho cho tới khi chia hết.', next);
+  }
+  if(level===4){
+    const a=randInt(6, Math.min(40,hi)), b=randInt(6,Math.min(40,hi));
+    const g = gcd(a,b);
+    return mk(`Tìm ước chung lớn nhất (ƯCLN) của ${a} và ${b}.`, '', '', 'Tìm ước chung của hai số rồi lấy ước lớn nhất.', g);
+  }
+  // level5: đếm số ước
+  const n = randInt(12, Math.min(100,hi));
+  let count=0; for(let i=1;i<=n;i++){ if(n%i===0) count++; }
+  return mk(`Số ${n} có tất cả bao nhiêu ước số?`, '', '', 'Đếm tất cả các số từ 1 đến chính nó mà chia hết cho số đó.', count);
+}
+
+function genT1D(grade, level){ // Dãy số & quy luật
+  const cfg = gradeConfig(grade);
+  if(level===1){
+    const start = randInt(1, Math.min(20,cfg.max));
+    const step = randInt(2, grade<=2?5:10);
+    const seq = [start, start+step, start+2*step, start+3*step];
+    return mk(`Dãy số: ${seq.join(', ')}, ___. Số tiếp theo là số nào?`, '', '', 'Tìm quy luật cộng thêm giữa các số liền nhau.', start+4*step);
+  }
+  if(level===2){
+    const start = randInt(1, Math.min(15,cfg.max));
+    const step = randInt(2, grade<=2?4:8);
+    const n = randInt(5,9);
+    const val = start + (n-1)*step;
+    return mk(`Một dãy số bắt đầu từ ${start}, mỗi số sau hơn số trước ${step} đơn vị. Hỏi số hạng thứ ${n} là bao nhiêu?`, '', '', 'Số hạng thứ n = số đầu + (n−1) × bước nhảy.', val);
+  }
+  if(level===3){
+    const start = randInt(1, Math.min(15,cfg.max));
+    const step = randInt(2, grade<=2?4:8);
+    const len = 5;
+    const seq = Array.from({length:len}, (_,i)=>start+i*step);
+    const blankIdx = randInt(1, len-2);
+    const display = seq.map((v,i)=> i===blankIdx? '__':v).join(', ');
+    return mk(`Tìm số còn thiếu trong dãy sau: ${display}`, '', '', 'So sánh khoảng cách giữa các số liền kề đã biết để suy ra quy luật.', seq[blankIdx]);
+  }
+  if(level===4){
+    // quy luật nhân hoặc bậc 2 (tăng dần khoảng cách)
+    const start = randInt(1, 5);
+    const diffs = [randInt(1,3)];
+    for(let i=1;i<4;i++) diffs.push(diffs[i-1]+randInt(1,2));
+    const seq=[start];
+    for(let i=0;i<4;i++) seq.push(seq[i]+diffs[i]);
+    return mk(`Dãy số: ${seq.join(', ')}, ___. Biết khoảng cách giữa hai số liền nhau tăng dần đều. Tìm số tiếp theo.`, '', '', 'Tính khoảng cách giữa các số liền kề trước, xem khoảng cách đó tăng thế nào rồi suy ra số tiếp theo.', seq[4]+ (diffs[3]+ (diffs[3]-diffs[2])));
+  }
+  // level5: đếm số hạng của dãy thỏa quy luật nằm trong khoảng
+  const start = randInt(1,10);
+  const step = randInt(3, grade<=2?6:12);
+  const limit = start + step*randInt(8,15);
+  const count = Math.floor((limit-start)/step)+1;
+  return mk(`Một dãy số bắt đầu từ ${start}, mỗi số sau hơn số trước ${step} đơn vị. Hỏi có bao nhiêu số hạng của dãy không vượt quá ${limit}?`, '', '', 'Số hạng cuối ≤ giới hạn → tìm n lớn nhất sao cho start+(n−1)×bước ≤ giới hạn.', count);
+}
+
+function genT1E(grade, level){ // Phân số – thập phân – phần trăm
+  if(level===1){
+    const b = randInt(2,10); const a = randInt(1,b-1);
+    return mk(`Viết phân số "${a} phần ${b}" dưới dạng a/b (gõ theo mẫu: ${a}/${b} — chỉ cần điền đúng định dạng tử/mẫu).`, '', '', 'Tử số ở trên, mẫu số ở dưới dấu gạch ngang.', `${a}/${b}`);
+  }
+  if(level===2){
+    const b = randInt(2,10); const k = randInt(2,5); const a = randInt(1,b-1);
+    return mk(`Rút gọn phân số ${a*k}/${b*k} về phân số tối giản (gõ dạng a/b).`, '', '', 'Chia cả tử và mẫu cho ước chung lớn nhất của chúng.', `${a}/${b}`);
+  }
+  if(level===3){
+    const total = randInt(2,10)*10;
+    const part = randInt(1,9);
+    const share = total/10*part;
+    return mk(`Tìm ${part}/10 của ${total}.`, '', '', 'Lấy số đó chia cho mẫu số rồi nhân với tử số.', share);
+  }
+  if(level===4){
+    const b1=4, b2=2; const a1=randInt(1,3), a2=1;
+    // so sánh 2 phân số khác mẫu đơn giản: a1/4 vs a2/2 -> quy đồng
+    const left = a1/b1, right = a2/b2;
+    let ans;
+    if(left>right) ans='>'; else if(left<right) ans='<'; else ans='=';
+    return mk(`So sánh hai phân số: ${a1}/${b1} và ${a2}/${b2}. Điền dấu >, < hoặc =.`, '', '', 'Quy đồng mẫu số rồi so sánh tử số.', ans);
+  }
+  // level5: đếm phân số tối giản có mẫu cho trước trong khoảng
+  const b = pick([6,8,9,10]);
+  let count=0; for(let a=1;a<b;a++){ if(gcd(a,b)===1) count++; }
+  return mk(`Có bao nhiêu phân số tối giản có mẫu số là ${b} và tử số nhỏ hơn ${b} (tử số ≥ 1)?`, '', '', 'Đếm các tử số từ 1 đến mẫu−1 mà không có ước chung với mẫu (ngoài 1).', count);
+}
+
+function genT1F(grade, level){ // Bài toán số nâng cao (tuổi, TB, tổng-hiệu, tổng-tỉ)
+  const cfg = gradeConfig(grade);
+  if(level===1){
+    const avg = randInt(5, Math.max(6,cfg.max));
+    const d1 = randInt(1, Math.min(10,avg-1));
+    const nums = [avg-d1, avg, avg+d1];
+    return mk(`Ba số lần lượt là ${nums[0]}, ${nums[1]}, ${nums[2]}. Tính trung bình cộng của ba số đó.`, '', '', 'Trung bình cộng = tổng các số chia cho số lượng số hạng.', avg);
+  }
+  if(level===2){
+    const b=randInt(6, Math.max(7,Math.floor(cfg.max/5))); const diff=randInt(2,10);
+    return mk(`${pick(NAMES)} hơn ${pick(NAMES)} ${diff} tuổi. Người ít tuổi hơn năm nay ${b} tuổi. Hỏi người kia bao nhiêu tuổi?`, '', '', 'Lấy tuổi người ít hơn cộng với số tuổi chênh lệch.', b+diff);
+  }
+  if(level===3){
+    const sum=randInt(20,Math.max(30,cfg.max)); const diff=randInt(2, Math.floor(sum/2)-1);
+    const small=(sum-diff)/2, big=(sum+diff)/2;
+    if(!Number.isInteger(small)){ return genT1F(grade,level); }
+    return mk(`Tổng của hai số là ${sum}, hiệu của hai số là ${diff}. Tìm số lớn.`, '', '', 'Số lớn = (Tổng + Hiệu) : 2.', big);
+  }
+  if(level===4){
+    const ratioA=randInt(1,3), ratioB=ratioA+randInt(1,3);
+    const unit = randInt(2,10);
+    const sum=(ratioA+ratioB)*unit;
+    const big = ratioB*unit;
+    return mk(`Tổng của hai số là ${sum}. Biết tỉ số của số bé và số lớn là ${ratioA}:${ratioB}. Tìm số lớn.`, '', '', 'Chia tổng theo số phần bằng nhau (tổng số phần = ${ratioA}+${ratioB}), rồi tính giá trị 1 phần.'.replace('${ratioA}',ratioA).replace('${ratioB}',ratioB), big);
+  }
+  // level5: bài toán ẩn số kiểu "tôi là số" với nhiều điều kiện — đếm số thỏa mãn
+  const lo=randInt(10,40), hi=lo+randInt(20,50);
+  const d = pick([3,4,5]);
+  let count=0; for(let n=lo;n<=hi;n++){ if(n%d===0) count++; }
+  return mk(`Có bao nhiêu số tự nhiên từ ${lo} đến ${hi} (kể cả hai đầu) chia hết cho ${d}?`, '', '', 'Liệt kê hoặc tính bằng cách tìm bội đầu tiên và cuối cùng của ${d} trong đoạn rồi đếm.'.replace(/\$\{d\}/g,d), count);
+}
+
+/* ============ CHỦ ĐỀ 2 — LOGIC & GIẢI QUYẾT VẤN ĐỀ ============ */
+
+function genT2A(grade, level){ // Suy luận logic (so sánh bắc cầu)
+  if(level===1){
+    const names = shuffle(NAMES).slice(0,2);
+    return mk(`${names[0]} cao hơn ${names[1]}. Hỏi ai thấp hơn?`, '', '', 'Chỉ có hai người, người còn lại là người thấp hơn.', names[1]);
+  }
+  if(level===2){
+    const names = shuffle(NAMES).slice(0,3);
+    const ask = pick(['cao nhất','thấp nhất']);
+    const text = `${names[0]} cao hơn ${names[1]}. ${names[1]} cao hơn ${names[2]}. Hỏi ai ${ask}?`;
+    return mk(text,'','', 'Sắp xếp theo thứ tự từ dữ kiện đã cho.', ask==='cao nhất'?names[0]:names[2]);
+  }
+  if(level===3){
+    const names = shuffle(NAMES).slice(0,3);
+    const ask = pick(['nhiều tuổi nhất','ít tuổi nhất']);
+    const text = `${names[0]} ít tuổi hơn ${names[1]}. ${names[2]} nhiều tuổi hơn ${names[1]}. Hỏi ai ${ask}?`;
+    const order = [names[0], names[1], names[2]]; // 0<1<2
+    return mk(text,'','', 'Vẽ sơ đồ thứ tự từ hai dữ kiện rồi suy ra ai đứng đầu/cuối.', ask==='nhiều tuổi nhất'?names[2]:names[0]);
+  }
+  if(level===4){
+    const names = shuffle(NAMES).slice(0,4);
+    const ask = pick(['cao nhất','thấp nhất']);
+    const text = `${names[0]} cao hơn ${names[1]}. ${names[1]} cao hơn ${names[2]}. ${names[2]} cao hơn ${names[3]}. Hỏi ai ${ask}?`;
+    return mk(text,'','', 'Ghép các dữ kiện thành một dãy thứ tự liên tiếp.', ask==='cao nhất'?names[0]:names[3]);
+  }
+  // level5: sắp xếp 4 người với 1 dữ kiện gián tiếp — đếm số cách sắp xếp còn lại thỏa mãn
+  const names = shuffle(NAMES).slice(0,4);
+  return mk(`Biết ${names[0]} không cao nhất và không thấp nhất trong 4 bạn ${names.join(', ')}. Hỏi có bao nhiêu bạn CÓ THỂ là người cao nhất?`, '', '', 'Loại ${A} khỏi vị trí cao nhất/thấp nhất, đếm số bạn còn lại có thể ở vị trí cao nhất.'.replace('${A}',names[0]), 3);
+}
+
+function genT2B(grade, level){ // Bảng logic (loại trừ)
+  const SUBJECTS = ['Toán','Văn','Vẽ','Nhạc'];
+  if(level<=2){
+    const names = shuffle(NAMES).slice(0,2);
+    const subs = shuffle(SUBJECTS).slice(0,2);
+    return mk(`${names[0]} thích môn ${subs[0]}. ${names[1]} thích môn còn lại trong hai môn ${subs.join(' và ')}. Hỏi ${names[1]} thích môn gì?`, '', '', 'Chỉ còn một môn chưa được chọn.', subs[1]);
+  }
+  if(level===3){
+    const names = shuffle(NAMES).slice(0,3);
+    const subs = shuffle(SUBJECTS).slice(0,3);
+    return mk(`${names[0]} không thích ${subs[0]} và không thích ${subs[1]}. ${names[1]} thích ${subs[1]}. Hỏi ${names[0]} thích môn nào trong ba môn ${subs.join(', ')}?`, '', '', 'Loại trừ các môn đã biết không phù hợp và đã có người khác chọn.', subs[2]);
+  }
+  if(level===4){
+    const names = shuffle(NAMES).slice(0,3);
+    const subs = shuffle(SUBJECTS).slice(0,3);
+    return mk(`Ba bạn ${names.join(', ')} mỗi bạn thích một môn khác nhau trong ba môn ${subs.join(', ')}. Biết: ${names[0]} không thích ${subs[0]}; ${names[1]} không thích ${subs[0]} và không thích ${subs[1]}. Hỏi ${names[1]} thích môn gì?`, '', '', 'Lập bảng loại trừ từng dữ kiện cho mỗi bạn.', subs[2]);
+  }
+  // level5
+  const names = shuffle(NAMES).slice(0,3);
+  const subs = shuffle(SUBJECTS).slice(0,3);
+  return mk(`Ba bạn ${names.join(', ')} mỗi bạn thích một môn khác nhau trong ba môn ${subs.join(', ')}, không ai thích môn giống môn mình có tên trùng chữ cái đầu. Có tất cả bao nhiêu cách phân công 3 môn cho 3 bạn sao cho mỗi bạn một môn khác nhau (không xét thêm điều kiện nào khác)?`, '', '', 'Đây là số cách sắp xếp (hoán vị) 3 phần tử: 3! = 3×2×1.', 6);
+}
+
+function genT2C(grade, level){ // Đúng - sai (hiệp sĩ / kẻ dối trá)
+  if(level===1){
+    const truth = Math.random()<0.5;
+    return mk(`${pick(NAMES)} nói: "Hôm nay trời mưa." Biết bạn ấy luôn nói thật và hôm nay trời ${truth?'mưa':'không mưa'}. Hỏi câu nói của bạn ấy đúng hay sai? (gõ: đúng / sai)`, '', '', 'Người nói thật thì câu nói luôn khớp với thực tế.', truth?'đúng':'sai');
+  }
+  if(level===2){
+    const name=pick(NAMES);
+    return mk(`${name} luôn nói dối. ${name} nói: "Tôi cao hơn 1 mét." Hỏi thực tế ${name} cao hơn hay thấp hơn 1 mét? (gõ: cao hơn / thấp hơn)`, '', '', 'Người nói dối thì sự thật ngược lại với câu nói.', 'thấp hơn');
+  }
+  if(level===3){
+    const [a,b] = shuffle(NAMES).slice(0,2);
+    return mk(`${a} luôn nói thật, ${b} luôn nói dối. Một trong hai bạn nói: "Tôi là ${b}." Hỏi người nói câu đó là ai?`, '', '', 'Nếu là ${a} nói thật thì phải đúng là ${b} — vô lý vì ${a}≠${b}. Vậy người nói phải là ${b} (nói dối).'.replace(/\$\{a\}/g,a).replace(/\$\{b\}/g,b), b);
+  }
+  if(level===4){
+    const [a,b] = shuffle(NAMES).slice(0,2);
+    return mk(`${a} nói: "${b} luôn nói dối." ${b} nói: "Cả hai chúng tôi đều nói thật." Hỏi ai đang nói dối? (gõ tên)`, '', '', 'Nếu ${b} nói thật thì cả hai nói thật — mâu thuẫn với câu của ${a}. Vậy ${b} nói dối.'.replace(/\$\{a\}/g,a).replace(/\$\{b\}/g,b), b);
+  }
+  // level5
+  const people = shuffle(NAMES).slice(0,3);
+  return mk(`Trong 3 bạn ${people.join(', ')}, chỉ có đúng 1 bạn luôn nói thật, còn lại nói dối. Mỗi bạn đều tự nhận "Tôi nói thật". Hỏi có bao nhiêu bạn CÓ THỂ là người nói thật (xét trên mọi khả năng, không có thêm dữ kiện nào khác)?`, '', '', 'Vì chỉ có 1 người nói thật và không có dữ kiện phân biệt thêm, cả 3 vị trí đều là khả năng hợp lệ.', 3);
+}
+
+function genT2D(grade, level){ // Tổ hợp & đếm
+  if(level===1){
+    const n=randInt(2,4), m=randInt(2,4);
+    return mk(`Có ${n} chiếc áo và ${m} chiếc quần. Hỏi có bao nhiêu cách chọn một bộ gồm 1 áo và 1 quần?`, '', '', 'Số cách chọn áo × số cách chọn quần.', n*m);
+  }
+  if(level===2){
+    const n=randInt(3,6);
+    return mk(`Có ${n} bạn học sinh, mỗi bạn bắt tay với tất cả các bạn còn lại đúng 1 lần. Hỏi có tất cả bao nhiêu cái bắt tay?`, '', '', 'Số cái bắt tay = n×(n−1):2.', n*(n-1)/2);
+  }
+  if(level===3){
+    const n=randInt(3,5);
+    let fact=1; for(let i=2;i<=n;i++) fact*=i;
+    return mk(`Có ${n} quyển sách khác nhau xếp thành một hàng trên kệ. Hỏi có bao nhiêu cách xếp?`, '', '', 'Số cách xếp = ${n}! = tích các số từ 1 đến ${n}.'.replace(/\$\{n\}/g,n), fact);
+  }
+  if(level===4){
+    const n=randInt(4,6), k=2;
+    const comb = n*(n-1)/2;
+    return mk(`Chọn ${k} bạn trong số ${n} bạn để làm tổ trưởng và tổ phó (hai vai trò khác nhau). Hỏi có bao nhiêu cách chọn?`, '', '', 'Cách chọn tổ trưởng có ${n} khả năng, sau đó chọn tổ phó trong số còn lại.'.replace(/\$\{n\}/g,n), n*(n-1));
+  }
+  // level5: bài toán đặt hạt vào lưới (kiểu Trần Đại Nghĩa) - đơn giản hoá: số cách đặt n quân xe không ăn nhau trên bàn n x n
+  const n = randInt(3,4);
+  let fact=1; for(let i=2;i<=n;i++) fact*=i;
+  return mk(`Trên một lưới ô vuông ${n}×${n}, hỏi có bao nhiêu cách đặt ${n} hạt đậu vào các ô sao cho mỗi hàng và mỗi cột chỉ có đúng 1 hạt?`, '', '', 'Đây chính là số cách sắp xếp ${n} phần tử: ${n}!.'.replace(/\$\{n\}/g,n), fact);
+}
+
+function genT2E(grade, level){ // Chiến lược (heuristics)
+  if(level===1){
+    const a=randInt(10,50);
+    return mk(`Thử và kiểm tra: Một số cộng thêm 5 thì bằng ${a}. Số đó là bao nhiêu?`, '', '', 'Thử các số rồi kiểm tra lại điều kiện đề bài (thử–kiểm tra).', a-5);
+  }
+  if(level===2){
+    const x = randInt(5,30);
+    const total = x*2+4;
+    return mk(`Làm ngược: Một số, sau khi nhân 2 rồi cộng thêm 4, được kết quả là ${total}. Tìm số đó.`, '', '', 'Làm ngược lại các bước: trừ 4 trước, rồi chia 2.', x);
+  }
+  if(level===3){
+    const coins=[1,2,5]; const target = pick([4,6,7,8,9,10]);
+    // đếm số cách dùng đồng xu 1,2,5 (không giới hạn số lượng) để đạt target - nhưng đảm bảo có nghiệm nguyên, đơn giản hoá bằng đệ quy nhỏ
+    function ways(n, coinsArr){
+      const dp = Array(n+1).fill(0); dp[0]=1;
+      for(const c of coinsArr){ for(let i=c;i<=n;i++){ dp[i]+=dp[i-c]; } }
+      return dp[n];
+    }
+    return mk(`Chia trường hợp: Dùng các đồng xu mệnh giá 1, 2, 5 (dùng lại thoải mái) để đổi đúng ${target} đồng. Hỏi có bao nhiêu cách đổi khác nhau?`, '', '', 'Chia trường hợp theo số đồng 5 đồng dùng, rồi xét tiếp với đồng 1 và 2.', ways(target, coins));
+  }
+  if(level===4){
+    const rows = randInt(2,4), cols = randInt(2,3);
+    return mk(`Vẽ sơ đồ: Đi từ góc trên-trái đến góc dưới-phải của lưới ${rows}×${cols} ô, chỉ được đi sang phải hoặc đi xuống. Hỏi có bao nhiêu đường đi ngắn nhất?`, '', '', 'Số đường đi = C(rows+cols, rows) — có thể vẽ sơ đồ và ghi số đường đi vào từng ô để cộng dần.', (function(){ function C(n,k){ let r=1; for(let i=1;i<=k;i++) r=r*(n-k+i)/i; return Math.round(r);} return C(rows+cols, rows); })());
+  }
+  // level5
+  const n = randInt(5,9);
+  return mk(`Loại trừ: Trong các số từ 1 đến ${n}, có bao nhiêu số KHÔNG chia hết cho 2 và cũng KHÔNG chia hết cho 3?`, '', '', 'Đếm tổng số, trừ đi các số chia hết cho 2 hoặc 3 (dùng nguyên lý bù trừ).', (function(){ let c=0; for(let i=1;i<=n;i++){ if(i%2!==0 && i%3!==0) c++; } return c; })());
+}
+
+function genT2F(grade, level){ // Bài toán mở (không thuật toán rõ ràng)
+  const cfg = gradeConfig(grade);
+  if(level===1){
+    const a=randInt(10,cfg.max);
+    const b=randInt(1,a-1);
+    return mk(`${pick(NAMES)} có ${a} viên bi, cho bạn ${b} viên. Hỏi còn lại bao nhiêu viên?`, '', '', 'Số còn lại = số ban đầu − số đã cho.', a-b);
+  }
+  if(level===2){
+    const a=randInt(5,cfg.max);
+    const b=randInt(1,a);
+    return mk(`Một rổ có ${a} quả cam. Lấy ra một số quả sao cho số còn lại gấp đôi số đã lấy ra. Hỏi đã lấy ra bao nhiêu quả (nếu ${a} chia hết cho 3)?`, '', '', 'Tổng chia thành 3 phần bằng nhau: 1 phần lấy ra, 2 phần còn lại.', a%3===0? a/3 : Math.floor(a/3));
+  }
+  if(level===3){
+    const total=randInt(10,cfg.max);
+    return mk(`Một cửa hàng có ${total} quả bóng gồm 2 màu xanh và đỏ, số bóng xanh nhiều hơn bóng đỏ. Nếu chuyển 2 quả xanh sang đỏ thì số bóng đỏ nhiều hơn xanh. Hỏi trước khi chuyển, số bóng xanh hơn số bóng đỏ nhiều nhất mấy quả (số nguyên nhỏ nhất thỏa điều kiện)?`, '', '', 'Thử với chênh lệch nhỏ nhất có thể lớn hơn 0: chênh lệch phải nhỏ hơn 4 (vì chuyển 2 quả làm thay đổi 4 đơn vị chênh lệch).', 2);
+  }
+  if(level===4){
+    return mk(`Một bể có 2 vòi nước. Vòi 1 chảy đầy bể trong ${randInt(2,6)} giờ nếu chảy một mình. Nếu cả hai vòi cùng chảy thì đầy bể nhanh hơn vòi 1 chảy một mình. Hỏi điều đó có hợp lý không? (gõ: có)`, '', '', 'Khi có thêm vòi 2 hỗ trợ, tổng lượng nước chảy vào mỗi giờ tăng lên, nên thời gian đầy bể luôn ngắn hơn.', 'có');
+  }
+  // level5
+  const n = randInt(6,10);
+  return mk(`Có ${n} bạn xếp thành một hàng. Hỏi có bao nhiêu cách xếp sao cho bạn đầu tiên (từ trái) và bạn cuối cùng (bên phải) là 2 bạn cụ thể đã được chọn trước (2 vị trí này cố định, ${n-2} bạn còn lại xếp tự do ở giữa)?`, '', '', 'Chỉ còn ${n-2} bạn cần xếp tự do vào các vị trí giữa: số cách = (n−2)!.'.replace(/\$\{n-2\}/g,n-2), (function(){ let f=1; for(let i=2;i<=n-2;i++) f*=i; return f; })());
+}
+
+/* ============ CHỦ ĐỀ 3 — HÌNH HỌC & KHÔNG GIAN ============ */
+
+function genT3A(grade, level){ // Hình cơ bản
+  const SHAPE_SIDES = { 'tam giác':3, 'tứ giác':4, 'hình chữ nhật':4, 'hình vuông':4, 'ngũ giác':5, 'lục giác':6 };
+  if(level===1){
+    const name = pick(['tam giác','hình vuông','hình chữ nhật','ngũ giác','lục giác']);
+    return mk(`Hình ${name} có bao nhiêu cạnh?`, '', '', 'Đếm số cạnh của hình được nhắc tới.', SHAPE_SIDES[name]);
+  }
+  if(level===2){
+    const name = pick(['tam giác','tứ giác','ngũ giác','lục giác']);
+    return mk(`Một hình có ${SHAPE_SIDES[name]} cạnh thì được gọi là hình gì? (gõ tên hình)`, '', '', 'Số cạnh quyết định tên gọi của đa giác.', name);
+  }
+  if(level===3){
+    const a=randInt(1,4), n=SHAPE_SIDES[pick(['tam giác','tứ giác','ngũ giác','lục giác'])];
+    return mk(`Một đa giác đều có tất cả các cạnh dài bằng nhau và có ${n} cạnh, mỗi cạnh dài ${randInt(3,10)}cm. Hỏi hình đó tên là gì?`, '', '', 'Dựa vào số cạnh để gọi tên đa giác.', Object.keys(SHAPE_SIDES).find(k=>SHAPE_SIDES[k]===n));
+  }
+  if(level===4){
+    const deg = pick([90, 60, 45, 30, 120]);
+    let kind = deg===90?'vuông': deg<90?'nhọn':'tù';
+    return mk(`Một góc có số đo ${deg}°. Đó là góc vuông, góc nhọn hay góc tù? (gõ: vuông / nhọn / tù)`, '', '', 'Góc vuông = 90°, góc nhọn < 90°, góc tù > 90°.', kind);
+  }
+  // level5
+  const n = randInt(4,6);
+  const diag = n*(n-3)/2;
+  return mk(`Một đa giác có ${n} cạnh (đa giác lồi). Hỏi có thể vẽ được bao nhiêu đường chéo?`, '', '', 'Số đường chéo = n×(n−3):2.', diag);
+}
+
+function genT3B(grade, level){ // Chu vi - diện tích
+  const cfg = gradeConfig(grade);
+  if(level===1){
+    const a=randInt(2,Math.min(30,cfg.max)), b=randInt(2,Math.min(30,cfg.max));
+    return mk(`Một hình chữ nhật có chiều dài ${a}cm, chiều rộng ${b}cm. Tính chu vi hình đó (cm).`, '', '', 'Chu vi hình chữ nhật = (dài + rộng) × 2.', (a+b)*2);
+  }
+  if(level===2){
+    const a=randInt(2,Math.min(20,cfg.max));
+    return mk(`Một hình vuông có cạnh ${a}cm. Tính diện tích hình đó (cm²).`, '', '', 'Diện tích hình vuông = cạnh × cạnh.', a*a);
+  }
+  if(level===3){
+    const p = randInt(10,60);
+    // chu vi = 2(a+b), cho biết chu vi và a-b=diff, tìm diện tích
+    const half = Math.floor(p/2);
+    const a = Math.ceil(half/2)+1; const b = half-a;
+    if(b<1) return genT3B(grade,level);
+    return mk(`Một hình chữ nhật có chu vi ${(a+b)*2}cm và chiều dài hơn chiều rộng ${a-b}cm. Tính diện tích hình đó (cm²).`, '', '', 'Tìm dài+rộng từ chu vi, kết hợp hiệu để tính từng cạnh (Tổng-hiệu), rồi nhân lại.', a*b);
+  }
+  if(level===4){
+    const a=randInt(4,10), b=randInt(4,10), cut=randInt(1,Math.min(a,b)-1);
+    // Hình chữ nhật lớn a x b, cắt góc vuông cạnh cut x cut
+    const area = a*b - cut*cut;
+    return mk(`Một hình chữ nhật kích thước ${a}cm × ${b}cm bị cắt mất một góc hình vuông cạnh ${cut}cm. Tính diện tích phần còn lại (cm²).`, '', '', 'Diện tích còn lại = diện tích hình chữ nhật ban đầu − diện tích phần bị cắt.', area);
+  }
+  // level5
+  const side = randInt(6,12);
+  // đếm số hình vuông con 1x1 trong lưới side x side có bao nhiêu hình vuông tất cả các kích thước
+  let count=0; for(let s=1;s<=side;s++){ count += (side-s+1)*(side-s+1); }
+  return mk(`Một lưới ô vuông kích thước ${side}×${side} (mỗi ô nhỏ là 1×1). Hỏi đếm được tất cả bao nhiêu hình vuông (mọi kích thước)?`, '', '', 'Với mỗi kích thước k×k, số hình vuông là (n−k+1)². Cộng dồn với k từ 1 đến n.', count);
+}
+
+function genT3C(grade, level){ // Cắt - ghép
+  if(level===1){
+    return mk(`Một tờ giấy hình vuông được cắt theo đường chéo thành 2 phần bằng nhau. Mỗi phần là hình gì?`, '', '', 'Đường chéo chia hình vuông thành hai tam giác.', 'tam giác');
+  }
+  if(level===2){
+    const n = pick([2,4]);
+    return mk(`Một hình chữ nhật được cắt thành ${n} phần bằng nhau bởi các đường thẳng song song với chiều rộng. Mỗi phần là hình gì?`, '', '', 'Các đường cắt song song tạo ra các hình chữ nhật nhỏ hơn.', 'hình chữ nhật');
+  }
+  if(level===3){
+    const a=randInt(2,6)*2;
+    return mk(`Một hình vuông cạnh ${a}cm được cắt thành 2 hình chữ nhật bằng nhau bởi một đường thẳng song song với 1 cạnh. Tính chu vi của mỗi hình chữ nhật nhỏ (cm).`, '', '', 'Mỗi hình chữ nhật nhỏ có kích thước cạnh × (cạnh chia đôi).', 2*(a + a/2));
+  }
+  if(level===4){
+    const a=randInt(6,12), b=randInt(6,12);
+    return mk(`Ghép 2 hình chữ nhật giống nhau, mỗi hình kích thước ${a}cm × ${b}cm, cạnh kề nhau (theo cạnh dài ${a}cm) để tạo thành 1 hình chữ nhật lớn. Tính diện tích hình lớn (cm²).`, '', '', 'Diện tích hình lớn = 2 lần diện tích một hình nhỏ (vì ghép 2 hình bằng nhau).', 2*a*b);
+  }
+  // level5
+  const n = randInt(3,5);
+  return mk(`Một hình vuông được cắt bởi ${n} đường thẳng (không đường nào song song, không có 2 đường nào cắt nhau tại cùng 1 điểm bên trong). Hỏi số phần nhiều nhất có thể tạo ra là bao nhiêu? (Gợi ý: số phần = 1 + số đường + số giao điểm bên trong)`, '', '', 'Với n đường thẳng cắt nhau đôi một tại các điểm phân biệt bên trong hình, số phần tối đa = 1 + n + C(n,2).', (function(){ const c = n*(n-1)/2; return 1+n+c; })());
+}
+
+function genT3D(grade, level){ // Hình lồng nhau
+  if(level===1){
+    const inner=randInt(2,8), outer=inner+randInt(1,6);
+    return mk(`Hai hình vuông lồng nhau, cạnh hình nhỏ là ${inner}cm, cạnh hình lớn là ${outer}cm. Hình nào có diện tích lớn hơn? (gõ: nhỏ / lớn)`, '', '', 'Cạnh lớn hơn thì diện tích cũng lớn hơn.', 'lớn');
+  }
+  if(level===2){
+    const inner=randInt(2,10), outer=inner+randInt(1,8);
+    return mk(`Hai hình vuông lồng nhau, cạnh hình nhỏ ${inner}cm, cạnh hình lớn ${outer}cm. Tính hiệu chu vi giữa hình lớn và hình nhỏ (cm).`, '', '', 'Hiệu chu vi = (cạnh lớn − cạnh nhỏ) × 4.', (outer-inner)*4);
+  }
+  if(level===3){
+    const inner=randInt(2,10), outer=inner+randInt(1,8);
+    return mk(`Hai hình vuông lồng nhau (chung tâm), cạnh hình nhỏ ${inner}cm, cạnh hình lớn ${outer}cm. Tính diện tích phần nằm giữa hai hình (cm²).`, '', '', 'Diện tích phần giữa = diện tích hình lớn − diện tích hình nhỏ.', outer*outer - inner*inner);
+  }
+  if(level===4){
+    const a=randInt(3,8), b=a+randInt(1,4), c=b+randInt(1,4);
+    return mk(`Ba hình vuông lồng nhau có cạnh lần lượt là ${a}cm, ${b}cm, ${c}cm (từ nhỏ đến lớn). Tính tổng diện tích của 2 phần "vành khăn" ở giữa (không tính hình nhỏ nhất) (cm²).`, '', '', 'Tổng 2 phần vành khăn = diện tích hình lớn nhất − diện tích hình nhỏ nhất.', c*c - a*a);
+  }
+  // level5
+  const n = randInt(3,6);
+  return mk(`Có ${n} hình vuông lồng nhau, chung tâm, có cạnh theo thứ tự 1cm, 2cm, 3cm,... đến ${n}cm. Hỏi đếm được tất cả bao nhiêu hình vuông trong hình vẽ này?`, '', '', 'Mỗi hình vuông trong dãy là một hình riêng biệt, đếm số hình đã cho.', n);
+}
+
+function genT3E(grade, level){ // Đếm hình (theo mẫu ký hiệu, giữ cơ chế cũ)
   const cfg = gradeConfig(grade);
   const periodBase = Math.min(cfg.shapeCount, SHAPES.length);
-  const period = tier==='basic' ? Math.max(2, periodBase-1)
-                : tier==='medium' ? periodBase
-                : Math.min(SHAPES.length, periodBase+1);
-  const chosen = [];
-  while(chosen.length < period){
-    const s = pick(SHAPES);
-    if(!chosen.find(c=>c.sym===s.sym)) chosen.push(s);
-  }
-  const repeatsBase = grade<=2 ? 3 : (grade<=4 ? 4 : 5);
-  const repeats = tier==='hard' ? repeatsBase+2 : repeatsBase;
-  const fullSeq = [];
-  for(let i=0;i<period*repeats;i++) fullSeq.push(chosen[i % period]);
+  const period = level<=2 ? Math.max(2, periodBase-1) : level===3 ? periodBase : Math.min(SHAPES.length, periodBase+1);
+  const chosen=[]; while(chosen.length<period){ const s=pick(SHAPES); if(!chosen.find(c=>c.sym===s.sym)) chosen.push(s); }
+  const repeatsBase = grade<=2?3:(grade<=4?4:5);
+  const repeats = level>=4 ? repeatsBase+2 : repeatsBase;
+  const fullSeq=[]; for(let i=0;i<period*repeats;i++) fullSeq.push(chosen[i%period]);
   const target = pick(chosen);
-  const countInFull = Math.min(period*repeats, fullSeq.length);
-  // basic: ask about a short, whole-cycle-aligned slice (easy count); hard: ask about a longer slice with a partial final cycle (needs the "quotient + remainder" reasoning)
-  const askLen = tier==='basic' ? Math.min(countInFull, period*randInt(1,2))
-                : tier==='medium' ? randInt(Math.max(period*2,Math.floor(countInFull*0.5)), countInFull)
-                : randInt(Math.max(period*2, Math.floor(countInFull*0.75)), countInFull);
+  const countInFull = fullSeq.length;
+  const askLen = level<=2 ? Math.min(countInFull, period*randInt(1,2))
+               : level===3 ? randInt(Math.max(period*2,Math.floor(countInFull*0.5)), countInFull)
+               : randInt(Math.max(period*2, Math.floor(countInFull*0.7)), countInFull);
   const slice = fullSeq.slice(0, askLen);
   const answer = slice.filter(s=>s.sym===target.sym).length;
   const displayUnit = chosen.map(s=>s.sym).join('');
-  return { before:`Dãy hình lặp lại theo chu kỳ: <b>${displayUnit}</b> (lặp lại nhiều lần). Trong ${askLen} hình đầu tiên, có bao nhiêu`, hint:`(${target.name})`, after:'?',
-    vi:'Xác định chu kỳ lặp, tính số chu kỳ trọn vẹn rồi cộng phần dư để đếm chính xác.', answer: String(answer) };
+  if(level===5){
+    return mk(`Dãy hình lặp lại theo chu kỳ: ${displayUnit} (lặp lại nhiều lần). Hỏi trong ${askLen} hình đầu tiên có tất cả bao nhiêu loại hình khác nhau xuất hiện?`, `(gợi ý: đếm số hình khác nhau trong 1 chu kỳ: ${displayUnit})`, '', 'Số loại hình khác nhau chính là độ dài của 1 chu kỳ (nếu askLen ≥ 1 chu kỳ).', period);
+  }
+  return mk(`Dãy hình lặp lại theo chu kỳ: ${displayUnit} (lặp lại nhiều lần). Trong ${askLen} hình đầu tiên, có bao nhiêu`, `(${target.name})`, '?', 'Xác định chu kỳ lặp, tính số chu kỳ trọn vẹn rồi cộng phần dư để đếm chính xác.', answer);
 }
 
-/* ============ Generator: Fun Puzzles ============ */
-function genPuzzle(grade, tier, scale){
+function genT3F(grade, level){ // Đối xứng
+  const SYM_LETTERS = { 'A':1,'B':1,'C':1,'D':1,'E':1,'H':2,'O':4,'I':2,'M':1,'T':1,'U':1,'V':1,'W':1,'X':2,'Y':1 };
+  if(level===1){
+    const l = pick(['A','H','O','T']);
+    return mk(`Chữ cái "${l}" có trục đối xứng không? (gõ: có / không)`, '', '', 'Trục đối xứng chia hình thành hai phần giống hệt nhau khi gấp lại.', 'có');
+  }
+  if(level===2){
+    const shape = pick(['hình vuông','hình tròn','hình chữ nhật','tam giác đều']);
+    const N = {'hình vuông':4,'hình tròn':999,'hình chữ nhật':2,'tam giác đều':3}[shape];
+    return mk(`${shape.charAt(0).toUpperCase()+shape.slice(1)} có bao nhiêu trục đối xứng? (nếu vô số, gõ: vô số)`, '', '', 'Đếm số cách gấp hình để hai nửa trùng khít nhau.', shape==='hình tròn'?'vô số':N);
+  }
+  if(level===3){
+    const l = pick(Object.keys(SYM_LETTERS));
+    return mk(`Chữ cái "${l}" có bao nhiêu trục đối xứng?`, '', '', 'Thử gấp chữ theo chiều dọc và chiều ngang để kiểm tra.', SYM_LETTERS[l]);
+  }
+  if(level===4){
+    const a=randInt(2,10);
+    return mk(`Một hình chữ nhật có chiều dài gấp đôi chiều rộng, chiều rộng ${a}cm, được gấp đôi theo trục đối xứng dọc. Tính diện tích của phần sau khi gấp (cm²).`, '', '', 'Sau khi gấp theo trục dọc, chiều dài giảm một nửa, diện tích giảm một nửa so với ban đầu.', (2*a*a)/2);
+  }
+  // level5
+  const word = pick(['HOA','MINH','TOAN','LAN AI','AN','MAI HOA']);
+  const letters = word.replace(/\s/g,'').split('');
+  const symCount = letters.filter(l => 'AHOIMTUVWXY'.includes(l)).length;
+  return mk(`Trong từ "${word}", có bao nhiêu chữ cái (kể cả lặp) có ít nhất 1 trục đối xứng (xét các chữ in hoa: A,H,I,M,O,T,U,V,W,X,Y có trục đối xứng)?`, '', '', 'Kiểm tra từng chữ cái trong từ xem có nằm trong nhóm chữ đối xứng hay không.', symCount);
+}
+
+function genT3G(grade, level){ // Không gian (khối)
+  const CUBE_FACES=6, CUBE_EDGES=12, CUBE_VERTICES=8;
+  if(level===1){
+    return mk(`Một khối lập phương có bao nhiêu mặt?`, '', '', 'Khối lập phương giống một viên xúc xắc, đếm số mặt của nó.', CUBE_FACES);
+  }
+  if(level===2){
+    return mk(`Một khối hộp chữ nhật có bao nhiêu cạnh?`, '', '', 'Khối hộp chữ nhật có hình dạng giống khối lập phương, đếm số cạnh.', CUBE_EDGES);
+  }
+  if(level===3){
+    const n = randInt(2,4);
+    return mk(`Xếp chồng ${n} khối lập phương nhỏ thành một cột thẳng đứng. Hỏi cột đó có bao nhiêu mặt được nhìn thấy từ bên ngoài (không tính 2 mặt trên/dưới cùng, chỉ tính 4 mặt bên của mỗi khối)?`, '', '', 'Mỗi khối có 4 mặt bên có thể nhìn thấy, nhân với số khối.', 4*n);
+  }
+  if(level===4){
+    const a=randInt(2,3),b=randInt(2,3),c=randInt(2,3);
+    return mk(`Một khối hộp chữ nhật được ghép từ các khối lập phương nhỏ 1cm³, có kích thước ${a}×${b}×${c} (khối). Hỏi khối hộp lớn được ghép từ bao nhiêu khối lập phương nhỏ?`, '', '', 'Số khối nhỏ = dài × rộng × cao (theo đơn vị khối).', a*b*c);
+  }
+  // level5
+  const n = randInt(2,4);
+  const total = n*n*n;
+  const inside = Math.max(0,(n-2))**3;
+  const surface = total - inside;
+  return mk(`Một khối lập phương lớn cạnh ${n} (ghép từ ${total} khối lập phương nhỏ 1×1×1) được sơn đỏ toàn bộ mặt ngoài rồi tách ra thành các khối nhỏ. Hỏi có bao nhiêu khối nhỏ có ÍT NHẤT 1 mặt được sơn đỏ?`, '', '', 'Số khối không bị sơn nằm hoàn toàn bên trong = (n−2)³ (nếu n≥2). Lấy tổng số khối trừ đi số khối không sơn.', surface);
+}
+
+function genT3H(grade, level){ // Đường đi (đếm số đường đi ngắn nhất trên lưới)
+  function C(n,k){ let r=1; for(let i=1;i<=k;i++) r=r*(n-k+i)/i; return Math.round(r); }
+  if(level===1){
+    return mk(`Trên lưới ô vuông, để đi từ A đến B chỉ được đi sang phải hoặc đi xuống, cần đi qua 2 bước sang phải và 1 bước xuống (tổng 3 bước). Hỏi có bao nhiêu đường đi ngắn nhất? (Gợi ý: đây là số cách chọn vị trí cho bước "xuống" trong 3 bước)`, '', '', 'Số đường đi = C(3,1) = 3.', C(3,1));
+  }
+  if(level===2){
+    const right=randInt(2,3), down=randInt(1,2);
+    return mk(`Trên lưới ô vuông, đi từ A đến B cần đúng ${right} bước sang phải và ${down} bước đi xuống. Hỏi có bao nhiêu đường đi ngắn nhất?`, '', '', `Số đường đi = C(${right+down}, ${down}).`, C(right+down, down));
+  }
+  if(level===3){
+    const rows=randInt(2,3), cols=randInt(2,3);
+    return mk(`Trên lưới ô vuông kích thước ${rows}×${cols} ô, đi từ góc trên-trái đến góc dưới-phải, chỉ được đi sang phải hoặc đi xuống. Hỏi có bao nhiêu đường đi ngắn nhất?`, '', '', 'Số đường đi = C(rows+cols, rows).', C(rows+cols, rows));
+  }
+  if(level===4){
+    // đường đi đi qua 1 điểm trung gian P cố định trên lưới m x n
+    const m=randInt(3,4), n=randInt(3,4);
+    const px=randInt(1,m-1), py=randInt(1,n-1);
+    const via = C(px+py, px) * C((m-px)+(n-py), m-px);
+    return mk(`Trên lưới ô vuông ${m}×${n} ô, đi từ góc trên-trái đến góc dưới-phải (chỉ đi phải hoặc xuống), hỏi có bao nhiêu đường đi ngắn nhất bắt buộc đi qua điểm P nằm cách góc trên-trái đúng ${px} bước phải và ${py} bước xuống?`, '', '', 'Số đường đi qua P = (số đường từ đầu đến P) × (số đường từ P đến cuối), nhân hai kết quả với nhau.', via);
+  }
+  // level5: đếm đường đi tránh 1 ô cấm
+  const m=randInt(3,4), n=randInt(3,4);
+  const bx=randInt(1,m-1), by=randInt(1,n-1);
+  const total = C(m+n, m);
+  const throughBlocked = C(bx+by, bx) * C((m-bx)+(n-by), m-bx);
+  const answer = total - throughBlocked;
+  return mk(`Trên lưới ô vuông ${m}×${n} ô, đi từ góc trên-trái đến góc dưới-phải (chỉ đi phải hoặc xuống), có 1 ô cấm nằm cách góc trên-trái đúng ${bx} bước phải và ${by} bước xuống (không được đi qua ô này). Hỏi có bao nhiêu đường đi ngắn nhất hợp lệ?`, '', '', 'Lấy tổng số đường đi không giới hạn, trừ đi số đường đi bắt buộc phải qua ô cấm.', answer);
+}
+
+/* ============ CHỦ ĐỀ 4 — TOÁN THỰC TẾ & DỮ LIỆU ============ */
+
+function genT4A(grade, level){ // Tiền
   const cfg = gradeConfig(grade);
-  const pool = [];
-  const legFactor = tier==='basic' ? 0.4 : tier==='medium' ? (0.5+0.5*scale) : 1;
-
-  // basic/medium: count total legs of two kinds of animals — scaled by tier
-  pool.push(()=>{
-    const a1 = pick(ANIMALS); let a2 = pick(ANIMALS); while(a2.n===a1.n) a2 = pick(ANIMALS);
-    const cap = Math.max(2, Math.round((grade<=2?6:15)*legFactor));
-    const c1 = randInt(2, cap), c2 = randInt(2, cap);
-    return { text:`Trong sân có ${c1} con ${a1.n} và ${c2} con ${a2.n}. Hỏi có tất cả bao nhiêu cái chân?`, answer: c1*a1.legs + c2*a2.legs };
-  });
-
-  // medium: weekday reasoning (from grade≥2)
-  if(grade>=2 && tier!=='basic'){
-    pool.push(()=>{
-      const startIdx = randInt(0,6);
-      const n = randInt(3,30);
-      const endIdx = (startIdx + n) % 7;
-      return { text:`Hôm nay là ${WEEKDAYS[startIdx]}. Hỏi ${n} ngày nữa là thứ mấy?`, answer: WEEKDAYS[endIdx] };
-    });
+  const unit = cfg.priceUnit;
+  if(level===1){
+    const price = randInt(2,20)*unit;
+    const qty = randInt(2,9);
+    return mk(`Một ${pick(ITEMS)} giá ${price.toLocaleString('vi-VN')} đồng. Mua ${qty} cái hết bao nhiêu tiền (đồng)?`, '', '', 'Số tiền = giá 1 cái × số lượng.', price*qty);
   }
-
-  // basic: round-ten mystery number (small grades)
-  if(grade<=3 && tier==='basic'){
-    pool.push(()=>{
-      const target = randInt(1,Math.floor(cfg.max/10))*10;
-      const x = target - randInt(1,9), y = target + randInt(1,9);
-      return { text:`Tôi là một số tròn chục. Tôi lớn hơn ${x} và nhỏ hơn ${y}. Hỏi tôi là số nào?`, answer: target };
-    });
+  if(level===2){
+    const price = randInt(5,50)*unit;
+    const paid = price + randInt(1,10)*unit;
+    return mk(`${pick(NAMES)} mua một món đồ giá ${price.toLocaleString('vi-VN')} đồng, đưa cho người bán ${paid.toLocaleString('vi-VN')} đồng. Hỏi được trả lại bao nhiêu tiền (đồng)?`, '', '', 'Tiền thừa = tiền đưa − giá món đồ.', paid-price);
   }
-
-  // hard: classic chickens-and-dogs (heads & legs) system-reasoning puzzle (from grade≥4)
-  if(grade>=4 && tier==='hard'){
-    pool.push(()=>{
-      const total = randInt(10,40);
-      const heads = total;
-      const legsTotal = randInt(heads*2+2, heads*4-2);
-      const d = Math.round((legsTotal - 2*heads)/2);
-      const c = heads - d;
-      if(d<1 || c<1) return { text:`Một sân có ${heads} con vừa gà vừa chó, tổng cộng có 2 chân + 4 chân là 40. Hỏi số chó là bao nhiêu?`, answer: 5 };
-      const realLegs = c*2 + d*4;
-      return { text:`Một sân có ${heads} con vừa gà vừa chó, tổng cộng ${realLegs} cái chân. Hỏi có bao nhiêu con chó?`, answer: d };
-    });
+  if(level===3){
+    const a=randInt(2,20)*unit, aQty=randInt(2,5);
+    const b=randInt(2,20)*unit, bQty=randInt(2,5);
+    return mk(`${pick(NAMES)} mua ${aQty} cái giá ${a.toLocaleString('vi-VN')} đồng/cái và ${bQty} cái giá ${b.toLocaleString('vi-VN')} đồng/cái. Hỏi tổng cộng hết bao nhiêu tiền (đồng)?`, '', '', 'Tính tiền từng loại rồi cộng lại.', a*aQty + b*bQty);
   }
-
-  // hard: two-step puzzle combining leg-count with an extra condition — higher-order thinking at any grade
-  if(tier==='hard'){
-    pool.push(()=>{
-      const a1 = pick(ANIMALS); let a2 = pick(ANIMALS); while(a2.n===a1.n) a2 = pick(ANIMALS);
-      const c1 = randInt(2,10), c2 = randInt(2,10), extra=randInt(1,10);
-      const totalLegs = c1*a1.legs + c2*a2.legs;
-      return { text:`Trong sân có ${c1} con ${a1.n} và ${c2} con ${a2.n}. Sau đó có thêm ${extra} con ${a1.n} vào sân. Hỏi lúc này có tất cả bao nhiêu cái chân?`, answer: totalLegs + extra*a1.legs };
-    });
+  if(level===4){
+    const price = randInt(20,100)*unit;
+    const discountPct = pick([10,20,25,50]);
+    const finalPrice = price - price*discountPct/100;
+    return mk(`Một món hàng giá ${price.toLocaleString('vi-VN')} đồng được giảm giá ${discountPct}%. Hỏi giá sau khi giảm là bao nhiêu (đồng)?`, '', '', 'Số tiền giảm = giá × phần trăm giảm : 100. Giá sau giảm = giá ban đầu − số tiền giảm.', finalPrice);
   }
-
-  const chosen = pool[randInt(0,pool.length-1)]();
-  return { before: chosen.text, hint:'', after:'', vi:'Đọc đề thật kỹ — có thể cần suy luận thêm một bước trước khi tính ra đáp số.', answer: String(chosen.answer) };
+  // level5
+  const budget = randInt(20,60)*unit;
+  const price = randInt(3,10)*unit;
+  const maxQty = Math.floor(budget/price);
+  return mk(`Với số tiền ${budget.toLocaleString('vi-VN')} đồng, mỗi ${pick(ITEMS)} giá ${price.toLocaleString('vi-VN')} đồng. Hỏi mua được nhiều nhất bao nhiêu cái?`, '', '', 'Lấy tổng số tiền chia cho giá 1 cái, chỉ lấy phần nguyên.', maxQty);
 }
 
-const GEN = { pattern:genPattern, logic:genLogic, shapes:genShapes, puzzle:genPuzzle };
-const TIER_LABEL = { basic:'Cơ bản', medium:'Nâng cao', hard:'Tư duy' };
+function genT4B(grade, level){ // Thời gian
+  if(level===1){
+    const h=randInt(1,11), m=pick([0,15,30,45]);
+    return mk(`Đồng hồ chỉ ${h} giờ ${m===0?'đúng':m+' phút'}. Hỏi lúc đó là mấy giờ mấy phút? (gõ dạng: ${h} giờ ${m} phút)`, '', '', 'Đọc trực tiếp số giờ và số phút trên đồng hồ.', `${h} giờ ${m} phút`);
+  }
+  if(level===2){
+    const start=randInt(1,10), dur=randInt(1,5);
+    return mk(`Một tiết học bắt đầu lúc ${start} giờ và kéo dài ${dur} giờ. Hỏi tiết học kết thúc lúc mấy giờ?`, '', '', 'Giờ kết thúc = giờ bắt đầu + thời lượng.', start+dur);
+  }
+  if(level===3){
+    const startIdx=randInt(0,6), n=randInt(3,30);
+    const endIdx=(startIdx+n)%7;
+    return mk(`Hôm nay là ${WEEKDAYS[startIdx]}. Hỏi ${n} ngày nữa là thứ mấy?`, '', '', 'Lấy số ngày chia cho 7, số dư cho biết cách hôm nay bao nhiêu ngày trong tuần.', WEEKDAYS[endIdx]);
+  }
+  if(level===4){
+    const startH=randInt(6,10), startM=pick([0,15,30,45]);
+    const durM = randInt(1,4)*30 + pick([0,15]);
+    let totalM = startH*60+startM+durM;
+    const endH = Math.floor(totalM/60)%24, endM = totalM%60;
+    return mk(`Một chuyến xe khởi hành lúc ${startH} giờ ${startM} phút, đi trong ${durM} phút. Hỏi xe đến nơi lúc mấy giờ mấy phút? (gõ dạng: X giờ Y phút)`, '', '', 'Cộng thời gian đi vào giờ khởi hành, nếu số phút ≥ 60 thì đổi thành giờ.', `${endH} giờ ${endM} phút`);
+  }
+  // level5
+  const n = randInt(20,60);
+  let count=0; for(let d=1;d<=n;d++){ const idx=d%7; if(idx===0||idx===6) count++; }
+  return mk(`Bắt đầu từ một ngày thứ Hai, trong ${n} ngày liên tiếp tiếp theo (không tính ngày thứ Hai đầu tiên), có bao nhiêu ngày là thứ Bảy hoặc Chủ nhật?`, '', '', 'Cứ mỗi 7 ngày có 2 ngày cuối tuần; đếm số chu kỳ 7 ngày và phần dư.', count);
+}
 
-/* ============ State ============ */
-let selectedTopics = []; let mixMode = false; let currentGrade = null; let currentTopics = []; let quizCount = 10; let currentQuiz = [];
+function genT4C(grade, level){ // Chuyển động
+  if(level===1){
+    const v=randInt(20,60), t=randInt(1,5);
+    return mk(`Một ô tô đi với vận tốc ${v}km/giờ trong ${t} giờ. Tính quãng đường đi được (km).`, '', '', 'Quãng đường = vận tốc × thời gian.', v*t);
+  }
+  if(level===2){
+    const s=randInt(60,300), t=randInt(2,6);
+    if(s%t!==0) return genT4C(grade,level);
+    return mk(`Một người đi bộ hết ${s}m trong ${t} phút. Hỏi trung bình mỗi phút người đó đi được bao nhiêu mét?`, '', '', 'Vận tốc = quãng đường : thời gian.', s/t);
+  }
+  if(level===3){
+    const v=randInt(30,60), s=randInt(120,300);
+    if(s%v!==0) return genT4C(grade,level);
+    return mk(`Một xe máy đi quãng đường ${s}km với vận tốc ${v}km/giờ. Hỏi xe đi hết bao nhiêu giờ?`, '', '', 'Thời gian = quãng đường : vận tốc.', s/v);
+  }
+  if(level===4){
+    const v1=randInt(30,50), v2=randInt(30,50), t=randInt(1,3);
+    const dist = (v1+v2)*t;
+    return mk(`Hai xe xuất phát cùng lúc từ hai điểm A và B cách nhau ${dist}km, đi ngược chiều nhau. Xe từ A đi với vận tốc ${v1}km/giờ, xe từ B đi với vận tốc ${v2}km/giờ. Hỏi sau bao nhiêu giờ hai xe gặp nhau?`, '', '', 'Khi đi ngược chiều, vận tốc gặp nhau = tổng hai vận tốc. Thời gian gặp nhau = quãng đường : tổng vận tốc.', t);
+  }
+  // level5
+  const v1=randInt(30,50), v2=v1+randInt(5,20), gap=randInt(1,4)*(v2-v1);
+  const t = gap/(v2-v1);
+  return mk(`Xe A xuất phát trước, đi với vận tốc ${v1}km/giờ. Sau khi xe A đi được ${gap}km, xe B xuất phát đuổi theo cùng đường với vận tốc ${v2}km/giờ. Hỏi sau bao nhiêu giờ (kể từ khi xe B xuất phát) thì xe B đuổi kịp xe A?`, '', '', 'Vận tốc đuổi kịp = hiệu hai vận tốc. Thời gian đuổi kịp = khoảng cách ban đầu : hiệu vận tốc.', t);
+}
 
+function genT4D(grade, level){ // Tỉ số - tỉ lệ
+  if(level===1){
+    const a=randInt(2,10), b=randInt(2,10);
+    return mk(`Viết tỉ số của ${a} và ${b} (gõ dạng a:b).`, '', '', 'Tỉ số của a và b viết là a:b.', `${a}:${b}`);
+  }
+  if(level===2){
+    const ratio=randInt(2,5), a=randInt(2,10);
+    return mk(`Tỉ số của số bé và số lớn là 1:${ratio}. Biết số bé là ${a}. Tìm số lớn.`, '', '', 'Số lớn = số bé × ${ratio}.'.replace('${ratio}',ratio), a*ratio);
+  }
+  if(level===3){
+    const scale=randInt(100,1000);
+    const mapCm=randInt(2,10);
+    return mk(`Trên bản đồ có tỉ lệ 1:${scale}, một đoạn đường dài ${mapCm}cm. Hỏi đoạn đường thực tế dài bao nhiêu cm?`, '', '', 'Độ dài thực tế = độ dài trên bản đồ × mẫu số của tỉ lệ.', mapCm*scale);
+  }
+  if(level===4){
+    const r1=randInt(1,3), r2=r1+randInt(1,3);
+    const unit=randInt(2,10);
+    const sum=(r1+r2)*unit;
+    return mk(`Số học sinh nam và nữ trong lớp có tỉ số ${r1}:${r2}. Biết tổng số học sinh là ${sum}. Hỏi có bao nhiêu học sinh nữ?`, '', '', 'Chia tổng theo tổng số phần bằng nhau (${r1}+${r2} phần) rồi tính số học sinh nữ (${r2} phần).'.replace(/\$\{r1\}/g,r1).replace(/\$\{r2\}/g,r2), r2*unit);
+  }
+  // level5
+  const total = randInt(20,60);
+  const r1=randInt(1,3), r2=r1+randInt(1,3), r3=r2+randInt(1,3);
+  const unit = Math.floor(total/(r1+r2+r3));
+  const realTotal = unit*(r1+r2+r3);
+  return mk(`Ba bạn chia nhau ${realTotal} viên kẹo theo tỉ số ${r1}:${r2}:${r3}. Hỏi bạn được chia nhiều kẹo nhất nhận được bao nhiêu viên?`, '', '', 'Chia tổng theo tổng số phần (${r1}+${r2}+${r3}), tìm giá trị 1 phần rồi nhân với số phần lớn nhất.'.replace(/\$\{r1\}/g,r1).replace(/\$\{r2\}/g,r2).replace(/\$\{r3\}/g,r3), r3*unit);
+}
+
+function genT4E(grade, level){ // Phần trăm
+  if(level===1){
+    const total=randInt(2,10)*20, pct=pick([10,20,25,50]);
+    return mk(`Tính ${pct}% của ${total}.`, '', '', 'Lấy số đó nhân với phần trăm rồi chia cho 100.', total*pct/100);
+  }
+  if(level===2){
+    const total=randInt(2,25)*20, pct=pick([10,20,25]);
+    return mk(`Một lớp có ${total} học sinh, trong đó ${pct}% là học sinh giỏi. Hỏi có bao nhiêu học sinh giỏi?`, '', '', 'Số học sinh giỏi = tổng số × phần trăm : 100.', total*pct/100);
+  }
+  if(level===3){
+    const price=randInt(2,25)*20, pct=pick([10,20,25]);
+    return mk(`Giá một món hàng tăng thêm ${pct}% so với giá gốc ${price.toLocaleString('vi-VN')} đồng. Hỏi giá sau khi tăng là bao nhiêu (đồng)?`, '', '', 'Giá mới = giá gốc + (giá gốc × phần trăm tăng : 100).', price + price*pct/100);
+  }
+  if(level===4){
+    const finalV = randInt(20,80)*10, pct=pick([10,20,25]);
+    const original = finalV / (1 - pct/100);
+    if(!Number.isInteger(original)) return genT4E(grade,level);
+    return mk(`Sau khi giảm giá ${pct}%, một món hàng còn ${finalV.toLocaleString('vi-VN')} đồng. Hỏi giá gốc ban đầu là bao nhiêu (đồng)?`, '', '', 'Giá gốc tương ứng với 100%, giá sau giảm tương ứng với (100−${pct})%. Lập tỉ lệ để tìm giá gốc.'.replace('${pct}',pct), original);
+  }
+  // level5
+  const total = randInt(2,15)*400;
+  const pctA=pick([20,25,50]);
+  const restA = total - total*pctA/100;
+  const pctB = pick([10,20,25,50]);
+  const final = restA - restA*pctB/100;
+  return mk(`Một kho có ${total.toLocaleString('vi-VN')} kg gạo. Lần 1 xuất kho ${pctA}% số gạo. Lần 2 xuất tiếp ${pctB}% số gạo còn lại. Hỏi trong kho còn lại bao nhiêu kg gạo?`, '', '', 'Tính số gạo còn lại sau lần 1 trước, rồi tính tiếp % của phần còn lại đó cho lần 2 (không phải % của tổng ban đầu).', final);
+}
+
+function genT4F(grade, level){ // Bảng & biểu đồ
+  if(level===1){
+    const vals = Array.from({length:4}, ()=>randInt(2,20));
+    const days = ['Thứ 2','Thứ 3','Thứ 4','Thứ 5'];
+    const idx = randInt(0,3);
+    return mk(`Bảng số lượng sách bán được: ${days.map((d,i)=>`${d}: ${vals[i]}`).join(', ')}. Hỏi ${days[idx]} bán được bao nhiêu quyển?`, '', '', 'Đọc trực tiếp số liệu tương ứng trong bảng.', vals[idx]);
+  }
+  if(level===2){
+    const vals = Array.from({length:4}, ()=>randInt(2,20));
+    const days = ['Thứ 2','Thứ 3','Thứ 4','Thứ 5'];
+    const maxIdx = vals.indexOf(Math.max(...vals));
+    return mk(`Bảng số lượng sách bán được: ${days.map((d,i)=>`${d}: ${vals[i]}`).join(', ')}. Hỏi ngày nào bán được nhiều sách nhất? (gõ tên ngày)`, '', '', 'So sánh tất cả các số liệu trong bảng để tìm giá trị lớn nhất.', days[maxIdx]);
+  }
+  if(level===3){
+    const vals = Array.from({length:4}, ()=>randInt(2,20));
+    const days = ['Thứ 2','Thứ 3','Thứ 4','Thứ 5'];
+    const total = vals.reduce((a,b)=>a+b,0);
+    return mk(`Bảng số lượng sách bán được: ${days.map((d,i)=>`${d}: ${vals[i]}`).join(', ')}. Tính tổng số sách bán được trong 4 ngày.`, '', '', 'Cộng tất cả các số liệu trong bảng lại với nhau.', total);
+  }
+  if(level===4){
+    const vals = Array.from({length:5}, ()=>randInt(2,30));
+    const days = ['Thứ 2','Thứ 3','Thứ 4','Thứ 5','Thứ 6'];
+    const total = vals.reduce((a,b)=>a+b,0);
+    const avg = Math.round((total/5)*100)/100;
+    return mk(`Bảng số lượng sách bán được: ${days.map((d,i)=>`${d}: ${vals[i]}`).join(', ')}. Tính trung bình mỗi ngày bán được bao nhiêu quyển.`, '', '', 'Trung bình = tổng số liệu chia cho số ngày.', avg);
+  }
+  // level5
+  const vals = Array.from({length:5}, ()=>randInt(2,30));
+  const days = ['Thứ 2','Thứ 3','Thứ 4','Thứ 5','Thứ 6'];
+  const avg = vals.reduce((a,b)=>a+b,0)/5;
+  const countAbove = vals.filter(v=>v>avg).length;
+  return mk(`Bảng số lượng sách bán được: ${days.map((d,i)=>`${d}: ${vals[i]}`).join(', ')}. Hỏi có bao nhiêu ngày bán được số sách CAO HƠN mức trung bình của cả tuần?`, '', '', 'Tính trung bình cả tuần trước, sau đó đếm số ngày có giá trị lớn hơn mức trung bình đó.', countAbove);
+}
+
+function genT4G(grade, level){ // Xác suất (mức tiểu học)
+  if(level===1){
+    return mk(`Trong hộp có 5 quả bóng đỏ, không có quả bóng màu nào khác. Lấy ngẫu nhiên 1 quả. Khả năng lấy được bóng xanh là: chắc chắn, có thể, hay không thể? (gõ: không thể)`, '', '', 'Vì trong hộp không có bóng xanh nên không thể lấy được.', 'không thể');
+  }
+  if(level===2){
+    const red=randInt(2,8), blue=randInt(2,8);
+    return mk(`Một hộp có ${red} quả bóng đỏ và ${blue} quả bóng xanh. Lấy ngẫu nhiên 1 quả. Có tất cả bao nhiêu kết quả có thể xảy ra (tổng số bóng)?`, '', '', 'Tổng số kết quả có thể = tổng số bóng trong hộp.', red+blue);
+  }
+  if(level===3){
+    const red=randInt(2,8), blue=randInt(2,8);
+    return mk(`Một hộp có ${red} quả bóng đỏ và ${blue} quả bóng xanh. Lấy ngẫu nhiên 1 quả. Hỏi có bao nhiêu khả năng lấy được bóng đỏ?`, '', '', 'Số khả năng lấy được bóng đỏ = số quả bóng đỏ trong hộp.', red);
+  }
+  if(level===4){
+    const sides=[1,2,3,4,5,6];
+    return mk(`Gieo một con xúc xắc 6 mặt (các số từ 1 đến 6). Hỏi có bao nhiêu khả năng để mặt xuất hiện là số chẵn?`, '', '', 'Đếm các số chẵn trong tập {1,2,3,4,5,6}.', 3);
+  }
+  // level5
+  const red=randInt(2,6), blue=randInt(2,6), green=randInt(2,6);
+  const total = red+blue+green;
+  return mk(`Một hộp có ${red} bóng đỏ, ${blue} bóng xanh, ${green} bóng vàng. Lấy ngẫu nhiên 1 quả. Hỏi có bao nhiêu khả năng lấy được bóng KHÔNG PHẢI màu đỏ?`, '', '', 'Số khả năng không phải đỏ = tổng số bóng − số bóng đỏ.', total-red);
+}
+
+function genT4H(grade, level){ // Mô hình hóa
+  const cfg = gradeConfig(grade);
+  if(level===1){
+    const a=randInt(5,cfg.max), b=randInt(5,cfg.max);
+    return mk(`Lớp 5A có ${a} học sinh nam và ${b} học sinh nữ. Hỏi lớp có tất cả bao nhiêu học sinh?`, '', '', 'Tổng số học sinh = số nam + số nữ.', a+b);
+  }
+  if(level===2){
+    const rows=randInt(3,8), perRow=randInt(3,8);
+    return mk(`Một rạp chiếu phim có ${rows} hàng ghế, mỗi hàng có ${perRow} ghế. Hỏi rạp có tất cả bao nhiêu ghế?`, '', '', 'Tổng số ghế = số hàng × số ghế mỗi hàng.', rows*perRow);
+  }
+  if(level===3){
+    const totalBoxes = randInt(5,15), perBox = randInt(6,12);
+    const used = randInt(1,totalBoxes-1)*perBox;
+    const total = totalBoxes*perBox;
+    return mk(`Một kho có ${totalBoxes} thùng hàng, mỗi thùng ${perBox} sản phẩm. Đã bán ${used} sản phẩm. Hỏi trong kho còn lại bao nhiêu sản phẩm?`, '', '', 'Tính tổng số sản phẩm trong kho trước, rồi trừ đi số đã bán.', total-used);
+  }
+  if(level===4){
+    const capacity = randInt(20,50);
+    const cur = randInt(5,capacity-5);
+    const inflow = randInt(2,8);
+    const t = Math.ceil((capacity-cur)/inflow);
+    return mk(`Một bể có sức chứa ${capacity} lít, hiện đã có ${cur} lít nước. Mỗi phút có thêm ${inflow} lít nước chảy vào. Hỏi sau ít nhất bao nhiêu phút thì bể đầy?`, '', '', 'Tính số lít còn thiếu, chia cho lượng nước chảy vào mỗi phút (làm tròn lên nếu có dư).', t);
+  }
+  // level5
+  const a=randInt(3,10), b=randInt(3,10), c=randInt(3,10);
+  const stock = a*randInt(2,4)+b*randInt(2,4)+c*randInt(2,4);
+  return mk(`Một cửa hàng có ${stock} sản phẩm cần đóng vào các thùng loại ${a}, ${b} và ${c} sản phẩm/thùng (có thể dùng phối hợp nhiều loại thùng, mỗi thùng phải đầy). Hỏi nếu chỉ dùng MỘT loại thùng duy nhất, có bao nhiêu loại thùng (trong 3 loại trên) có thể đóng gói vừa hết số sản phẩm mà không dư?`, '', '', 'Kiểm tra xem ${stock} có chia hết cho từng loại (${a}, ${b}, ${c}) hay không, đếm số loại chia hết.'.replace(/\$\{stock\}/g,stock).replace('${a}',a).replace('${b}',b).replace('${c}',c), [a,b,c].filter(x=>stock%x===0).length);
+}
+
+/* ============ Topic registry ============ */
+const TOPICS = {
+  t1: { name:'Số & Quy luật', subs: {
+    t1a:{ name:'Số tự nhiên', example:'Giá trị chữ số, so sánh, làm tròn số', note:'Đọc/viết/cấu tạo số, so sánh, làm tròn, ước lượng.', usage:'Rèn <b>cảm quan về số</b>: cấu tạo số, giá trị chữ số theo hàng, so sánh và làm tròn.', gen:genT1A },
+    t1b:{ name:'Bốn phép tính nâng cao', example:'x + 8 = 15, tìm x', note:'Tìm số chưa biết, biểu thức, thứ tự thực hiện phép tính.', usage:'Rèn kỹ năng <b>tính toán và tìm số chưa biết</b> qua các phép tính kết hợp.', gen:genT1B },
+    t1c:{ name:'Chia hết', example:'12 có chia hết cho 3 không?', note:'Chẵn/lẻ, dấu hiệu chia hết, ước, bội, ƯCLN.', usage:'Nhận diện <b>dấu hiệu chia hết</b> và các khái niệm ước – bội cơ bản.', gen:genT1C },
+    t1d:{ name:'Dãy số & quy luật', example:'2, 5, 8, 11, ___', note:'Tìm quy luật, số hạng thứ n, đếm số hạng trong khoảng.', usage:'Nhận diện <b>quy luật của dãy số</b> để suy ra số hạng tiếp theo hoặc số hạng thứ n.', gen:genT1D },
+    t1e:{ name:'Phân số – thập phân – %', example:'Rút gọn phân số 4/8', note:'Phân số bằng nhau, so sánh, rút gọn, tìm phân số của một số.', usage:'Làm quen với <b>phân số, tỉ số và phần trăm</b> như những cách biểu diễn số khác nhau.', gen:genT1E },
+    t1f:{ name:'Bài toán số nâng cao', example:'Tổng hai số là 20, hiệu là 4', note:'Tuổi, trung bình cộng, tổng–hiệu, tổng–tỉ.', usage:'Áp dụng các <b>dạng toán điển hình</b> (tổng-hiệu, tổng-tỉ, tuổi) để tìm số.', gen:genT1F },
+  }},
+  t2: { name:'Logic & GQVĐ', subs: {
+    t2a:{ name:'Suy luận logic', example:'An cao hơn Bình, Bình cao hơn Chi', note:'So sánh bắc cầu, sắp xếp thứ tự.', usage:'Rèn khả năng <b>suy luận bắc cầu</b> từ các mối quan hệ so sánh.', gen:genT2A },
+    t2b:{ name:'Bảng logic', example:'Ai thích môn nào trong 3 môn?', note:'Dùng manh mối để loại trừ, tìm ra đáp án đúng.', usage:'Rèn kỹ năng <b>loại trừ có căn cứ</b> khi có nhiều đối tượng và nhiều lựa chọn.', gen:genT2B },
+    t2c:{ name:'Đúng – sai', example:'Ai luôn nói thật, ai luôn nói dối?', note:'Bài toán hiệp sĩ / kẻ dối trá.', usage:'Rèn <b>tư duy phản biện</b>: xét tính đúng-sai của các phát biểu lồng nhau.', gen:genT2C },
+    t2d:{ name:'Tổ hợp & đếm', example:'Có bao nhiêu cách chọn 1 áo + 1 quần?', note:'Chọn, xếp, ghép, sắp xếp, đếm cách.', usage:'Làm quen với <b>nguyên lý đếm</b> cơ bản: nhân số cách của từng bước.', gen:genT2D },
+    t2e:{ name:'Chiến lược (heuristics)', example:'Thử – kiểm tra, làm ngược, chia trường hợp', note:'Áp dụng các chiến lược giải toán kiểu Singapore.', usage:'Làm quen với các <b>chiến lược giải toán</b>: thử–kiểm tra, làm ngược, chia trường hợp, loại trừ.', gen:genT2E },
+    t2f:{ name:'Bài toán mở', example:'Tình huống thực tế cần tự suy luận', note:'Không có công thức cho sẵn — học sinh tự chọn cách giải.', usage:'Rèn khả năng <b>tự nhận diện chiến lược giải</b> thay vì áp dụng công thức có sẵn.', gen:genT2F },
+  }},
+  t3: { name:'Hình học & Không gian', subs: {
+    t3a:{ name:'Hình cơ bản', example:'Tam giác có mấy cạnh?', note:'Điểm, đoạn thẳng, góc, đa giác cơ bản.', usage:'Nhận diện <b>tên gọi và tính chất</b> của các hình cơ bản.', gen:genT3A },
+    t3b:{ name:'Chu vi – diện tích', example:'Tính chu vi hình chữ nhật', note:'Hình ghép, hình chia nhỏ, hình bị cắt góc.', usage:'Áp dụng công thức <b>chu vi – diện tích</b> vào các tình huống có biến đổi.', gen:genT3B },
+    t3c:{ name:'Cắt – ghép', example:'Cắt hình vuông theo đường chéo', note:'Một hình bị cắt hoặc ghép thành hình khác.', usage:'Hình dung <b>sự biến đổi hình dạng</b> khi cắt hoặc ghép các mảnh hình.', gen:genT3C },
+    t3d:{ name:'Hình lồng nhau', example:'Hai hình vuông lồng nhau, chung tâm', note:'Tính diện tích, chu vi phần giữa các hình lồng nhau.', usage:'Tính toán trên các <b>hình lồng nhau</b>: phần chênh lệch, phần "vành khăn".', gen:genT3D },
+    t3e:{ name:'Đếm hình', example:'●●▲●●▲... đếm số ▲', note:'Đếm số hình xuất hiện theo chu kỳ lặp lại.', usage:'Phát hiện <b>chu kỳ lặp</b> trong dãy hình để đếm chính xác số lượng.', gen:genT3E },
+    t3f:{ name:'Đối xứng', example:'Chữ "A" có trục đối xứng không?', note:'Trục đối xứng, hình đối xứng, gấp giấy.', usage:'Nhận diện <b>trục đối xứng</b> của chữ cái và hình học đơn giản.', gen:genT3F },
+    t3g:{ name:'Không gian (khối)', example:'Khối lập phương có mấy mặt?', note:'Khối lập phương, khối hộp chữ nhật, xếp khối.', usage:'Làm quen với <b>hình khối không gian</b>: mặt, cạnh, đỉnh.', gen:genT3G },
+    t3h:{ name:'Đường đi', example:'Đếm số đường đi ngắn nhất trên lưới ô vuông', note:'Đếm đường đi từ A đến B chỉ đi phải/xuống.', usage:'Rèn <b>tư duy tổ hợp trên lưới ô vuông</b> qua bài toán đếm đường đi.', gen:genT3H },
+  }},
+  t4: { name:'Toán thực tế & Dữ liệu', subs: {
+    t4a:{ name:'Tiền', example:'Mua 3 cây bút giá 5.000đ/cây', note:'Giá tiền, tiền thừa, giảm giá, ngân sách.', usage:'Áp dụng toán vào <b>tình huống mua bán</b> hằng ngày.', gen:genT4A },
+    t4b:{ name:'Thời gian', example:'Xe khởi hành lúc 7 giờ 30, đi 45 phút', note:'Đồng hồ, khoảng thời gian, lịch, thời khóa biểu.', usage:'Tính toán với <b>giờ, phút và các ngày trong tuần</b>.', gen:genT4B },
+    t4c:{ name:'Chuyển động', example:'Vận tốc, quãng đường, thời gian', note:'Hai xe gặp nhau, đuổi nhau.', usage:'Áp dụng công thức <b>quãng đường – vận tốc – thời gian</b>.', gen:genT4C },
+    t4d:{ name:'Tỉ số – tỉ lệ', example:'Tỉ số nam:nữ là 2:3', note:'Tỉ số, tỉ lệ bản đồ, chia theo tỉ lệ.', usage:'Áp dụng <b>tỉ số và tỉ lệ</b> để chia một tổng theo các phần không bằng nhau.', gen:genT4D },
+    t4e:{ name:'Phần trăm', example:'Giảm giá 20% một món hàng', note:'Tăng giá, giảm giá, tìm giá gốc.', usage:'Tính toán với <b>phần trăm</b> trong các tình huống thực tế.', gen:genT4E },
+    t4f:{ name:'Bảng & biểu đồ', example:'Đọc bảng số liệu bán hàng theo ngày', note:'Đọc, so sánh, tính tổng/trung bình từ bảng số liệu.', usage:'Rèn kỹ năng <b>đọc và phân tích dữ liệu</b> từ bảng số liệu.', gen:genT4F },
+    t4g:{ name:'Xác suất', example:'Hộp có 5 bóng đỏ, 3 bóng xanh...', note:'Chắc chắn / có thể / không thể, đếm khả năng.', usage:'Làm quen với <b>khái niệm khả năng xảy ra</b> ở mức cơ bản.', gen:genT4G },
+    t4h:{ name:'Mô hình hóa', example:'Bể nước, kho hàng, rạp chiếu phim...', note:'Tình huống thực tế cần mô hình hóa trước khi tính.', usage:'Rèn khả năng <b>mô hình hóa tình huống thực tế</b> thành phép toán.', gen:genT4H },
+  }},
+};
+
+const LEVEL_LABEL = {1:'L1 · Nhận biết',2:'L2 · Vận dụng',3:'L3 · Tư duy',4:'L4 · Chiến lược',5:'L5 · Thách thức'};
+
+function findSub(id){
+  for(const [tid,t] of Object.entries(TOPICS)){
+    if(t.subs[id]) return { ...t.subs[id], id, topicId: tid };
+  }
+  return null;
+}
+
+function buildLevelPlan(count){
+  const per = Math.floor(count/5);
+  const plan = [];
+  for(let lv=1; lv<=5; lv++) for(let i=0;i<per;i++) plan.push(lv);
+  let rem = count - plan.length;
+  let lv=1;
+  while(rem>0){ plan.push(lv); lv = lv%5+1; rem--; }
+  return shuffle(plan);
+}
+
+function normalize(s){ return String(s).trim().toLowerCase().replace(/\s+/g,' '); }
+
+function generateQuiz(gradeId, subIds, count){
+  const plan = buildLevelPlan(count);
+  return plan.map(level=>{
+    const subId = subIds[randInt(0, subIds.length-1)];
+    const sub = findSub(subId);
+    const q = sub.gen(gradeId, level);
+    return { ...q, sub: subId, level };
+  });
+}
+
+
+/* ============ DOM wiring ============ */
+const MAX_MIX = 4;
 const placeholder = document.getElementById('placeholder');
 const quizArea = document.getElementById('quizArea');
 const refName = document.getElementById('refName');
@@ -415,48 +1114,112 @@ const exportWordBtn = document.getElementById('exportWordBtn');
 const mixToggle = document.getElementById('mixToggle');
 const mixHint = document.getElementById('mixHint');
 const countBtns = document.getElementById('countBtns');
+const gradeRow = document.getElementById('gradeRow');
+const topicTabs = document.getElementById('topicTabs');
+const subGrid = document.getElementById('subGrid');
 
-function renderReference(gradeId, topicIds){
-  const tid = topicIds[0]; const t = TOPICS[tid];
-  refName.textContent = `${ROWS[gradeId-1]} · ${t.name}`;
-  refTag.textContent = topicIds.length>1 ? `${topicIds.length} DẠNG BÀI` : t.vi.toUpperCase();
-  refExample.querySelector('.en').textContent = t.en;
-  refExample.querySelector('.vi').textContent = t.vi2;
-  refUsage.innerHTML = t.usage;
+let selectedGrade = null;      // grade currently highlighted in step 1
+let selectedTopic = null;      // topic id currently open in step 2
+let selectedSubs = [];         // subs selected while in mix mode (pending)
+let mixMode = false;
+let quizCount = 10;
+let currentGrade = null;       // grade of the ACTIVE quiz
+let currentSubs = [];          // subs of the ACTIVE quiz
+let currentQuiz = [];
+
+/* ---- Step 1: Lớp ---- */
+function buildGradeRow(){
+  gradeRow.innerHTML = [1,2,3,4,5].map(g=>`<button class="tbtn" data-grade="${g}">${ROWS[g-1]}</button>`).join('');
 }
+gradeRow.addEventListener('click', (e)=>{
+  const btn = e.target.closest('.tbtn'); if(!btn) return;
+  selectedGrade = parseInt(btn.dataset.grade,10);
+  gradeRow.querySelectorAll('.tbtn').forEach(b=> b.classList.toggle('active', b===btn));
+  if(currentSubs.length){ startTopics(selectedGrade, currentSubs); }
+});
 
-function buildDifficultyPlan(count){
-  const nBasic = Math.round(count*0.4);
-  const nMedium = Math.round(count*0.4);
-  const nHard = Math.max(0, count - nBasic - nMedium);
-  const plan = [];
-  for(let i=0;i<nBasic;i++) plan.push({tier:'basic', scale:0});
-  for(let i=0;i<nMedium;i++) plan.push({tier:'medium', scale: nMedium<=1 ? 1 : i/(nMedium-1)});
-  for(let i=0;i<nHard;i++) plan.push({tier:'hard', scale:1});
-  return plan;
+/* ---- Step 2: Chủ đề ---- */
+function buildTopicTabs(){
+  topicTabs.innerHTML = Object.entries(TOPICS).map(([id,t])=>`<button class="tbtn" data-topicid="${id}">${t.name}</button>`).join('');
 }
+topicTabs.addEventListener('click', (e)=>{
+  const btn = e.target.closest('.tbtn'); if(!btn) return;
+  selectedTopic = btn.dataset.topicid;
+  topicTabs.querySelectorAll('.tbtn').forEach(b=> b.classList.toggle('active', b===btn));
+  selectedSubs = [];
+  renderSubGrid();
+  if(mixMode){ mixHint.style.display='block'; mixHint.textContent = `Chọn 2-${MAX_MIX} dạng con để trộn`; }
+});
 
-function generateQuiz(gradeId, topicIds, count){
-  const plan = buildDifficultyPlan(count);
-  const arr = [];
-  for(let i=0;i<count;i++){
-    const tid = topicIds[randInt(0,topicIds.length-1)];
-    const {tier, scale} = plan[i];
-    arr.push({ ...GEN[tid](gradeId, tier, scale), topic: tid, tier });
+/* ---- Step 3: Dạng con ---- */
+function renderSubGrid(){
+  if(!selectedTopic){ subGrid.innerHTML = `<div class="sub-empty">— Chọn chủ đề ở bước 2 —</div>`; return; }
+  const subs = TOPICS[selectedTopic].subs;
+  subGrid.innerHTML = Object.entries(subs).map(([id,s])=>`<button class="tbtn" data-subid="${id}">${s.name}</button>`).join('');
+}
+subGrid.addEventListener('click', (e)=>{
+  const btn = e.target.closest('.tbtn'); if(!btn) return;
+  const subId = btn.dataset.subid;
+  if(!selectedGrade){
+    mixHint.style.display='block';
+    mixHint.textContent = '⚠️ Vui lòng chọn Lớp ở bước 1 trước.';
+    return;
   }
-  return arr;
+  if(!mixMode){
+    subGrid.querySelectorAll('.tbtn').forEach(b=> b.classList.toggle('active', b===btn));
+    startTopics(selectedGrade, [subId]);
+    return;
+  }
+  const idx = selectedSubs.indexOf(subId);
+  if(idx>=0){ selectedSubs.splice(idx,1); btn.classList.remove('active'); }
+  else{
+    if(selectedSubs.length>=MAX_MIX){
+      const oldId = selectedSubs.shift();
+      const oldBtn = subGrid.querySelector(`.tbtn[data-subid="${oldId}"]`);
+      if(oldBtn) oldBtn.classList.remove('active');
+    }
+    selectedSubs.push(subId); btn.classList.add('active');
+  }
+  mixHint.style.display='block';
+  if(selectedSubs.length>=2){
+    mixHint.textContent = `Đang trộn (${selectedSubs.length}/${MAX_MIX}): ` + selectedSubs.map(id=>findSub(id).name).join(' + ');
+    startTopics(selectedGrade, selectedSubs.slice());
+  } else if(selectedSubs.length===1){
+    mixHint.textContent = `Đã chọn ${findSub(selectedSubs[0]).name} — chọn thêm ít nhất 1 dạng nữa`;
+  } else {
+    mixHint.textContent = `Chọn 2-${MAX_MIX} dạng con để trộn`;
+  }
+});
+
+mixToggle.addEventListener('change', ()=>{
+  mixMode = mixToggle.checked;
+  selectedSubs = [];
+  subGrid.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('active'));
+  mixHint.style.display = mixMode ? 'block' : 'none';
+  mixHint.textContent = mixMode ? `Chọn 2-${MAX_MIX} dạng con để trộn` : '';
+});
+
+/* ---- Reference panel ---- */
+function renderReference(gradeId, subIds){
+  const first = findSub(subIds[0]);
+  refName.textContent = `${ROWS[gradeId-1]} · ${TOPICS[first.topicId].name}`;
+  refTag.textContent = subIds.length>1 ? `${subIds.length} DẠNG CON` : first.name.toUpperCase();
+  refExample.querySelector('.en').textContent = first.example || first.name;
+  refExample.querySelector('.vi').textContent = first.note || '';
+  refUsage.innerHTML = first.usage || '';
 }
 
-function normalize(s){ return String(s).trim().toLowerCase().replace(/\s+/g,' '); }
-
+/* ---- Quiz render / check ---- */
 function renderQuiz(){
   qlist.innerHTML = '';
   scoreBar.style.display = 'none';
   currentQuiz.forEach((q,i)=>{
+    const sub = findSub(q.sub);
+    const topicName = TOPICS[sub.topicId].name;
     const row = document.createElement('div');
     row.className = 'qrow';
     row.innerHTML = `
-      <div class="qnum">Câu ${i+1} · ${TOPICS[q.topic].name} <span class="lvl lvl-${q.tier}">${TIER_LABEL[q.tier]}</span></div>
+      <div class="qnum">Câu ${i+1} · ${topicName} — ${sub.name} <span class="lvl lvl-${q.level}">${LEVEL_LABEL[q.level]}</span></div>
       <div class="qsentence">${q.before} <input type="text" class="qinput" data-idx="${i}" placeholder="?"> ${q.after}</div>
       ${q.hint?`<div class="qvi qshapes">${q.hint}</div>`:''}
       <div class="qvi">${q.vi}</div>
@@ -488,106 +1251,50 @@ function checkAnswers(){
   scoreBar.innerHTML = `<span>Kết quả: <b>${correct}/${currentQuiz.length}</b> (${pct}%)</span><span>${msg}</span>`;
 }
 
-function startTopics(gradeId, topicIds){
-  currentGrade = gradeId; currentTopics = topicIds;
-  document.querySelectorAll('.tbtn').forEach(b=> b.classList.toggle('active', b.dataset.grade==gradeId && topicIds.includes(b.dataset.topic)));
+function startTopics(gradeId, subIds){
+  currentGrade = gradeId; currentSubs = subIds;
+  selectedGrade = gradeId;
+  gradeRow.querySelectorAll('.tbtn').forEach(b=> b.classList.toggle('active', parseInt(b.dataset.grade,10)===gradeId));
   placeholder.style.display = 'none';
   quizArea.style.display = 'block';
-  renderReference(gradeId, topicIds);
-  quizTitle.textContent = quizCount + ' câu luyện tập';
-  currentQuiz = generateQuiz(gradeId, topicIds, quizCount);
+  renderReference(gradeId, subIds);
+  quizTitle.textContent = quizCount + ' câu · 5 cấp độ tư duy';
+  currentQuiz = generateQuiz(gradeId, subIds, quizCount);
   renderQuiz();
 }
 
-/* ============ Picker grid ============ */
-const grid = document.getElementById('grid12');
-function buildGrid(){
-  let html = `<div></div>`;
-  COLS.forEach(c=> html += `<div class="col-h">${c}</div>`);
-  grid.innerHTML = html;
-  ROWS.forEach((r,ri)=>{
-    grid.innerHTML += `<div class="row-h">${r}</div>`;
-    Object.entries(TOPICS).forEach(([id,t])=>{
-      grid.innerHTML += `<button class="tbtn" data-grade="${ri+1}" data-topic="${id}" style="grid-column:${t.col+2}">${t.vi}</button>`;
-    });
-  });
-}
-buildGrid();
-
-const picker = document.getElementById('picker');
-document.getElementById('pickerHead').addEventListener('click', ()=> picker.classList.toggle('open'));
-
-mixToggle.addEventListener('change', ()=>{
-  mixMode = mixToggle.checked;
-  selectedTopics = [];
-  document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('active'));
-  mixHint.style.display = mixMode ? 'block' : 'none';
-  mixHint.textContent = mixMode ? `Chọn 1 lớp rồi chọn 2-${MAX_MIX} dạng bài để trộn` : '';
-});
-
-grid.addEventListener('click', (e)=>{
-  const btn = e.target.closest('.tbtn');
-  if(!btn) return;
-  const gradeId = parseInt(btn.dataset.grade,10);
-  const topicId = btn.dataset.topic;
-
-  if(!mixMode){ startTopics(gradeId, [topicId]); return; }
-
-  if(currentGrade !== null && currentGrade !== gradeId){
-    selectedTopics = [];
-    document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('active'));
-  }
-  currentGrade = gradeId;
-
-  const idx = selectedTopics.indexOf(topicId);
-  if(idx >= 0){ selectedTopics.splice(idx,1); btn.classList.remove('active'); }
-  else {
-    if(selectedTopics.length >= MAX_MIX){
-      const oldId = selectedTopics.shift();
-      const oldBtn = document.querySelector(`.tbtn[data-grade="${gradeId}"][data-topic="${oldId}"]`);
-      if(oldBtn) oldBtn.classList.remove('active');
-    }
-    selectedTopics.push(topicId); btn.classList.add('active');
-  }
-
-  if(selectedTopics.length >= 2){
-    mixHint.textContent = `${ROWS[gradeId-1]} — Đang trộn (${selectedTopics.length}/${MAX_MIX}): ` + selectedTopics.map(tid=>TOPICS[tid].vi).join(' + ');
-    startTopics(gradeId, selectedTopics.slice());
-  } else if(selectedTopics.length === 1){
-    mixHint.textContent = `${ROWS[gradeId-1]} — Đã chọn ${TOPICS[selectedTopics[0]].vi} — chọn thêm ít nhất 1 dạng nữa`;
-  } else {
-    mixHint.textContent = `Chọn 1 lớp rồi chọn 2-${MAX_MIX} dạng bài để trộn`;
-  }
-});
-
 countBtns.addEventListener('click', (e)=>{
-  const btn = e.target.closest('.cbtn');
-  if(!btn) return;
+  const btn = e.target.closest('.cbtn'); if(!btn) return;
   quizCount = parseInt(btn.dataset.count, 10);
   countBtns.querySelectorAll('.cbtn').forEach(b=> b.classList.toggle('active', b===btn));
-  if(currentTopics.length){
-    quizTitle.textContent = quizCount + ' câu luyện tập';
-    currentQuiz = generateQuiz(currentGrade, currentTopics, quizCount);
+  if(currentSubs.length){
+    quizTitle.textContent = quizCount + ' câu · 5 cấp độ tư duy';
+    currentQuiz = generateQuiz(currentGrade, currentSubs, quizCount);
     renderQuiz();
   }
 });
 
 checkBtn.addEventListener('click', checkAnswers);
 reshuffleBtn.addEventListener('click', ()=>{
-  if(!currentTopics.length) return;
-  currentQuiz = generateQuiz(currentGrade, currentTopics, quizCount);
+  if(!currentSubs.length) return;
+  currentQuiz = generateQuiz(currentGrade, currentSubs, quizCount);
   renderQuiz();
 });
 
-/* ============ Copy đề bài ============ */
+/* ---- Picker collapse ---- */
+const picker = document.getElementById('picker');
+document.getElementById('pickerHead').addEventListener('click', ()=> picker.classList.toggle('open'));
+
+/* ---- Copy đề bài ---- */
 function buildPlainText(){
-  const topicNames = currentTopics.map(id=>TOPICS[id].name + ' (' + TOPICS[id].vi + ')').join(' + ');
+  const topicName = TOPICS[findSub(currentSubs[0]).topicId].name;
+  const subNames = currentSubs.map(id=>findSub(id).name).join(' + ');
   const lines = [];
   lines.push('PHIẾU BÀI TẬP — TOÁN TƯ DUY');
-  lines.push('Lớp: ' + ROWS[currentGrade-1] + ' | Dạng bài: ' + topicNames);
+  lines.push('Lớp: ' + ROWS[currentGrade-1] + ' | Chủ đề: ' + topicName + ' | Dạng con: ' + subNames);
   lines.push('Số câu: ' + currentQuiz.length);
   lines.push(''); lines.push('--- ĐỀ BÀI ---');
-  currentQuiz.forEach((q,i)=>{ lines.push(`${i+1}. ${q.before.replace(/<[^>]+>/g,'')} ${q.hint} __________ ${q.after}`.replace(/\s+/g,' ').trim()); });
+  currentQuiz.forEach((q,i)=>{ lines.push(`${i+1}. [${LEVEL_LABEL[q.level]}] ${q.before.replace(/<[^>]+>/g,'')} ${q.hint} __________ ${q.after}`.replace(/\s+/g,' ').trim()); });
   lines.push(''); lines.push('--- ĐÁP ÁN ---');
   currentQuiz.forEach((q,i)=>{ lines.push(`${i+1}. ${q.answer}`); });
   return lines.join('\n');
@@ -608,12 +1315,13 @@ copyBtn.addEventListener('click', async ()=>{
   }
 });
 
-/* ============ Xuất Word (.doc) ============ */
+/* ---- Xuất Word (.doc) ---- */
 function escapeHtml(str){ return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function buildWordDoc(){
-  const topicNames = currentTopics.map(id=>TOPICS[id].name + ' (' + TOPICS[id].vi + ')').join(' + ');
+  const topicName = TOPICS[findSub(currentSubs[0]).topicId].name;
+  const subNames = currentSubs.map(id=>findSub(id).name).join(' + ');
   const dateStr = new Date().toLocaleDateString('vi-VN');
-  const qRows = currentQuiz.map((q,i)=>`<p style="margin:0 0 10px 0; font-size:13pt; line-height:1.5;"><b>${i+1}.</b> ${q.before} ${escapeHtml(q.hint)} ______________________ ${escapeHtml(q.after)}</p>`).join('');
+  const qRows = currentQuiz.map((q,i)=>`<p style="margin:0 0 10px 0; font-size:13pt; line-height:1.5;"><b>${i+1}.</b> <span style="font-size:9pt; color:#666;">[${LEVEL_LABEL[q.level]}]</span> ${q.before} ${escapeHtml(q.hint)} ______________________ ${escapeHtml(q.after)}</p>`).join('');
   const aRows = currentQuiz.map((q,i)=>`<p style="margin:0 0 6px 0; font-size:12pt;"><b>${i+1}.</b> ${escapeHtml(q.answer)}</p>`).join('');
   return `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
   <head><meta charset="utf-8"><title>Phiếu bài tập - Toán tư duy</title>
@@ -622,7 +1330,7 @@ function buildWordDoc(){
   .section-title{font-size:14pt;font-weight:bold;margin:18px 0 10px;border-bottom:1px solid #999;padding-bottom:4px;} .page-break{page-break-before:always;}</style></head>
   <body>
     <h1>PHIẾU BÀI TẬP — TOÁN TƯ DUY</h1>
-    <p class="meta">Lớp: <b>${ROWS[currentGrade-1]}</b> &nbsp;|&nbsp; Dạng bài: <b>${escapeHtml(topicNames)}</b><br>
+    <p class="meta">Lớp: <b>${ROWS[currentGrade-1]}</b> &nbsp;|&nbsp; Chủ đề: <b>${escapeHtml(topicName)}</b> &nbsp;|&nbsp; Dạng con: <b>${escapeHtml(subNames)}</b><br>
     Số câu: <b>${currentQuiz.length}</b> &nbsp;|&nbsp; Ngày: ${dateStr}<br>
     Họ và tên: ______________________________ &nbsp;&nbsp; Lớp: ____________ &nbsp;&nbsp; Điểm: ______ /10</p>
     <div class="section-title">I. ĐỀ BÀI</div>${qRows}
@@ -641,6 +1349,11 @@ exportWordBtn.addEventListener('click', ()=>{
   setTimeout(()=> URL.revokeObjectURL(url), 2000);
   flashBtn(exportWordBtn, '✓ Đã tải!');
 });
+
+/* ---- Init ---- */
+buildGradeRow();
+buildTopicTabs();
+renderSubGrid();
 </script>
 </body>
 </html>
