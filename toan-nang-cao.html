@@ -58,6 +58,8 @@
   .lvl-medium{ background: rgba(232,163,61,.14); color: var(--mid); }
   .lvl-hard{ background: rgba(232,106,146,.14); color: var(--bad); }
   .qsentence{ display:flex; flex-wrap:wrap; align-items:center; gap: 6px 8px; font-size: 14.5px; line-height:1.6; }
+  .qsvg{ margin: 10px 0 6px; padding: 12px; background: var(--panel-3); border: 1px solid var(--line); border-radius: 10px; display:flex; justify-content:center; align-items:center; overflow:auto; }
+  .qsvg svg{ max-width:100%; height:auto; display:block; }
   .qinput{ font-family:'JetBrains Mono', monospace; font-size: 13.5px; font-weight:600; background: var(--panel-3); border: 1px solid var(--line); border-radius: 7px; color: var(--text); padding: 6px 10px; min-width: 110px; outline:none; transition: border-color .2s ease; }
   .qinput:focus{ border-color: var(--accent); }
   .qrow.correct .qinput{ border-color: var(--good); color: var(--good); }
@@ -76,14 +78,19 @@
   .chev{ width: 22px; height:22px; color: var(--text-dim); transition: transform .35s ease; }
   .picker.open .chev{ transform: rotate(180deg); }
   .picker-body{ max-height: 0; overflow: hidden; transition: max-height .45s cubic-bezier(.2,.8,.2,1); }
-  .picker.open .picker-body{ max-height: 1000px; }
+  .picker.open .picker-body{ max-height: 1400px; }
   .picker-inner{ padding: 4px 14px 16px; }
-  .grid12{ display:grid; grid-template-columns: 52px repeat(4, 1fr); gap: 6px; font-size: 11px; }
-  .col-h{ font-family:'JetBrains Mono', monospace; font-size: 9.5px; color: var(--text-dim); text-align:center; padding-bottom:4px; line-height:1.2; }
-  .row-h{ display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono', monospace; font-size: 11px; color: var(--text-dim); }
   .tbtn{ background: var(--panel-2); border: 1px solid var(--line); border-radius: 8px; color: var(--text); padding: 10px 6px; font-size: 11px; line-height:1.3; cursor:pointer; text-align:center; transition: border-color .2s ease, background .2s ease, transform .15s ease; }
   .tbtn:hover{ border-color: rgba(76,175,125,.4); transform: translateY(-1px); }
   .tbtn.active{ background: rgba(76,175,125,.16); border-color: var(--accent); color: var(--accent); font-weight:600; }
+  .step-label{ font-family:'JetBrains Mono', monospace; font-size: 10px; letter-spacing:.08em; text-transform:uppercase; color: var(--text-dim); margin: 14px 0 7px; display:flex; align-items:center; gap:7px; }
+  .step-label .num{ width:16px; height:16px; border-radius:50%; background: rgba(76,175,125,.16); color: var(--accent); display:inline-flex; align-items:center; justify-content:center; font-size:9.5px; font-weight:700; }
+  .step-row:first-child .step-label{ margin-top:0; }
+  .grade-row, .topic-tabs, .sub-grid{ display:flex; flex-wrap:wrap; gap:6px; }
+  .grade-row .tbtn{ min-width: 58px; flex:1 1 58px; }
+  .topic-tabs .tbtn{ min-width: 140px; flex:1 1 140px; }
+  .sub-grid .tbtn{ min-width: 140px; flex:1 1 140px; }
+  .sub-empty{ color: var(--text-dim); font-size: 12px; padding: 6px 2px; font-family:'JetBrains Mono', monospace; }
   .mix-row{ display:flex; align-items:center; gap:8px; padding: 10px 18px 4px; font-size: 12.5px; color: var(--text-dim); cursor:pointer; user-select:none; }
   .mix-row input{ accent-color: var(--accent); width:15px; height:15px; cursor:pointer; }
   .mix-hint{ font-size: 11.5px; color: var(--accent); padding: 0 18px 10px; font-family:'JetBrains Mono', monospace; }
@@ -109,7 +116,7 @@
   <header>
     <p class="eyebrow">Toán học · Nâng cao / Bồi dưỡng HSG</p>
     <h1>🚀 Toán Nâng Cao — Luyện Tập Lớp 1-5</h1>
-    <p class="sub">Bài tập vượt chuẩn lấy cảm hứng từ các kỳ thi bồi dưỡng học sinh giỏi và tuyển sinh trường chuyên (Kangaroo Math, MOEMS, SASMO/SEAMO, UK Primary Maths Challenge): số học & suy luận (chia hết, ước-bội, số nguyên tố), dãy số & quy luật (cộng/trừ, nhân/chia, tổ hợp), toán đố nâng cao (toán tuổi, trồng cây, chuyển động), và hình học nâng cao (ghép hình, bài toán ngược). Mỗi đề gồm 40% câu cơ bản, 40% câu khó dần và 20% câu tư duy nâng cao.</p>
+    <p class="sub">4 chủ đề lớn — Số học &amp; Suy luận, Dãy số &amp; Quy luật, Lời văn nâng cao, Hình học nâng cao — mỗi chủ đề gồm nhiều dạng con, lấy cảm hứng từ các kỳ thi bồi dưỡng học sinh giỏi và tuyển sinh trường chuyên (Kangaroo Math, MOEMS, SASMO/SEAMO, UK Primary Maths Challenge, HSG/đề chuyên Việt Nam). Mỗi dạng con có 3 mức độ Lv 1 → Lv 2 → Lv 3 (40%/40%/20%) với <b>cấu trúc đề khác nhau ở mỗi mức</b> — không chỉ đổi số liệu — ví dụ: thêm bước tính, đổi đơn vị, hoặc đảo chiều bài toán.</p>
     <div class="nav-links">
       <a href="index.html">🇬🇧 Toán Tiếng Anh</a>
       <a class="cur" href="toan-nang-cao.html">🚀 Toán Nâng Cao</a>
@@ -121,7 +128,7 @@
     <div class="stage" id="stage">
       <div class="placeholder" id="placeholder">
         <div class="big">🚀</div>
-        <div class="t1">Chọn Lớp + Dạng bài ở khung bên phải để bắt đầu</div>
+        <div class="t1">Chọn Lớp + Chủ đề + Dạng con ở khung bên phải để bắt đầu</div>
         <div class="t2">Ngân hàng đề sinh tự động — mỗi lượt "Đổi câu hỏi khác" ra bộ đề mới, gần như không trùng lặp.</div>
       </div>
 
@@ -161,9 +168,20 @@
       </div>
       <div class="picker-body">
         <div class="picker-inner">
-          <div class="grid12" id="grid12"></div>
+          <div class="step-row">
+            <div class="step-label"><span class="num">1</span>Chọn lớp</div>
+            <div class="grade-row" id="gradeRow"></div>
+          </div>
+          <div class="step-row">
+            <div class="step-label"><span class="num">2</span>Chọn chủ đề</div>
+            <div class="topic-tabs" id="topicTabs"></div>
+          </div>
+          <div class="step-row">
+            <div class="step-label"><span class="num">3</span>Chọn dạng con</div>
+            <div class="sub-grid" id="subGrid"></div>
+          </div>
         </div>
-        <label class="mix-row"><input type="checkbox" id="mixToggle"> Trộn nhiều dạng bài cùng lúc</label>
+        <label class="mix-row"><input type="checkbox" id="mixToggle"> Trộn nhiều dạng con cùng lúc</label>
         <div class="mix-hint" id="mixHint" style="display:none;"></div>
         <div class="count-row">
           <span class="count-label">Số câu:</span>
@@ -174,34 +192,27 @@
             <button class="cbtn" data-count="30">30</button>
           </div>
         </div>
-        <div class="pool-note"><b>Mẹo:</b> Đây là bài <b>vượt mức chuẩn</b> so với chương trình — nếu học sinh còn yếu kiến thức cơ bản, nên luyện phần cơ bản trước.</div>
+        <div class="pool-note"><b>3 mức độ mỗi đề:</b> <span class="lvl lvl-basic" style="padding:1px 7px;">Lv 1 · 40%</span> · <span class="lvl lvl-medium" style="padding:1px 7px;">Lv 2 · 40%</span> · <span class="lvl lvl-hard" style="padding:1px 7px;">Lv 3 · 20%</span> — mỗi cấp độ có <b>cấu trúc đề riêng</b> (không chỉ khác số liệu): Lv 1 tính trực tiếp 1 bước; Lv 2 thêm bước tính hoặc đổi đơn vị; Lv 3 đảo chiều (biết kết quả, tìm dữ kiện đầu) hoặc kết hợp nhiều đối tượng. Đây là bài <b>vượt mức chuẩn</b> so với chương trình, nếu học sinh còn yếu kiến thức cơ bản nên luyện phần Toán Tư Duy trước.</div>
       </div>
     </div>
   </div>
 </div>
 
 <script>
-/* ============ Cấu hình Lớp & Dạng bài ============ */
-const ROWS = ['Lớp 1','Lớp 2','Lớp 3','Lớp 4','Lớp 5'];
-const COLS = ['Số học & Suy luận','Dãy số & Quy luật','Lời văn nâng cao','Hình học nâng cao'];
-const TOPICS = {
-  arithmetic:{ col:0, name:'Number Theory & Reasoning', vi:'Số học & Suy luận',
-    en:'Tìm số nhỏ nhất chia hết cho cả 2 và 3 trong khoảng từ 20 đến 30.', vi2:'Vận dụng kiến thức chia hết, ước-bội, số nguyên tố để suy luận tìm số thỏa điều kiện.',
-    usage:'Biểu thức nhiều bước, <b>chia hết & số dư</b>, tìm chữ số thỏa điều kiện, ước-bội, số nguyên tố nâng cao.' },
-  sequence:{ col:1, name:'Sequences & Patterns', vi:'Dãy số & Quy luật',
-    en:'2, 4, 8, 16, ___', vi2:'Tìm số còn thiếu trong dãy số theo quy luật nhân/chia đều.',
-    usage:'Quy luật <b>cộng/trừ, nhân/chia</b>, quy luật hình theo tầng, và tổ hợp cơ bản (đếm cách chọn/xếp).' },
-  wordproblem:{ col:2, name:'Advanced Word Problems', vi:'Lời văn nâng cao',
-    en:'Hiện nay tuổi bố gấp 4 lần tuổi con. 5 năm nữa tuổi bố gấp 3 lần tuổi con. Tính tuổi con hiện nay.', vi2:'Bài toán tuổi cần lập luận qua nhiều bước để tìm ra đáp số.',
-    usage:'Toán đố nhiều bước, <b>toán tuổi</b>, <b>toán trồng cây/hàng rào</b>, và <b>toán chuyển động</b> cơ bản.' },
-  geometry:{ col:3, name:'Advanced Geometry', vi:'Hình học nâng cao',
-    en:'Một hình chữ nhật có chu vi 36cm và chiều dài 10cm. Tính chiều rộng.', vi2:'Bài toán ngược: biết chu vi, suy ra cạnh còn thiếu.',
-    usage:'Chu vi/diện tích, <b>ghép hình chữ L</b>, bài toán ngược tìm cạnh, và toán rào vườn nâng cao.' },
-};
-const MAX_MIX = 4;
-const TIER_LABEL = { basic:'Cơ bản', medium:'Nâng cao', hard:'Tư duy' };
-
+/* ============================================================
+   HELPERS DÙNG CHUNG
+   ============================================================ */
 function randInt(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
+function pick(arr){ return arr[randInt(0,arr.length-1)]; }
+function gcdFn(a,b){ return b ? gcdFn(b, a%b) : a; }
+function lcmFn(a,b){ return a*b/gcdFn(a,b); }
+function isPrime(n){ if(n<2) return false; for(let i=2;i*i<=n;i++) if(n%i===0) return false; return true; }
+function sumOfDivisors(n){ let s=0; for(let i=1;i<=n;i++) if(n%i===0) s+=i; return s; }
+function factorial(n){ let r=1; for(let i=2;i<=n;i++) r*=i; return r; }
+
+// Smooth per-grade magnitude multiplier — the only "scaling" left; each Lv is now a
+// distinct hand-written structural branch (see genA1..genD9 below), not a blended range.
+function gradeScale(grade){ return [0.45,0.65,0.85,1,1.25][grade-1]; }
 
 function gradeConfig(g){
   return {
@@ -213,583 +224,1187 @@ function gradeConfig(g){
   }[g];
 }
 
-/* ============ Helpers: số học ============ */
-function gcdFn(a,b){ return b ? gcdFn(b, a%b) : a; }
-function lcmFn(a,b){ return a*b/gcdFn(a,b); }
-function isPrime(n){
-  if(n<2) return false;
-  for(let i=2;i*i<=n;i++) if(n%i===0) return false;
-  return true;
-}
-function sumOfDivisors(n){
-  let s=0;
-  for(let i=1;i<=n;i++) if(n%i===0) s+=i;
-  return s;
-}
-function factorial(n){ let r=1; for(let i=2;i<=n;i++) r*=i; return r; }
+/* ============ SVG HELPERS (giữ nguyên từ bản cũ) ============ */
+const SVG_C = { rect:'#4CAF7D', rect2:'#5B8DEF', tri:'#9B8AE6', line:'#2c3444', text:'#E8ECF1', dim:'#8B95A7', bg:'#1c2330', accent:'#4CAF7D', path:'#5B8DEF' };
 
-/* ============ Unseen-concept rotation (generic, per topic) ============ */
-let unseenByTopic = {};
-function resetUnseen(){ unseenByTopic = {}; }
-function pickFromPool(topicId, pool){
-  if(!unseenByTopic[topicId]) unseenByTopic[topicId] = pool.map(p=>p.id);
-  let unseen = unseenByTopic[topicId];
+function svgRectLabeled(w, h, labelW, labelH, unit='cm'){
+  const scale = Math.min(160/Math.max(w,1), 100/Math.max(h,1), 18);
+  const rw = Math.max(40, w*scale), rh = Math.max(28, h*scale);
+  const pad = 28, svgW = rw+pad*2, svgH = rh+pad*2;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${svgW}" height="${svgH}" viewBox="0 0 ${svgW} ${svgH}">
+    <rect width="${svgW}" height="${svgH}" fill="${SVG_C.bg}" rx="6"/>
+    <rect x="${pad}" y="${pad}" width="${rw}" height="${rh}" fill="${SVG_C.rect}" opacity="0.35" stroke="${SVG_C.rect}" stroke-width="2.5" rx="3"/>
+    <text x="${pad+rw/2}" y="${pad+rh+18}" fill="${SVG_C.dim}" font-size="12" text-anchor="middle" font-family="Inter">${labelW||w}${unit}</text>
+    <text x="${pad-6}" y="${pad+rh/2+4}" fill="${SVG_C.dim}" font-size="12" text-anchor="end" font-family="Inter">${labelH||h}${unit}</text>
+  </svg>`;
+}
+function svgSquareLabeled(s, unit='cm'){ return svgRectLabeled(s, s, s, s, unit); }
+function svgLShape(l1, w1, l2, w2){
+  const scale = Math.min(140/Math.max(l1,l2,1), 100/Math.max(w1+w2,1), 12);
+  const W = Math.max(l1,l2)*scale + 40, H = (w1+w2)*scale + 36;
+  const x0=20, y0=18;
+  const r1w=l1*scale, r1h=w1*scale;
+  const r2w=l2*scale, r2h=w2*scale;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
+    <rect width="${W}" height="${H}" fill="${SVG_C.bg}" rx="6"/>
+    <rect x="${x0}" y="${y0}" width="${r1w}" height="${r1h}" fill="${SVG_C.rect}" opacity="0.4" stroke="${SVG_C.rect}" stroke-width="2" rx="2"/>
+    <rect x="${x0}" y="${y0+r1h}" width="${r2w}" height="${r2h}" fill="${SVG_C.rect2}" opacity="0.4" stroke="${SVG_C.rect2}" stroke-width="2" rx="2"/>
+    <text x="${x0+r1w/2}" y="${y0-4}" fill="${SVG_C.dim}" font-size="11" text-anchor="middle" font-family="Inter">${l1}m</text>
+    <text x="${x0-4}" y="${y0+r1h/2+4}" fill="${SVG_C.dim}" font-size="11" text-anchor="end" font-family="Inter">${w1}m</text>
+    <text x="${x0+r2w/2}" y="${y0+r1h+r2h+14}" fill="${SVG_C.dim}" font-size="11" text-anchor="middle" font-family="Inter">${l2}m</text>
+    <text x="${x0+r2w+6}" y="${y0+r1h+r2h/2+4}" fill="${SVG_C.dim}" font-size="11" font-family="Inter">${w2}m</text>
+  </svg>`;
+}
+function svgTShape(l1, w1, w2, l2){
+  const scale = Math.min(140/Math.max(l1,1), 90/Math.max(w1+l2,1), 10);
+  const topW=l1*scale, topH=w1*scale;
+  const stemW=w2*scale, stemH=l2*scale;
+  const W = topW + 40, H = topH + stemH + 36;
+  const x0=20, y0=16;
+  const stemX = x0 + (topW-stemW)/2;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
+    <rect width="${W}" height="${H}" fill="${SVG_C.bg}" rx="6"/>
+    <rect x="${x0}" y="${y0}" width="${topW}" height="${topH}" fill="${SVG_C.rect}" opacity="0.4" stroke="${SVG_C.rect}" stroke-width="2" rx="2"/>
+    <rect x="${stemX}" y="${y0+topH}" width="${stemW}" height="${stemH}" fill="${SVG_C.rect2}" opacity="0.4" stroke="${SVG_C.rect2}" stroke-width="2" rx="2"/>
+    <text x="${x0+topW/2}" y="${y0-4}" fill="${SVG_C.dim}" font-size="11" text-anchor="middle" font-family="Inter">${l1}m</text>
+    <text x="${x0-4}" y="${y0+topH/2+4}" fill="${SVG_C.dim}" font-size="11" text-anchor="end" font-family="Inter">${w1}m</text>
+  </svg>`;
+}
+function svgTriangle(b, h){
+  const scale = Math.min(150/Math.max(b,1), 90/Math.max(h,1), 14);
+  const bw=b*scale, hh=h*scale;
+  const W=bw+40, H=hh+40;
+  const x0=20, y0=20;
+  const points = `${x0},${y0+hh} ${x0+bw},${y0+hh} ${x0+bw/2},${y0}`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
+    <rect width="${W}" height="${H}" fill="${SVG_C.bg}" rx="6"/>
+    <polygon points="${points}" fill="${SVG_C.tri}" opacity="0.4" stroke="${SVG_C.tri}" stroke-width="2.5"/>
+    <line x1="${x0+bw/2}" y1="${y0}" x2="${x0+bw/2}" y2="${y0+hh}" stroke="${SVG_C.accent}" stroke-width="1.5" stroke-dasharray="4 3"/>
+    <text x="${x0+bw/2}" y="${y0+hh+16}" fill="${SVG_C.dim}" font-size="12" text-anchor="middle" font-family="Inter">${b}</text>
+    <text x="${x0+bw/2+8}" y="${y0+hh/2}" fill="${SVG_C.dim}" font-size="12" font-family="Inter">h=${h}</text>
+  </svg>`;
+}
+function svgTrapezoid(a, b, h){
+  const scale = Math.min(150/Math.max(a,1), 80/Math.max(h,1), 12);
+  const top=b*scale, bot=a*scale, hh=h*scale;
+  const W=bot+40, H=hh+40;
+  const x0=20, y0=20;
+  const leftOff = (bot-top)/2;
+  const points = `${x0+leftOff},${y0} ${x0+leftOff+top},${y0} ${x0+bot},${y0+hh} ${x0},${y0+hh}`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
+    <rect width="${W}" height="${H}" fill="${SVG_C.bg}" rx="6"/>
+    <polygon points="${points}" fill="${SVG_C.rect2}" opacity="0.4" stroke="${SVG_C.rect2}" stroke-width="2.5"/>
+    <text x="${x0+bot/2}" y="${y0+hh+16}" fill="${SVG_C.dim}" font-size="11" text-anchor="middle" font-family="Inter">${a}m</text>
+    <text x="${x0+leftOff+top/2}" y="${y0-4}" fill="${SVG_C.dim}" font-size="11" text-anchor="middle" font-family="Inter">${b}m</text>
+    <text x="${x0+bot+6}" y="${y0+hh/2+4}" fill="${SVG_C.dim}" font-size="11" font-family="Inter">${h}m</text>
+  </svg>`;
+}
+function svgNumberSeq(terms, blankIdx){
+  const cell=42, pad=10;
+  const W = terms.length*cell + pad*2, H=cell+pad*2;
+  let body='';
+  terms.forEach((t,i)=>{
+    const x = pad + i*cell + cell/2;
+    const y = H/2;
+    if(i===blankIdx){
+      body += `<rect x="${x-16}" y="${y-14}" width="32" height="28" rx="6" fill="none" stroke="${SVG_C.accent}" stroke-width="2" stroke-dasharray="4 3"/>`;
+      body += `<text x="${x}" y="${y+5}" fill="${SVG_C.accent}" font-size="14" text-anchor="middle" font-family="JetBrains Mono" font-weight="600">?</text>`;
+    } else {
+      body += `<text x="${x}" y="${y+5}" fill="${SVG_C.text}" font-size="15" text-anchor="middle" font-family="JetBrains Mono" font-weight="600">${t}</text>`;
+    }
+    if(i<terms.length-1) body += `<text x="${x+cell/2}" y="${y+5}" fill="${SVG_C.dim}" font-size="14" text-anchor="middle">,</text>`;
+  });
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}"><rect width="${W}" height="${H}" fill="${SVG_C.bg}" rx="6"/>${body}</svg>`;
+}
+function svgTower(levels, type){
+  const maxN = Math.min(levels, 6);
+  const cell=18, gap=6;
+  const W = maxN*cell + 30, H = maxN*(cell+gap) + 20;
+  let body='';
+  for(let n=1;n<=maxN;n++){
+    const count = type==='square' ? n*n : n*(n+1)/2;
+    const show = Math.min(count, 12);
+    const y = 10 + (n-1)*(cell+gap);
+    const startX = 15;
+    for(let i=0;i<show;i++){
+      const x = startX + (i%6)* (cell*0.55);
+      const yy = y + Math.floor(i/6)*(cell*0.5);
+      body += `<rect x="${x}" y="${yy}" width="${cell*0.45}" height="${cell*0.45}" rx="2" fill="${SVG_C.rect}" opacity="0.7"/>`;
+    }
+    if(count>12) body += `<text x="${startX+6*cell*0.55+4}" y="${y+12}" fill="${SVG_C.dim}" font-size="10" font-family="Inter">…${count}</text>`;
+    body += `<text x="${W-8}" y="${y+12}" fill="${SVG_C.dim}" font-size="10" text-anchor="end" font-family="Inter">T${n}</text>`;
+  }
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}"><rect width="${W}" height="${H}" fill="${SVG_C.bg}" rx="6"/>${body}</svg>`;
+}
+function buildSvgForQuestion(q){
+  if(q.geo){
+    const g = q.geo;
+    if(g.type==='square') return svgSquareLabeled(g.s, g.unit||'cm');
+    if(g.type==='rect') return svgRectLabeled(g.l, g.w, g.l, g.w, g.unit||'cm');
+    if(g.type==='tri') return svgTriangle(g.b, g.h);
+    if(g.type==='trap') return svgTrapezoid(g.a, g.b, g.h);
+    if(g.type==='lshape') return svgLShape(g.l1,g.w1,g.l2,g.w2);
+    if(g.type==='tshape') return svgTShape(g.l1,g.w1,g.w2,g.l2);
+  }
+  if(q.seqTerms) return svgNumberSeq(q.seqTerms, q.seqBlank);
+  if(q.towerK!==undefined) return svgTower(q.towerK, q.towerType);
+  return '';
+}
+
+/* ============ pickFromPool (giữ nguyên cơ chế cũ, key theo TỪNG DẠNG CON) ============ */
+let unseenByKey = {};
+function resetUnseen(){ unseenByKey = {}; }
+function pickFromPool(key, pool){
+  if(!unseenByKey[key]) unseenByKey[key] = pool.map(p=>p.id);
+  let unseen = unseenByKey[key];
   const unseenPool = pool.filter(p=>unseen.includes(p.id));
   let chosenObj;
   if(unseenPool.length>0){
     chosenObj = unseenPool[randInt(0,unseenPool.length-1)];
-    unseenByTopic[topicId] = unseen.filter(id=>id!==chosenObj.id);
+    unseenByKey[key] = unseen.filter(id=>id!==chosenObj.id);
   } else {
     chosenObj = pool[randInt(0,pool.length-1)];
   }
   return chosenObj.fn();
 }
+function mk(before,hint,after,vi,answer,extra){ return Object.assign({ before, hint:hint||'', after:after||'', vi, answer:String(answer) }, extra||{}); }
 
-/* ============ Generator 1: Number Theory & Reasoning ============ */
-function genArithmetic(grade, tier, scale){
+/* ============================================================
+   CHỦ ĐỀ A — SỐ HỌC & SUY LUẬN  (nguồn: MOEMS + Kangaroo/SASMO-SEAMO)
+   ============================================================ */
+
+// A1. Biểu thức nhiều bước — Lv1: tính trực tiếp | Lv2: +1-2 bước | Lv3: đảo chiều (tìm số ẩn)
+function genA1(grade, tier){
   const cfg = gradeConfig(grade);
-  const factor = tier==='basic' ? 0.4 : tier==='medium' ? (0.5+0.5*scale) : 1;
-  const half = Math.max(3, Math.floor(cfg.max*factor/3));
-  const pool = [];
-
-  // 1.1 Biểu thức nhiều bước (giữ nguyên logic gốc, theo từng lớp)
-  pool.push({ id:'expr', fn:()=>{
-    let expr, answer;
-    if(grade===1){
-      const a=randInt(1,half), b=randInt(1,half), c=randInt(1,Math.min(a+b,half));
-      if(tier==='hard'){
-        const d=randInt(1,Math.max(2,Math.floor(half/2)));
-        expr = `(${a} + ${b}) - ${c} + ${d}`; answer = a+b-c+d;
-      } else {
-        expr = `(${a} + ${b}) - ${c}`; answer = a+b-c;
-      }
-    } else if(grade===2){
-      const a=randInt(1,half), b=randInt(1,half), c=randInt(1,half);
-      const op = Math.random()<0.5 ? '+' : '-';
-      const base = op==='+' ? a+b+c : (Math.max(a,b)-Math.min(a,b))+c;
-      if(tier==='hard'){
-        const d=randInt(1,Math.max(1,base-1));
-        expr = op==='+' ? `${a} + ${b} + ${c} - ${d}` : `${Math.max(a,b)} - ${Math.min(a,b)} + ${c} - ${d}`;
-        answer = base-d;
-      } else {
-        expr = op==='+' ? `${a} + ${b} + ${c}` : `${Math.max(a,b)} - ${Math.min(a,b)} + ${c}`;
-        answer = base;
-      }
-    } else if(grade===3){
-      const a=randInt(2,9), b=randInt(2,cfg.mulMax), c=randInt(1,half);
-      if(tier==='hard'){
-        const d=randInt(2,9);
-        expr = `${a} × ${b} + ${c} - ${d}`; answer = a*b+c-d;
-      } else {
-        expr = `${a} × ${b} + ${c}`; answer = a*b+c;
-      }
-    } else if(grade===4){
-      const a=randInt(2,9), b=randInt(2,cfg.mulMax), d=randInt(1,half);
-      const cMax = Math.max(2, Math.floor((a*b)/2));
-      const c=randInt(2,cMax);
-      if(tier==='hard'){
-        const e=randInt(2,9);
-        expr = `(${a} × ${b}) - (${c} × 2) + ${d} + ${e}`; answer = (a*b)-(c*2)+d+e;
-      } else {
-        expr = `(${a} × ${b}) - (${c} × 2) + ${d}`; answer = (a*b)-(c*2)+d;
-      }
-    } else {
-      const a=randInt(10,50)*2, b=randInt(2,9), c=randInt(10,99);
-      const div = b>a?2:b;
-      if(tier==='hard'){
-        const e=randInt(2,9);
-        expr = `${a} ÷ ${div} + ${c} - ${e}`; answer = Math.round(a/div)+c-e;
-      } else {
-        expr = `${a} ÷ ${div} + ${c}`; answer = Math.round(a/div)+c;
-      }
-    }
-    return { before:'Tính giá trị của biểu thức:', hint:`(${expr})`, after:'= ?', vi:'Thực hiện đúng thứ tự phép tính (trong ngoặc trước, nhân/chia trước cộng/trừ sau).', answer };
-  }});
-
-  // 1.2 Chia hết & số dư (grade 2+)
-  if(grade>=2){
-    pool.push({ id:'divisible', fn:()=>{
-      const divisorSets = grade<=3 ? [[2,5],[2,3]] : [[2,3],[3,5],[2,5],[2,3,5]];
-      const divs = divisorSets[randInt(0,divisorSets.length-1)];
-      const L = divs.reduce((a,b)=>lcmFn(a,b));
-      const A = randInt(10, 60);
-      const answer = Math.ceil(A/L)*L;
-      const B = answer + randInt(0, L-1);
-      return { before:`Tìm số nhỏ nhất chia hết cho cả ${divs.join(' và ')} trong khoảng từ ${A} đến ${B}.`, hint:'', after:'', vi:'Số vừa chia hết cho cả các số đã cho chính là bội chung của chúng.', answer };
+  const gs = gradeScale(grade);
+  const half = Math.max(6, Math.round(cfg.max*gs/2));
+  if(tier==='basic'){
+    const pool = [];
+    pool.push({ id:'l1_simple', fn:()=>{
+      let expr, answer;
+      if(grade<=2){ const a=randInt(1,half), b=randInt(1,half), c=randInt(1,Math.min(a+b,half)); expr=`(${a} + ${b}) - ${c}`; answer=a+b-c; }
+      else if(grade===3){ const a=randInt(2,9), b=randInt(2,cfg.mulMax), c=randInt(1,half); expr=`${a} × ${b} + ${c}`; answer=a*b+c; }
+      else { const a=randInt(2,9), b=randInt(2,cfg.mulMax), d=randInt(1,half); const cMax=Math.max(2,Math.floor((a*b)/2)); const c=randInt(2,cMax); expr=`(${a} × ${b}) - (${c} × 2) + ${d}`; answer=(a*b)-(c*2)+d; }
+      return mk('Tính giá trị của biểu thức:', `(${expr})`, '= ?', 'Thực hiện đúng thứ tự phép tính: trong ngoặc trước, nhân/chia trước, cộng/trừ sau.', answer);
     }});
-    pool.push({ id:'remainder', fn:()=>{
-      const q = randInt(2,9), quotient = randInt(3, Math.max(4,cfg.mulMax)), r = randInt(1,q-1);
-      const p = q*quotient + r;
-      return { before:`Số ${p} chia cho ${q} thì dư bao nhiêu?`, hint:'', after:'', vi:'Lấy số bị chia trừ đi (thương nhân số chia) để tìm số dư.', answer: r };
-    }});
+    return pickFromPool('a1_lv1', pool);
   }
+  if(tier==='medium'){
+    const pool = [];
+    pool.push({ id:'l2_extra_terms', fn:()=>{
+      const extraTerms = randInt(1,2);
+      let expr, acc, terms;
+      if(grade<=2){ const a=randInt(1,half), b=randInt(1,half), c=randInt(1,Math.min(a+b,half)); acc=a+b-c; terms=[`(${a} + ${b}) - ${c}`];
+        for(let i=0;i<extraTerms;i++){ const d=randInt(1,Math.max(2,Math.floor(half/2))); terms.push(i%2===0?`+ ${d}`:`- ${Math.min(d,acc)}`); acc = i%2===0? acc+d : acc-Math.min(d,acc); } }
+      else if(grade===3){ const a=randInt(2,9), b=randInt(2,cfg.mulMax), c=randInt(1,half); acc=a*b+c; terms=[`${a} × ${b} + ${c}`];
+        for(let i=0;i<extraTerms;i++){ const d=randInt(2,9); terms.push(i%2===0?`- ${d}`:`+ ${d}`); acc = i%2===0? acc-d: acc+d; } }
+      else { const a=randInt(2,9), b=randInt(2,cfg.mulMax), d=randInt(1,half); const cMax=Math.max(2,Math.floor((a*b)/2)); const c=randInt(2,cMax); acc=(a*b)-(c*2)+d; terms=[`(${a} × ${b}) - (${c} × 2) + ${d}`];
+        for(let i=0;i<extraTerms;i++){ const e=randInt(2,9); terms.push(i%2===0?`+ ${e}`:`- ${e}`); acc = i%2===0? acc+e: acc-e; } }
+      expr = terms.join(' ');
+      return mk('Tính giá trị của biểu thức (chú ý có nhiều bước hơn):', `(${expr})`, '= ?', 'Thực hiện lần lượt từng bước theo đúng thứ tự phép tính.', acc);
+    }});
+    return pickFromPool('a1_lv2', pool);
+  }
+  // hard: reverse — find the missing number
+  const pool = [];
+  pool.push({ id:'l3_missing_add', fn:()=>{
+    const x = randInt(2, half);
+    const c = randInt(1, half);
+    const total = x + c;
+    return mk(`Tìm số ☐, biết: ☐ + ${c} = ${total}`, '', '', 'Dùng phép tính ngược (trừ) để tìm số chưa biết.', x);
+  }});
+  pool.push({ id:'l3_missing_mul', fn:()=>{
+    const x = randInt(2, half);
+    const b = randInt(2, Math.max(3,Math.round(cfg.mulMax*(0.5+0.5*gs))));
+    const extra = randInt(1,10);
+    const total = x*b + extra;
+    return mk(`Tìm số ☐, biết: ☐ × ${b} + ${extra} = ${total}`, '', '', 'Trừ phần cộng thêm trước, sau đó chia để tìm số ☐.', x);
+  }});
+  return pickFromPool('a1_lv3', pool);
+}
 
-  // 1.3 Tìm chữ số thỏa điều kiện (grade 2+)
-  if(grade>=2){
-    pool.push({ id:'digitfind', fn:()=>{
+// A2. Chia hết & số dư — Lv1: số dư trực tiếp | Lv2: tìm số nhỏ nhất chia hết trong khoảng | Lv3: đếm bội số / đảo chiều số dư
+function genA2(grade, tier){
+  const gs = gradeScale(grade);
+  if(tier==='basic'){
+    const pool = [];
+    pool.push({ id:'l1_remainder', fn:()=>{
+      const q = randInt(2,9);
+      const quotient = randInt(3, Math.max(4,Math.round(8*gs)));
+      const r = randInt(1,q-1);
+      const p = q*quotient + r;
+      return mk(`Số ${p} chia cho ${q} thì dư bao nhiêu?`, '', '', 'Lấy số bị chia trừ đi (thương nhân số chia) để tìm số dư.', r);
+    }});
+    return pickFromPool('a2_lv1', pool);
+  }
+  if(tier==='medium'){
+    const pool = [];
+    pool.push({ id:'l2_divisible_range', fn:()=>{
+      const setsLow = [[2,5],[2,3]], setsHigh=[[2,3],[3,5],[2,5]];
+      const divs = pick(grade<=2 ? setsLow : setsHigh);
+      const L = divs.reduce((a,b)=>lcmFn(a,b));
+      const A = randInt(Math.round(10*gs), Math.round(60*gs));
+      const answer = Math.ceil(A/L)*L;
+      const B = answer + randInt(0, Math.max(1,L-1));
+      return mk(`Tìm số nhỏ nhất chia hết cho cả ${divs.join(' và ')} trong khoảng từ ${A} đến ${B}.`, '', '', 'Số vừa chia hết cho cả các số đã cho chính là bội chung của chúng — tìm bội chung nhỏ nhất, rồi tìm bội đầu tiên rơi vào khoảng.', answer);
+    }});
+    return pickFromPool('a2_lv2', pool);
+  }
+  const pool = [];
+  pool.push({ id:'l3_count_multiples', fn:()=>{
+    const d = pick([2,3,4,5,6]);
+    const lo = randInt(1, Math.round(20*gs));
+    const hi = lo + randInt(30, Math.round(150*gs)+30);
+    let count=0; for(let i=lo;i<=hi;i++) if(i%d===0) count++;
+    return mk(`Có bao nhiêu số chia hết cho ${d} trong khoảng từ ${lo} đến ${hi} (tính cả hai đầu)?`, '', '', 'Tìm bội đầu tiên và bội cuối cùng của số đó trong đoạn, rồi đếm.', count);
+  }});
+  pool.push({ id:'l3_reverse_remainder', fn:()=>{
+    const q = randInt(3,9);
+    const quotient = randInt(4, Math.max(5,Math.round(12*gs)));
+    const r = randInt(1,q-1);
+    const p = q*quotient + r;
+    return mk(`Một số chia cho ${q} được thương là ${quotient} và dư ${r}. Tìm số đó (số bị chia).`, '', '', 'Số bị chia = số chia × thương + số dư (làm ngược lại phép chia).', p);
+  }});
+  return pickFromPool('a2_lv3', pool);
+}
+
+// A3. Tìm chữ số / số ẩn — Lv1: số 2 chữ số | Lv2: số 3 chữ số | Lv3: đảo ngược 2 chữ số (classic)
+function genA3(grade, tier){
+  if(tier==='basic'){
+    const pool = [];
+    pool.push({ id:'l1_digit2', fn:()=>{
       const t = randInt(1,9);
       let o; do{ o = randInt(0,9); } while(o===t);
       const diff = Math.abs(t-o);
       const sum = t+o;
-      const phrase = t>o
-        ? `chữ số hàng chục hơn chữ số hàng đơn vị là ${diff}`
-        : `chữ số hàng đơn vị hơn chữ số hàng chục là ${diff}`;
-      return { before:`Tìm một số có 2 chữ số, biết ${phrase} và tổng hai chữ số bằng ${sum}.`, hint:'', after:'', vi:'Lập luận từ tổng và hiệu để tìm ra từng chữ số.', answer: t*10+o };
+      const phrase = t>o ? `chữ số hàng chục hơn chữ số hàng đơn vị là ${diff}` : `chữ số hàng đơn vị hơn chữ số hàng chục là ${diff}`;
+      return mk(`Tìm một số có 2 chữ số, biết ${phrase} và tổng hai chữ số bằng ${sum}.`, '', '', 'Lập luận từ tổng và hiệu để tìm ra từng chữ số.', t*10+o);
     }});
+    return pickFromPool('a3_lv1', pool);
   }
-
-  // 1.4 Ước số & bội số nâng cao (grade 4+)
-  if(grade>=4){
-    pool.push({ id:'sumdivisors', fn:()=>{
-      const candidates = [6,8,10,12,14,15,16,18,20,21,24,28,30,36];
-      const n = candidates[randInt(0,candidates.length-1)];
-      return { before:`Tính tổng các ước của số ${n}.`, hint:'', after:'', vi:'Liệt kê tất cả các số chia hết cho số đã cho, rồi cộng lại.', answer: sumOfDivisors(n) };
+  if(tier==='medium'){
+    const pool = [];
+    pool.push({ id:'l2_digit3', fn:()=>{
+      const h = randInt(1,9), te = randInt(0,9), u = randInt(0,9);
+      const sum = h+te+u;
+      return mk(`Tìm một số có 3 chữ số, biết tổng ba chữ số bằng ${sum}, chữ số hàng trăm là ${h}, chữ số hàng chục là ${te}.`, '', '', 'Lấy tổng trừ đi hai chữ số đã biết để tìm chữ số còn lại.', h*100+te*10+u);
     }});
-    pool.push({ id:'gcd', fn:()=>{
-      const g = randInt(2,8);
-      const a = g*randInt(2,7), b = g*randInt(2,9);
-      return { before:`Tìm ước chung lớn nhất (ƯCLN) của ${a} và ${b}.`, hint:'', after:'', vi:'Tìm số lớn nhất chia hết cho cả hai số đã cho.', answer: gcdFn(a,b) };
+    pool.push({ id:'l2_digit3_cond', fn:()=>{
+      const te = randInt(1,4), h = te*2, u = randInt(0,9);
+      return mk(`Tìm một số có 3 chữ số, biết chữ số hàng trăm gấp đôi chữ số hàng chục, chữ số hàng chục là ${te}, và chữ số hàng đơn vị là ${u}.`, '', '', 'Từ điều kiện "gấp đôi", suy ra chữ số hàng trăm trước, rồi ghép các chữ số lại.', h*100+te*10+u);
     }});
-    pool.push({ id:'lcm', fn:()=>{
-      const g = randInt(2,6);
-      const a = g*randInt(1,5), b = g*randInt(1,6);
-      return { before:`Tìm bội chung nhỏ nhất (BCNN) của ${a} và ${b}.`, hint:'', after:'', vi:'Tìm số nhỏ nhất chia hết cho cả hai số đã cho.', answer: lcmFn(a,b) };
-    }});
+    return pickFromPool('a3_lv2', pool);
   }
-
-  // 1.5 Số nguyên tố nâng cao (grade 4+)
-  if(grade>=4){
-    pool.push({ id:'primeLargest', fn:()=>{
-      const n = randInt(15,60);
-      let ans = n-1; while(ans>=2 && !isPrime(ans)) ans--;
-      return { before:`Tìm số nguyên tố lớn nhất nhỏ hơn ${n}.`, hint:'', after:'', vi:'Số nguyên tố là số chỉ chia hết cho 1 và chính nó.', answer: ans };
-    }});
-    pool.push({ id:'primeCount', fn:()=>{
-      const A = randInt(1,15), B = A + randInt(10,20);
-      let count=0; for(let i=A;i<=B;i++) if(isPrime(i)) count++;
-      return { before:`Có bao nhiêu số nguyên tố trong khoảng từ ${A} đến ${B}?`, hint:'', after:'', vi:'Đếm các số chỉ chia hết cho 1 và chính nó trong khoảng đã cho.', answer: count };
-    }});
-  }
-
-  const chosen = pickFromPool('arithmetic', pool);
-  return { before: chosen.before, hint: chosen.hint||'', after: chosen.after||'', vi: chosen.vi, answer: String(chosen.answer) };
-}
-
-/* ============ Generator 2: Sequences & Patterns ============ */
-function genSequence(grade, tier, scale){
-  const cfg = gradeConfig(grade);
+  // hard: reverse — swapping the two digits of a 2-digit number changes it by a known amount
   const pool = [];
-
-  // 2.1 Dãy số cộng/trừ đều (giữ nguyên logic gốc)
-  pool.push({ id:'arith', fn:()=>{
-    const stepCap = Math.min(Math.max(2, Math.floor(cfg.max/50)+1), grade<=2?5:15);
-    const stepAbs = tier==='basic' ? randInt(1, Math.max(1,Math.floor(stepCap*0.4)))
-                   : tier==='medium' ? randInt(1, Math.max(2,Math.round(stepCap*(0.4+0.6*scale))))
-                   : randInt(Math.max(2,Math.floor(stepCap*0.6)), stepCap);
-    const isNeg = tier==='basic' ? false : Math.random()<0.4;
-    const step = isNeg ? -stepAbs : stepAbs;
-    const startMax = Math.max(5, Math.floor(cfg.max/4));
-    let start;
-    if(isNeg){
-      const minStart = stepAbs*5;
-      start = randInt(Math.max(minStart, startMax), Math.max(minStart, cfg.max));
-    } else {
-      start = randInt(0, startMax);
+  pool.push({ id:'l3_swap_digits', fn:()=>{
+    const t = randInt(1,9);
+    let o; do{ o = randInt(0,9); } while(o===t);
+    const original = t*10+o, swapped = o*10+t;
+    const diff = swapped-original;
+    const sum = t+o;
+    if(diff>0){
+      return mk(`Một số có 2 chữ số có tổng hai chữ số bằng ${sum}. Nếu đổi chỗ hai chữ số cho nhau thì được số mới lớn hơn số ban đầu ${diff} đơn vị. Tìm số ban đầu.`, '', '', 'Đổi chỗ 2 chữ số làm số thay đổi theo hiệu (chữ số hàng đơn vị − chữ số hàng chục) × 9. Kết hợp với tổng để tìm từng chữ số.', original);
     }
-    const terms = [];
-    for(let i=0;i<6;i++) terms.push(start + step*i);
-    const blankIdx = tier==='basic' ? randInt(3,4) : tier==='medium' ? randInt(2,4) : randInt(1,3);
-    const answer = terms[blankIdx];
-    const display = terms.map((t,i)=> i===blankIdx ? '___' : t).join(', ');
-    return { before:'Tìm số còn thiếu trong dãy số:', hint:`(${display})`, after:'', vi:'Quan sát quy luật tăng/giảm giữa các số liên tiếp trong dãy.', answer };
+    return mk(`Một số có 2 chữ số có tổng hai chữ số bằng ${sum}. Nếu đổi chỗ hai chữ số cho nhau thì được số mới nhỏ hơn số ban đầu ${-diff} đơn vị. Tìm số ban đầu.`, '', '', 'Đổi chỗ 2 chữ số làm số thay đổi theo hiệu (chữ số hàng chục − chữ số hàng đơn vị) × 9. Kết hợp với tổng để tìm từng chữ số.', original);
   }});
-
-  // 2.2 Dãy số quy luật nhân/chia (grade 3+)
-  if(grade>=3){
-    pool.push({ id:'geometric', fn:()=>{
-      const r = tier==='hard' ? [2,3][randInt(0,1)] : 2;
-      const start = randInt(1, tier==='basic'?4:5);
-      const len = 4;
-      let terms = []; for(let i=0;i<len;i++) terms.push(start*Math.pow(r,i));
-      const reversed = tier!=='basic' && Math.random()<0.5;
-      if(reversed) terms = terms.slice().reverse();
-      const blankIdx = tier==='basic' ? len-1 : randInt(1,len-1);
-      const answer = terms[blankIdx];
-      const display = terms.map((t,i)=> i===blankIdx ? '___' : t).join(', ');
-      return { before:'Tìm số còn thiếu trong dãy số:', hint:`(${display})`, after:'', vi: reversed?'Mỗi số bằng số liền trước chia cho một số cố định.':'Mỗi số bằng số liền trước nhân với một số cố định.', answer };
-    }});
-  }
-
-  // 2.3 Quy luật hình theo tầng (all grades, số nhỏ cho lớp 1-2)
-  pool.push({ id:'towerpattern', fn:()=>{
-    const useSquare = Math.random()<0.5;
-    if(useSquare){
-      const k = randInt(grade<=2?4:5, grade<=2?6:8);
-      return { before:`Tầng 1 có 1 hình vuông, tầng 2 có 4 hình vuông, tầng 3 có 9 hình vuông (số hình vuông ở mỗi tầng bằng bình phương số thứ tự của tầng). Hỏi tầng ${k} có bao nhiêu hình vuông?`,
-        hint:'', after:'', vi:'Số hình ở tầng thứ n bằng n × n.', answer: k*k };
-    }
-    const k = randInt(grade<=2?5:6, grade<=2?7:9);
-    return { before:`Tầng 1 có 1 hình, tầng 2 có 3 hình, tầng 3 có 6 hình, tầng 4 có 10 hình (mỗi tầng cộng thêm đúng bằng số thứ tự của tầng đó so với tầng trước). Hỏi tầng ${k} có bao nhiêu hình?`,
-      hint:'', after:'', vi:'Số hình ở tầng thứ n bằng 1 + 2 + 3 + ... + n.', answer: k*(k+1)/2 };
-  }});
-
-  // 2.4 Tổ hợp cơ bản (grade 4+)
-  if(grade>=4){
-    pool.push({ id:'combo_pair', fn:()=>{
-      const a=randInt(2,6), b=randInt(2,6);
-      return { before:`Có ${a} chiếc áo và ${b} chiếc quần khác nhau. Hỏi có bao nhiêu cách chọn phối 1 áo với 1 quần?`, hint:'', after:'', vi:'Mỗi áo có thể phối với mỗi quần, nên số cách bằng tích số áo và số quần.', answer: a*b };
-    }});
-    pool.push({ id:'combo_arrange', fn:()=>{
-      const n = randInt(3,4);
-      return { before:`Có ${n} bạn học sinh xếp thành một hàng. Hỏi có bao nhiêu cách xếp thứ tự khác nhau?`, hint:'', after:'', vi:'Số cách xếp thứ tự của n phần tử bằng n giai thừa (n × (n-1) × ... × 1).', answer: factorial(n) };
-    }});
-  }
-
-  const chosen = pickFromPool('sequence', pool);
-  return { before: chosen.before, hint: chosen.hint||'', after: chosen.after||'', vi: chosen.vi, answer: String(chosen.answer) };
+  return pickFromPool('a3_lv3', pool);
 }
 
-/* ============ Generator 3: Advanced Word Problems ============ */
-function genWordProblem(grade, tier, scale){
+// A4. Ước – Bội – ƯCLN – BCNN — Lv1: tổng các ước (1 số) | Lv2: ƯCLN (2 số) | Lv3: BCNN + đảo chiều ƯCLN
+function genA4(grade, tier){
+  const gs = gradeScale(grade);
+  if(tier==='basic'){
+    const pool = [];
+    pool.push({ id:'l1_sumdivisors', fn:()=>{
+      const small=[6,8,10,12,14,15,16,18], big=[20,21,24,28,30,36,40,42,45,48];
+      const n = pick(grade<=2 ? small : small.concat(big));
+      return mk(`Tính tổng các ước của số ${n}.`, '', '', 'Liệt kê tất cả các số chia hết cho số đã cho, rồi cộng lại.', sumOfDivisors(n));
+    }});
+    return pickFromPool('a4_lv1', pool);
+  }
+  if(tier==='medium'){
+    const pool = [];
+    pool.push({ id:'l2_gcd', fn:()=>{
+      const g = randInt(2, Math.max(3,Math.round(8*gs)));
+      const a = g*randInt(2,7), b = g*randInt(2,9);
+      return mk(`Tìm ước chung lớn nhất (ƯCLN) của ${a} và ${b}.`, '', '', 'Tìm số lớn nhất chia hết cho cả hai số đã cho.', gcdFn(a,b));
+    }});
+    return pickFromPool('a4_lv2', pool);
+  }
+  const pool = [];
+  pool.push({ id:'l3_lcm', fn:()=>{
+    const g = randInt(2, Math.max(2,Math.round(6*gs)));
+    const a = g*randInt(1,5), b = g*randInt(1,6);
+    return mk(`Tìm bội chung nhỏ nhất (BCNN) của ${a} và ${b}.`, '', '', 'Tìm số nhỏ nhất chia hết cho cả hai số đã cho.', lcmFn(a,b));
+  }});
+  pool.push({ id:'l3_reverse_gcd', fn:()=>{
+    const g = randInt(2, Math.max(3,Math.round(7*gs)));
+    const m = randInt(2,9);
+    const a = g*m;
+    return mk(`Hai số có ƯCLN là ${g}. Một trong hai số là ${a}. Tìm số còn lại NHỎ NHẤT có thể (khác ${a}, cũng chia hết cho ${g}, và không có ước chung nào lớn hơn ${g} với ${a}).`, '', '', `Số cần tìm có dạng ${g} × k với k khác ${m} và không chia hết cho các ước của ${m} (để ƯCLN đúng bằng ${g}) — chọn k nhỏ nhất thỏa mãn.`, g*(m+1) );
+  }});
+  return pickFromPool('a4_lv3', pool);
+}
+
+// A5. Số nguyên tố nâng cao — Lv1: tìm số nguyên tố lớn nhất < n | Lv2: đếm số nguyên tố trong khoảng | Lv3: đảo chiều (tích 2 số nguyên tố)
+function genA5(grade, tier){
+  const gs = gradeScale(grade);
+  if(tier==='basic'){
+    const pool = [];
+    pool.push({ id:'l1_prime_largest', fn:()=>{
+      const n = randInt(Math.round(12*gs), Math.round(60*gs)+10);
+      let ans = n-1; while(ans>=2 && !isPrime(ans)) ans--;
+      return mk(`Tìm số nguyên tố lớn nhất nhỏ hơn ${n}.`, '', '', 'Số nguyên tố là số chỉ chia hết cho 1 và chính nó.', ans);
+    }});
+    return pickFromPool('a5_lv1', pool);
+  }
+  if(tier==='medium'){
+    const pool = [];
+    pool.push({ id:'l2_prime_count', fn:()=>{
+      const A = randInt(1, Math.round(15*gs));
+      const width = randInt(8, Math.max(12,Math.round(24*gs))+10);
+      const B = A + width;
+      let count=0; for(let i=A;i<=B;i++) if(isPrime(i)) count++;
+      return mk(`Có bao nhiêu số nguyên tố trong khoảng từ ${A} đến ${B}?`, '', '', 'Đếm các số chỉ chia hết cho 1 và chính nó trong khoảng đã cho.', count);
+    }});
+    return pickFromPool('a5_lv2', pool);
+  }
+  const pool = [];
+  pool.push({ id:'l3_product_of_two_primes', fn:()=>{
+    const primesSmall = [2,3,5,7,11,13,17,19];
+    const p1 = pick(primesSmall);
+    let p2; do{ p2 = pick(primesSmall); } while(p2===p1);
+    const P = p1*p2;
+    return mk(`Tích của hai số nguyên tố khác nhau bằng ${P}. Tìm số nguyên tố NHỎ HƠN trong hai số đó.`, '', '', 'Phân tích ${P} thành tích của đúng 2 số nguyên tố, rồi chọn số nhỏ hơn.'.replace('${P}',P), Math.min(p1,p2));
+  }});
+  return pickFromPool('a5_lv3', pool);
+}
+
+// B1. Dãy cộng/trừ đều — Lv1: điền số còn thiếu | Lv2: số hạng thứ n | Lv3: đảo chiều (biết số hạng thứ n, tìm số đầu)
+function genB1(grade, tier){
   const cfg = gradeConfig(grade);
-  const unit = cfg.units[randInt(0,cfg.units.length-1)];
-  const factor = tier==='basic' ? 0.35 : tier==='medium' ? (0.45+0.5*scale) : 1;
-  const rangeTop = Math.max(8, Math.round(cfg.max*factor));
+  const gs = gradeScale(grade);
+  if(tier==='basic'){
+    const pool = [];
+    pool.push({ id:'l1_fill_blank', fn:()=>{
+      const stepCap = Math.min(Math.max(2, Math.floor(cfg.max/50)+1), grade<=2?5:15);
+      const stepAbs = randInt(1, Math.max(1,Math.floor(stepCap*0.5)));
+      const isNeg = Math.random()<0.3;
+      const step = isNeg ? -stepAbs : stepAbs;
+      const startMax = Math.max(5, Math.floor(cfg.max/4));
+      let start = isNeg ? randInt(stepAbs*5, Math.max(stepAbs*5, cfg.max)) : randInt(0, startMax);
+      const terms = []; for(let i=0;i<6;i++) terms.push(start + step*i);
+      const blankIdx = randInt(3,4);
+      return mk('Tìm số còn thiếu trong dãy số (xem hình):', '', '', 'Quan sát quy luật tăng/giảm giữa các số liên tiếp trong dãy.', terms[blankIdx], { seqTerms: terms, seqBlank: blankIdx });
+    }});
+    return pickFromPool('b1_lv1', pool);
+  }
+  if(tier==='medium'){
+    const pool = [];
+    pool.push({ id:'l2_nth_term', fn:()=>{
+      const stepAbs = Math.max(2,Math.round(6*gs));
+      const start = randInt(1, Math.max(2,Math.round(15*gs)));
+      const n = randInt(8,15);
+      const val = start + (n-1)*stepAbs;
+      return mk(`Một dãy số bắt đầu từ ${start}, mỗi số sau hơn số trước ${stepAbs} đơn vị. Hỏi số hạng thứ ${n} của dãy là bao nhiêu?`, '', '', 'Số hạng thứ n = số đầu + (n − 1) × bước nhảy.', val);
+    }});
+    return pickFromPool('b1_lv2', pool);
+  }
+  const pool = [];
+  pool.push({ id:'l3_reverse_nth', fn:()=>{
+    const stepAbs = Math.max(2,Math.round(6*gs));
+    const start = randInt(1, Math.max(2,Math.round(15*gs)));
+    const n = randInt(6,15);
+    const val = start + (n-1)*stepAbs;
+    return mk(`Một dãy số có bước nhảy đều là ${stepAbs} đơn vị. Số hạng thứ ${n} của dãy là ${val}. Tìm số hạng đầu tiên của dãy.`, '', '', 'Làm ngược công thức số hạng thứ n: số đầu = số hạng thứ n − (n − 1) × bước nhảy.', start);
+  }});
+  return pickFromPool('b1_lv3', pool);
+}
+
+// B2. Dãy nhân/chia đều — Lv1: nhân đều (điền số) | Lv2: chia đều (đảo chiều nhân) | Lv3: quy luật kiểu Fibonacci (khác hẳn quy tắc)
+function genB2(grade, tier){
+  if(tier==='basic'){
+    const pool = [];
+    pool.push({ id:'l1_multiply', fn:()=>{
+      const r = 2;
+      const start = randInt(1,6);
+      const terms = []; for(let i=0;i<4;i++) terms.push(start*Math.pow(r,i));
+      const blankIdx = 3;
+      return mk('Tìm số còn thiếu trong dãy số (xem hình):', '', '', 'Mỗi số bằng số liền trước nhân với một số cố định.', terms[blankIdx], { seqTerms: terms, seqBlank: blankIdx });
+    }});
+    return pickFromPool('b2_lv1', pool);
+  }
+  if(tier==='medium'){
+    const pool = [];
+    pool.push({ id:'l2_divide', fn:()=>{
+      const r = pick([2,3]);
+      const start = randInt(1,5);
+      let terms = []; for(let i=0;i<4;i++) terms.push(start*Math.pow(r,i));
+      terms = terms.reverse();
+      const blankIdx = randInt(1,2);
+      return mk('Tìm số còn thiếu trong dãy số (xem hình):', '', '', 'Mỗi số bằng số liền trước chia cho một số cố định.', terms[blankIdx], { seqTerms: terms, seqBlank: blankIdx });
+    }});
+    return pickFromPool('b2_lv2', pool);
+  }
+  const pool = [];
+  pool.push({ id:'l3_fib_like', fn:()=>{
+    const a = randInt(1,6), b = randInt(a,12);
+    const terms = [a,b];
+    for(let i=2;i<5;i++) terms.push(terms[i-1]+terms[i-2]);
+    const blankIdx = 4;
+    return mk('Mỗi số (từ số thứ 3) bằng tổng hai số liền trước nó. Tìm số còn thiếu:', '', '', 'Cộng hai số liền trước để suy ra số tiếp theo (quy luật kiểu Fibonacci — khác quy luật nhân/chia thông thường).', terms[blankIdx], { seqTerms: terms, seqBlank: blankIdx });
+  }});
+  return pickFromPool('b2_lv3', pool);
+}
+
+// B3. Quy luật hình theo tầng — Lv1: n² | Lv2: tổng liên tiếp 1+..+n | Lv3: tổng dồn Σ i² (nhiều tầng cộng lại)
+function genB3(grade, tier){
+  if(tier==='basic'){
+    const pool = [];
+    pool.push({ id:'l1_square', fn:()=>{
+      const k = randInt(grade<=2?4:5, grade<=2?9:12);
+      return mk(`Tầng 1 có 1 hình vuông, tầng 2 có 4 hình vuông, tầng 3 có 9 hình vuông (số hình vuông ở mỗi tầng bằng bình phương số thứ tự của tầng — xem hình minh họa). Hỏi tầng ${k} có bao nhiêu hình vuông?`, '', '', 'Số hình ở tầng thứ n bằng n × n.', k*k, { towerK:k, towerType:'square' });
+    }});
+    return pickFromPool('b3_lv1', pool);
+  }
+  if(tier==='medium'){
+    const pool = [];
+    pool.push({ id:'l2_triangular', fn:()=>{
+      const k = randInt(grade<=2?5:6, grade<=2?11:15);
+      return mk(`Tầng 1 có 1 hình, tầng 2 có 3 hình, tầng 3 có 6 hình, tầng 4 có 10 hình (mỗi tầng cộng thêm đúng bằng số thứ tự của tầng đó so với tầng trước — xem hình). Hỏi tầng ${k} có bao nhiêu hình?`, '', '', 'Số hình ở tầng thứ n bằng 1 + 2 + 3 + ... + n.', k*(k+1)/2, { towerK:k, towerType:'tri' });
+    }});
+    return pickFromPool('b3_lv2', pool);
+  }
+  const pool = [];
+  pool.push({ id:'l3_cumulative', fn:()=>{
+    const k = randInt(4, grade<=2?9:12);
+    let total=0; for(let i=1;i<=k;i++) total += i*i;
+    return mk(`Xếp hình theo tầng: tầng thứ n có n × n hình vuông. Hỏi TỔNG số hình vuông từ tầng 1 đến tầng ${k} (cộng dồn tất cả các tầng lại) là bao nhiêu?`, '', '', 'Cộng dồn số hình vuông của lần lượt từng tầng 1, 2, ..., '+k+' (không chỉ tính riêng 1 tầng như các mức trước).', total, { towerK:Math.min(k,5), towerType:'square' });
+  }});
+  return pickFromPool('b3_lv3', pool);
+}
+
+// B4. Tổ hợp & đếm — Lv1: tích 2 số (phối đồ) | Lv2: bắt tay n(n-1)/2 | Lv3: giai thừa + ràng buộc (2 bạn đứng cạnh nhau)
+function genB4(grade, tier){
+  if(tier==='basic'){
+    const pool = [];
+    pool.push({ id:'l1_pair', fn:()=>{
+      const cap = grade<=2?4:7;
+      const a=randInt(2,cap), b=randInt(2,cap);
+      return mk(`Có ${a} chiếc áo và ${b} chiếc quần khác nhau. Hỏi có bao nhiêu cách chọn phối 1 áo với 1 quần?`, '', '', 'Mỗi áo có thể phối với mỗi quần, nên số cách bằng tích số áo và số quần.', a*b);
+    }});
+    return pickFromPool('b4_lv1', pool);
+  }
+  if(tier==='medium'){
+    const pool = [];
+    pool.push({ id:'l2_handshake', fn:()=>{
+      const n = randInt(4, grade<=2?9:12);
+      return mk(`Có ${n} bạn, mỗi bạn bắt tay với tất cả các bạn còn lại đúng 1 lần. Hỏi có tất cả bao nhiêu cái bắt tay?`, '', '', 'Số cái bắt tay = n × (n−1) : 2 (mỗi cặp chỉ tính 1 lần).', n*(n-1)/2);
+    }});
+    return pickFromPool('b4_lv2', pool);
+  }
+  const pool = [];
+  pool.push({ id:'l3_arrange', fn:()=>{
+    const n = randInt(3, grade<=2?6:7);
+    return mk(`Có ${n} bạn học sinh xếp thành một hàng. Hỏi có bao nhiêu cách xếp thứ tự khác nhau?`, '', '', 'Số cách xếp thứ tự của n phần tử bằng n giai thừa (n × (n−1) × ... × 1).', factorial(n));
+  }});
+  pool.push({ id:'l3_adjacent_constraint', fn:()=>{
+    const n = randInt(4, grade<=2?7:8);
+    const ans = 2*factorial(n-1);
+    return mk(`Có ${n} bạn xếp thành một hàng, trong đó có 2 bạn tên An và Bình LUÔN đứng cạnh nhau. Hỏi có bao nhiêu cách xếp hàng?`, '', '', 'Coi An-Bình là 1 khối (có 2 cách xếp thứ tự trong khối), rồi xếp khối đó cùng ${n-2} bạn còn lại: 2 × (n−1)!.'.replace('${n-2}',n-2), ans);
+  }});
+  return pickFromPool('b4_lv3', pool);
+}
+
+// C1. Toán đố nhiều bước cơ bản — Lv1: 1 bước nhân | Lv2: 2 bước trừ liên tiếp | Lv3: kết hợp 2 loại đồ vật (3 bước)
+function genC1(grade, tier){
+  const cfg = gradeConfig(grade);
+  const unit = pick(cfg.units);
+  if(tier==='basic'){
+    const pool = [];
+    pool.push({ id:'l1_multiply', fn:()=>{
+      const price = randInt(2, Math.round(cfg.mulMax*1.5));
+      const qty = randInt(2,9);
+      return mk(`Mỗi ${unit} có giá quy đổi là ${price} (đơn vị). Hỏi mua ${qty} ${unit} như vậy hết bao nhiêu (đơn vị)?`, '', '', 'Số tiền = giá 1 cái × số lượng.', price*qty);
+    }});
+    return pickFromPool('c1_lv1', pool);
+  }
+  if(tier==='medium'){
+    const factor = 0.6;
+    const rangeTop = Math.max(8, Math.round(cfg.max*factor));
+    const half = Math.max(4, Math.floor(rangeTop/2));
+    const pool = [];
+    pool.push({ id:'l2_twostep', fn:()=>{
+      const total = randInt(half, rangeTop);
+      const p1 = randInt(1, Math.floor(total/3));
+      const p2 = randInt(1, Math.floor(total/3));
+      return mk(`Một cửa hàng có ${total} ${unit}. Buổi sáng bán được ${p1} ${unit}, buổi chiều bán tiếp ${p2} ${unit}. Hỏi cửa hàng còn lại bao nhiêu ${unit}?`, '', '', 'Lấy tổng số ban đầu trừ lần lượt số đã bán ở từng buổi.', total-p1-p2);
+    }});
+    pool.push({ id:'l2_box_extra', fn:()=>{
+      const a = randInt(2,9), b = randInt(2,cfg.mulMax);
+      const extra = randInt(1,20);
+      return mk(`Có ${a} thùng ${unit}, mỗi thùng đựng ${b} ${unit}. Sau đó người ta cho thêm ${extra} ${unit} nữa. Hỏi có tất cả bao nhiêu ${unit}?`, '', '', 'Tính tổng số trong các thùng trước, rồi cộng thêm phần mới nhận.', a*b+extra);
+    }});
+    return pickFromPool('c1_lv2', pool);
+  }
+  const factor = 0.9;
+  const rangeTop = Math.max(10, Math.round(cfg.max*factor));
   const half = Math.max(4, Math.floor(rangeTop/2));
   const pool = [];
+  pool.push({ id:'l3_two_types_then_use', fn:()=>{
+    const aTotal = randInt(half, rangeTop), bTotal = randInt(half, rangeTop);
+    const used = randInt(1, Math.floor((aTotal+bTotal)/3));
+    return mk(`Một bạn mua đồ loại A hết ${aTotal} ${unit} (quy đổi) và đồ loại B hết ${bTotal} ${unit} (quy đổi), sau đó dùng hết ${used} ${unit}. Hỏi bạn đó còn lại bao nhiêu ${unit} (quy đổi)?`, '', '', 'Cộng số lượng của cả hai loại lại, rồi trừ đi phần đã dùng.', aTotal+bTotal-used);
+  }});
+  return pickFromPool('c1_lv3', pool);
+}
 
-  // 3.1 Toán đố 2-3 bước (giữ nguyên)
-  pool.push({ id:'twostep', fn:()=>{
-    const total = randInt(half, rangeTop);
-    const p1 = randInt(1, Math.floor(total/3));
-    const p2 = randInt(1, Math.floor(total/3));
-    return { before:`Một cửa hàng có ${total} ${unit}. Buổi sáng bán được ${p1} ${unit}, buổi chiều bán tiếp ${p2} ${unit}. Hỏi cửa hàng còn lại bao nhiêu ${unit}?`,
-      answer: total-p1-p2 };
-  }});
-  pool.push({ id:'boxes_extra', fn:()=>{
-    const a = randInt(2,9), b = randInt(2,cfg.mulMax);
-    const extra = randInt(1,20);
-    return { before:`Có ${a} thùng ${unit}, mỗi thùng đựng ${b} ${unit}. Sau đó người ta cho thêm ${extra} ${unit} nữa. Hỏi có tất cả bao nhiêu ${unit}?`,
-      answer: a*b+extra };
-  }});
-  if(grade>=3 && tier!=='basic'){
-    pool.push({ id:'threestep_share', fn:()=>{
-      const total = randInt(half, rangeTop);
+// C2. Toán đố nhiều bước nâng cao — Lv1: chia đều+cộng thêm | Lv2: phân số+nhập thêm | Lv3: kết hợp nhân-trừ-cộng (nhiều bước nhất)
+function genC2(grade, tier){
+  const cfg = gradeConfig(grade);
+  const unit = pick(cfg.units);
+  if(tier==='basic'){
+    const rangeTop = Math.max(10, Math.round(cfg.max*0.5));
+    const pool = [];
+    pool.push({ id:'l1_share_extra', fn:()=>{
       const groups = randInt(2,9);
-      const per = Math.floor(total/groups);
+      const per = randInt(2, Math.max(3,Math.round(rangeTop/groups)));
       const used = per*groups;
-      const extra = randInt(1, Math.max(2,Math.floor(rangeTop/20)));
-      return { before:`Có ${used} ${unit} được chia đều vào ${groups} nhóm. Sau đó mỗi nhóm được nhận thêm ${extra} ${unit}. Hỏi mỗi nhóm có tất cả bao nhiêu ${unit}?`,
-        answer: per+extra };
+      const extra = randInt(1, Math.max(2,Math.round(rangeTop/20)));
+      return mk(`Có ${used} ${unit} được chia đều vào ${groups} nhóm. Sau đó mỗi nhóm được nhận thêm ${extra} ${unit}. Hỏi mỗi nhóm có tất cả bao nhiêu ${unit}?`, '', '', 'Tìm số ban đầu mỗi nhóm có (chia đều), rồi cộng thêm phần được nhận.', per+extra);
     }});
+    return pickFromPool('c2_lv1', pool);
   }
-  if(grade>=4 && tier==='hard'){
-    pool.push({ id:'fraction_sell', fn:()=>{
-      const b=[2,4,5][randInt(0,2)]; const a=b*randInt(4,20);
+  if(tier==='medium'){
+    const rangeTop = Math.max(10, Math.round(cfg.max*0.7));
+    const pool = [];
+    pool.push({ id:'l2_fraction_sell', fn:()=>{
+      const b=pick([2,4,5]); const a=b*randInt(3, Math.max(4,Math.round(rangeTop/b/2)));
       const extra = randInt(1,20);
-      return { before:`Một trại có ${a} ${unit}. Người ta bán đi 1/${b} số ${unit} đó, sau đó nhập thêm ${extra} ${unit}. Hỏi trại còn lại bao nhiêu ${unit}?`,
-        answer: a - (a/b) + extra };
+      return mk(`Một trại có ${a} ${unit}. Người ta bán đi 1/${b} số ${unit} đó, sau đó nhập thêm ${extra} ${unit}. Hỏi trại còn lại bao nhiêu ${unit}?`, '', '', `Tính số đã bán (1 phần trong ${b} phần), lấy tổng trừ đi rồi cộng thêm số nhập mới.`, a - (a/b) + extra);
     }});
+    return pickFromPool('c2_lv2', pool);
   }
-  if(tier==='hard' && grade>=2){
-    pool.push({ id:'combined_threestep', fn:()=>{
-      const a=randInt(2,9), b=randInt(2,cfg.mulMax);
-      const base = a*b;
-      const cMax = Math.max(1, Math.min(a, Math.floor(base/4)));
-      const c=randInt(1,cMax), d=randInt(1,15);
-      const total = base - c*2 + d;
-      return { before:`Có ${a} thùng ${unit}, mỗi thùng ${b} ${unit}. Người ta lấy ra ${c} thùng, mỗi thùng lấy ra 2 ${unit}, sau đó nhập thêm ${d} ${unit} lẻ. Hỏi còn lại bao nhiêu ${unit}?`,
-        answer: total };
-    }});
-  }
-
-  // 3.2 Toán tuổi (MỚI)
-  pool.push({ id:'age', fn:()=>{
-    if(grade>=4 && tier!=='basic'){
-      // biến thể nâng cao: tỉ số tuổi thay đổi theo thời gian
-      for(let attempt=0; attempt<60; attempt++){
-        const x = randInt(5,10); // tuổi con hiện nay
-        const k = randInt(3,5);  // bố gấp k lần con hiện nay
-        const y = randInt(3,8);  // số năm sau
-        const bo = k*x;
-        const futureCon = x+y, futureBo = bo+y;
-        if(futureBo % futureCon === 0){
-          const k2 = futureBo/futureCon;
-          if(k2>=2 && k2<k){
-            return { before:`Hiện nay tuổi bố gấp ${k} lần tuổi con. ${y} năm nữa tuổi bố gấp ${k2} lần tuổi con. Tính tuổi con hiện nay.`,
-              hint:'', after:'', vi:'Lập luận: sau y năm, cả hai đều tăng thêm y tuổi, nhưng tỉ số giữa hai tuổi thay đổi.', answer: x };
-          }
-        }
-      }
-      // fallback nếu không tìm được bộ số hợp lệ
-    }
-    // biến thể cơ bản: tổng tuổi và hiệu tuổi
-    const em = randInt(3,15), diff = randInt(2,10);
-    const anh = em+diff, sum = em+anh;
-    return { before:`Tổng số tuổi của hai anh em là ${sum}. Anh hơn em ${diff} tuổi. Tính tuổi của em.`,
-      hint:'', after:'', vi:'Lấy tổng trừ đi hiệu rồi chia đôi để tìm số bé (tuổi em).', answer: em };
-  }});
-
-  // 3.3 Toán trồng cây / hàng rào (MỚI)
-  pool.push({ id:'fencepost', fn:()=>{
-    const s = [2,4,5,8,10][randInt(0,4)];
-    const numGaps = randInt(4,20);
-    const L = s*numGaps;
-    const variant = randInt(0,2);
-    if(variant===0){
-      return { before:`Trồng cây dọc một con đường dài ${L}m, mỗi cây cách nhau ${s}m, trồng ở cả hai đầu đường. Hỏi trồng tất cả bao nhiêu cây?`,
-        hint:'', after:'', vi:'Số cây = số khoảng cách + 1 khi trồng cả hai đầu.', answer: numGaps+1 };
-    } else if(variant===1){
-      return { before:`Trồng cây dọc một con đường dài ${L}m, mỗi cây cách nhau ${s}m, chỉ trồng ở một đầu đường (đầu kia không trồng). Hỏi trồng tất cả bao nhiêu cây?`,
-        hint:'', after:'', vi:'Số cây = số khoảng cách khi chỉ trồng một đầu.', answer: numGaps };
-    }
-    return { before:`Trồng cây dọc một con đường dài ${L}m, mỗi cây cách nhau ${s}m, không trồng ở cả hai đầu đường. Hỏi trồng tất cả bao nhiêu cây?`,
-      hint:'', after:'', vi:'Số cây = số khoảng cách - 1 khi không trồng ở hai đầu.', answer: numGaps-1 };
-  }});
-
-  // 3.4 Toán chuyển động cơ bản (grade 4+)
-  if(grade>=4){
-    pool.push({ id:'motion_basic', fn:()=>{
-      const v = randInt(20,60), t = randInt(2,6);
-      const variant = randInt(0,2);
-      if(variant===0){
-        return { before:`Một ô tô đi từ A đến B với vận tốc ${v}km/h trong ${t} giờ. Tính quãng đường AB.`, hint:'(đơn vị: km)', after:'', vi:'Quãng đường = vận tốc × thời gian.', answer: v*t };
-      } else if(variant===1){
-        const S = v*t;
-        return { before:`Một ô tô đi quãng đường ${S}km từ A đến B hết ${t} giờ. Tính vận tốc của ô tô.`, hint:'(đơn vị: km/h)', after:'', vi:'Vận tốc = quãng đường ÷ thời gian.', answer: v };
-      }
-      const S = v*t;
-      return { before:`Một ô tô đi quãng đường ${S}km từ A đến B với vận tốc ${v}km/h. Tính thời gian ô tô đi hết quãng đường đó.`, hint:'(đơn vị: giờ)', after:'', vi:'Thời gian = quãng đường ÷ vận tốc.', answer: t };
-    }});
-    if(tier==='hard' && grade===5){
-      pool.push({ id:'motion_meet', fn:()=>{
-        const t = randInt(2,6);
-        const oppositeDir = Math.random()<0.5;
-        if(oppositeDir){
-          const v1 = randInt(20,50), v2 = randInt(20,50);
-          const D = (v1+v2)*t;
-          return { before:`Hai xe xuất phát cùng lúc từ hai địa điểm A và B cách nhau ${D}km, đi ngược chiều nhau để gặp nhau. Vận tốc xe thứ nhất là ${v1}km/h, xe thứ hai là ${v2}km/h. Hỏi sau bao nhiêu giờ hai xe gặp nhau?`,
-            hint:'(đơn vị: giờ)', after:'', vi:'Thời gian gặp nhau = quãng đường ÷ tổng hai vận tốc (đi ngược chiều).', answer: t };
-        }
-        const v1 = randInt(20,40), v2 = v1 + randInt(5,20);
-        const D = (v2-v1)*t;
-        return { before:`Xe thứ hai xuất phát sau và cách xe thứ nhất ${D}km, đuổi theo cùng chiều với xe thứ nhất. Vận tốc xe thứ nhất là ${v1}km/h, xe thứ hai là ${v2}km/h. Hỏi sau bao nhiêu giờ xe thứ hai đuổi kịp xe thứ nhất?`,
-          hint:'(đơn vị: giờ)', after:'', vi:'Thời gian đuổi kịp = khoảng cách ÷ hiệu hai vận tốc (đi cùng chiều).', answer: t };
-      }});
-    }
-  }
-
-  // 3.5 Toán tổng - tỉ (grade 4+, medium/hard) — dạng kinh điển bồi dưỡng HSG
-  if(grade>=4 && tier!=='basic'){
-    pool.push({ id:'sum_ratio', fn:()=>{
-      const k = randInt(2,5);
-      const small = randInt(3, Math.max(4,Math.round(rangeTop/(k+1))));
-      const sum = small*(k+1);
-      return { before:`Tổng của hai số là ${sum}. Biết số lớn gấp ${k} lần số bé. Tìm số bé.`,
-        hint:'', after:'', vi:'Vẽ sơ đồ đoạn thẳng: số bé ứng với 1 phần, số lớn ứng với ' + k + ' phần, tổng số phần bằng ' + (k+1) + '.', answer: small };
-    }});
-  }
-
-  // 3.6 Toán hiệu - tỉ (grade 4+, hard)
-  if(grade>=4 && tier==='hard'){
-    pool.push({ id:'diff_ratio', fn:()=>{
-      const k = randInt(2,5);
-      const small = randInt(3, Math.max(4,Math.round(rangeTop/(k+3))));
-      const diff = small*(k-1);
-      return { before:`Hiệu của hai số là ${diff}. Biết số lớn gấp ${k} lần số bé. Tìm số bé.`,
-        hint:'', after:'', vi:'Vẽ sơ đồ đoạn thẳng: hiệu số phần bằng ' + (k-1) + ' phần, tương ứng với hiệu đã cho.', answer: small };
-    }});
-  }
-
-  // 3.7 Toán trung bình cộng (grade 4+)
-  if(grade>=4){
-    pool.push({ id:'average', fn:()=>{
-      const a = randInt(2,Math.round(rangeTop/3)), b = randInt(2,Math.round(rangeTop/3));
-      const avg = randInt(Math.round((a+b)/2)+1, Math.round(rangeTop/2));
-      const c = avg*3 - a - b;
-      return { before:`Trung bình cộng của ba số là ${avg}. Biết số thứ nhất là ${a}, số thứ hai là ${b}. Tìm số thứ ba.`,
-        hint:'', after:'', vi:'Tổng ba số = trung bình cộng × 3, sau đó trừ đi hai số đã biết.', answer: Math.max(0,c) };
-    }});
-  }
-
-  // 3.8 Toán phần trăm cơ bản (grade 5)
-  if(grade===5){
-    pool.push({ id:'percent_basic', fn:()=>{
-      const p = [10,20,25,50][randInt(0,3)];
-      const times = 100/p;
-      const total = times*randInt(2, Math.max(3,Math.round(cfg.max/(times*2))));
-      return { before:`Một trường có ${total} học sinh, trong đó có ${p}% là học sinh giỏi. Hỏi trường đó có bao nhiêu học sinh giỏi?`,
-        hint:'(đơn vị: học sinh)', after:'', vi:`Số học sinh giỏi = tổng số học sinh × ${p} ÷ 100.`, answer: total*p/100 };
-    }});
-  }
-
-  const chosen = pickFromPool('wordproblem', pool);
-  return { before: chosen.before, hint: chosen.hint||'', after: chosen.after||'', vi: chosen.vi, answer: String(chosen.answer) };
-}
-
-/* ============ Generator 4: Advanced Geometry & Spatial Reasoning ============ */
-function genGeometry(grade, tier, scale){
-  const sizeFactor = tier==='basic' ? 0.5 : tier==='medium' ? (0.6+0.5*scale) : 1;
+  const rangeTop = Math.max(10, Math.round(cfg.max*1));
   const pool = [];
-
-  if(grade<=2){
-    const shapeCtx = ['mảnh vườn','tấm bìa','khung ảnh','sân chơi'][randInt(0,3)];
-    pool.push({ id:'square_perim', fn:()=>{
-      const s = randInt(3, Math.max(4,Math.round(20*sizeFactor)));
-      return { before:`Một ${shapeCtx} hình vuông có cạnh dài ${s}cm. Tính chu vi ${shapeCtx} đó.`, hint:'', after:'', vi:'Chu vi hình vuông = cạnh × 4.', answer: s*4 };
-    }});
-    pool.push({ id:'rect_perim', fn:()=>{
-      const l=randInt(5, Math.max(6,Math.round(20*sizeFactor))), w=randInt(2,l-1);
-      return { before:`Một ${shapeCtx} hình chữ nhật dài ${l}cm, rộng ${w}cm. Tính chu vi ${shapeCtx} đó.`, hint:'', after:'', vi:'Chu vi hình chữ nhật = (dài + rộng) × 2.', answer: (l+w)*2 };
-    }});
-    if(tier==='hard'){
-      pool.push({ id:'rect_perim_extra', fn:()=>{
-        const l=randInt(6,20), w=randInt(2,l-1), extra=randInt(1,10);
-        return { before:`Một hình chữ nhật dài ${l}cm, rộng ${w}cm. Tính chu vi rồi cộng thêm ${extra}cm nữa. Kết quả là bao nhiêu?`, hint:'', after:'', vi:'Tính chu vi trước, sau đó cộng thêm số đã cho.', answer: (l+w)*2+extra };
-      }});
-    }
-    // Bài toán ngược: biết chu vi hình vuông, tìm cạnh (grade 2, medium+)
-    if(grade===2 && tier!=='basic'){
-      pool.push({ id:'square_side_from_perim', fn:()=>{
-        const s = randInt(3,20);
-        const P = s*4;
-        return { before:`Một hình vuông có chu vi ${P}cm. Tính độ dài cạnh hình vuông đó.`, hint:'', after:'', vi:'Cạnh hình vuông = chu vi ÷ 4.', answer: s };
-      }});
-    }
-    // So sánh chu vi hai hình chữ nhật (grade 2, hard)
-    if(grade===2 && tier==='hard'){
-      pool.push({ id:'compare_perim2', fn:()=>{
-        const l1=randInt(6,20), w1=randInt(2,l1-1);
-        let l2,w2,perimB;
-        do{ l2=randInt(4,18); w2=randInt(2,l2-1); perimB=(l2+w2)*2; } while(perimB>=(l1+w1)*2);
-        return { before:`Hình chữ nhật A dài ${l1}cm, rộng ${w1}cm. Hình chữ nhật B dài ${l2}cm, rộng ${w2}cm. Hỏi chu vi hình A lớn hơn chu vi hình B bao nhiêu cm?`, hint:'', after:'', vi:'Tính chu vi từng hình rồi lấy hiệu.', answer: (l1+w1)*2-perimB };
-      }});
-    }
-  } else if(grade===3){
-    pool.push({ id:'rect_perim3', fn:()=>{
-      const l=randInt(6, Math.max(7,Math.round(30*sizeFactor))), w=randInt(3,l-1);
-      return { before:`Một hình chữ nhật dài ${l}cm, rộng ${w}cm. Tính chu vi hình chữ nhật đó.`, hint:'', after:'', vi:'Chu vi hình chữ nhật = (dài + rộng) × 2.', answer: (l+w)*2 };
-    }});
-    if(tier!=='basic'){
-      pool.push({ id:'square_area3', fn:()=>{
-        const s = randInt(4, Math.max(5,Math.round(25*sizeFactor)));
-        return { before:`Một mảnh vườn hình vuông có cạnh ${s}m. Tính diện tích mảnh vườn đó.`, hint:'', after:'', vi:'Diện tích hình vuông = cạnh × cạnh.', answer: s*s };
-      }});
-    }
-    if(tier==='hard'){
-      pool.push({ id:'rect_area_sub3', fn:()=>{
-        const l=randInt(6,30), w=randInt(3,l-1), extra=randInt(1,15);
-        return { before:`Một hình chữ nhật dài ${l}cm, rộng ${w}cm. Tính diện tích rồi trừ đi ${extra}cm². Kết quả là bao nhiêu?`, hint:'', after:'', vi:'Tính diện tích trước, sau đó trừ đi số đã cho.', answer: l*w-extra };
-      }});
-    }
-  } else {
-    pool.push({ id:'rect_area45', fn:()=>{
-      const l=randInt(10, Math.max(11,Math.round(50*sizeFactor))), w=randInt(4,l-1);
-      return { before:`Một khu đất hình chữ nhật dài ${l}m, rộng ${w}m. Tính diện tích khu đất đó.`, hint:'', after:'', vi:'Diện tích hình chữ nhật = dài × rộng.', answer: l*w };
-    }});
-    if(tier!=='basic'){
-      pool.push({ id:'rect_perim_from_area', fn:()=>{
-        const l=randInt(10,50), w=randInt(4,l-1);
-        return { before:`Một sân hình chữ nhật có diện tích bằng chiều dài ${l}m nhân chiều rộng ${w}m. Tính chu vi sân đó.`, hint:'', after:'', vi:'Tính chu vi từ chiều dài và chiều rộng đã cho: (dài + rộng) × 2.', answer: (l+w)*2 };
-      }});
-    }
-    if(tier==='hard' && grade===5){
-      pool.push({ id:'triangle_area', fn:()=>{
-        const b=randInt(8,40), h=randInt(4,b-1);
-        return { before:`Một hình tam giác có đáy ${b}cm, chiều cao ${h}cm. Tính diện tích hình tam giác đó (đơn vị: cm²).`, hint:'', after:'', vi:'Diện tích tam giác = (đáy × chiều cao) ÷ 2.', answer: Math.round(b*h/2) };
-      }});
-    }
-    if(tier==='hard'){
-      pool.push({ id:'rect_area_minus_perim', fn:()=>{
-        const l=randInt(10,50), w=randInt(4,l-1);
-        return { before:`Một khu đất hình chữ nhật dài ${l}m, rộng ${w}m. Tính diện tích rồi lấy diện tích trừ đi chu vi. Kết quả là bao nhiêu?`, hint:'', after:'', vi:'Tính diện tích và chu vi riêng rồi lấy hiệu.', answer: l*w-(l+w)*2 };
-      }});
-    }
-  }
-
-  // 4.3 Ghép hình chữ L (grade 4+)
-  if(grade>=4){
-    pool.push({ id:'lshape', fn:()=>{
-      const l1=randInt(6,20), w1=randInt(3,l1-1), l2=randInt(3,12), w2=randInt(2,l2-1);
-      const total = l1*w1 + l2*w2;
-      return { before:`Một mảnh đất hình chữ L gồm 2 hình chữ nhật ghép lại: phần thứ nhất dài ${l1}m rộng ${w1}m, phần thứ hai dài ${l2}m rộng ${w2}m. Tính tổng diện tích mảnh đất.`,
-        hint:'(đơn vị: m²)', after:'', vi:'Tính diện tích từng hình chữ nhật rồi cộng lại.', answer: total };
-    }});
-  }
-
-  // 4.3b Ghép hình chữ T từ 3 hình chữ nhật (grade 5, hard)
-  if(grade===5 && tier==='hard'){
-    pool.push({ id:'tshape', fn:()=>{
-      const l1=randInt(8,24), w1=randInt(3,10), l2=randInt(3,10), w2=randInt(6,l1-2>6?l1-2:6);
-      const total = l1*w1 + l2*w2;
-      return { before:`Một khu vườn hình chữ T được ghép từ 2 hình chữ nhật: phần nằm ngang dài ${l1}m rộng ${w1}m, phần nằm dọc dài ${w2}m rộng ${l2}m. Tính tổng diện tích khu vườn.`,
-        hint:'(đơn vị: m²)', after:'', vi:'Chia hình chữ T thành 2 hình chữ nhật, tính diện tích từng phần rồi cộng lại.', answer: total };
-    }});
-  }
-
-  // 4.3c Hình tam giác (mở rộng cho lớp 4, không chỉ lớp 5 hard)
-  if(grade>=4 && tier!=='basic'){
-    pool.push({ id:'triangle_area_g4', fn:()=>{
-      const b=randInt(6,30), h=randInt(2,b-1)*2; // đảm bảo b*h chẵn để chia hết cho 2 dễ hơn (không bắt buộc)
-      const area = Math.round(b*h/2);
-      return { before:`Một mảnh vườn hình tam giác có đáy ${b}m, chiều cao ${h}m. Tính diện tích mảnh vườn đó (đơn vị: m²).`, hint:'', after:'', vi:'Diện tích tam giác = (đáy × chiều cao) ÷ 2.', answer: area };
-    }});
-  }
-
-  // 4.3d Hình thang (grade 5)
-  if(grade===5 && tier!=='basic'){
-    pool.push({ id:'trapezoid_area', fn:()=>{
-      let a,b,h,area;
-      do{ a=randInt(8,30); b=randInt(4,a-1); h=randInt(3,15); area=(a+b)*h; } while(area%2!==0);
-      return { before:`Một thửa ruộng hình thang có đáy lớn ${a}m, đáy bé ${b}m, chiều cao ${h}m. Tính diện tích thửa ruộng đó (đơn vị: m²).`, hint:'', after:'', vi:'Diện tích hình thang = (đáy lớn + đáy bé) × chiều cao ÷ 2.', answer: area/2 };
-    }});
-  }
-
-  // 4.3e So sánh diện tích hai hình chữ nhật (grade 3+, medium/hard)
-  if(grade>=3 && tier!=='basic'){
-    pool.push({ id:'compare_area', fn:()=>{
-      const l1=randInt(6,30), w1=randInt(3,l1-1);
-      let l2,w2,areaB;
-      do{ l2=randInt(4,25); w2=randInt(2,l2-1); areaB=l2*w2; } while(areaB>=l1*w1);
-      return { before:`Hình chữ nhật A dài ${l1}cm, rộng ${w1}cm. Hình chữ nhật B dài ${l2}cm, rộng ${w2}cm. Hỏi diện tích hình A lớn hơn diện tích hình B bao nhiêu cm²?`, hint:'', after:'', vi:'Tính diện tích từng hình rồi lấy hiệu.', answer: l1*w1-areaB };
-    }});
-  }
-
-  // 4.4 Bài toán ngược: tìm cạnh còn thiếu (grade 3+)
-  if(grade>=3){
-    pool.push({ id:'missingside_perim', fn:()=>{
-      const l=randInt(6,30), w=randInt(3,l-2);
-      const P = 2*(l+w);
-      return { before:`Một hình chữ nhật có chu vi ${P}cm và chiều dài ${l}cm. Tính chiều rộng.`, hint:'(đơn vị: cm)', after:'', vi:'Chiều rộng = (chu vi ÷ 2) - chiều dài.', answer: w };
-    }});
-    pool.push({ id:'missingside_area', fn:()=>{
-      const s = randInt(4,20);
-      const A = s*s;
-      return { before:`Một hình vuông có diện tích ${A}cm². Tính cạnh của hình vuông đó.`, hint:'(đơn vị: cm)', after:'', vi:'Tìm số mà khi nhân với chính nó bằng diện tích đã cho.', answer: s };
-    }});
-  }
-
-  // 4.5 Toán rào vườn nâng cao (grade 4+)
-  if(grade>=4){
-    pool.push({ id:'fence_advanced', fn:()=>{
-      const s = [2,4,5,10][randInt(0,3)];
-      const k = randInt(6,40);
-      const P = s*k;
-      const half = Math.floor(P/2);
-      const w = randInt(2, Math.max(3,Math.floor(half/2)-1));
-      const l = half - w;
-      return { before:`Một khu vườn hình chữ nhật dài ${l}m, rộng ${w}m. Người ta rào xung quanh vườn, cứ ${s}m cắm 1 cọc (các cọc cách đều nhau quanh hàng rào khép kín). Hỏi cần bao nhiêu cọc rào?`,
-        hint:'', after:'', vi:'Vì hàng rào khép kín, số cọc = chu vi ÷ khoảng cách giữa hai cọc.', answer: (2*(l+w))/s };
-    }});
-  }
-
-  const chosen = pickFromPool('geometry', pool);
-  return { before: chosen.before, hint: chosen.hint||'', after: chosen.after||'', vi: chosen.vi, answer: String(chosen.answer) };
+  pool.push({ id:'l3_combined_multiop', fn:()=>{
+    const a=randInt(2,9), b=randInt(2,cfg.mulMax);
+    const base = a*b;
+    const cMax = Math.max(1, Math.min(a, Math.floor(base/4)));
+    const c=randInt(1,cMax), d=randInt(1,15);
+    const total = base - c*2 + d;
+    return mk(`Có ${a} thùng ${unit}, mỗi thùng ${b} ${unit}. Người ta lấy ra ${c} thùng, mỗi thùng lấy ra 2 ${unit}, sau đó nhập thêm ${d} ${unit} lẻ. Hỏi còn lại bao nhiêu ${unit}?`, '', '', 'Tính tổng ban đầu, trừ đi số đã lấy ra, rồi cộng thêm số nhập mới (4 bước tính liên tiếp).', total);
+  }});
+  return pickFromPool('c2_lv3', pool);
 }
 
-const GEN = { arithmetic:genArithmetic, sequence:genSequence, wordproblem:genWordProblem, geometry:genGeometry };
+// C3. Toán tuổi — Lv1: tổng-hiệu | Lv2: tổng-hiệu + n năm sau | Lv3: tỉ số tuổi thay đổi theo thời gian
+function genC3(grade, tier){
+  if(tier==='basic'){
+    const pool = [];
+    pool.push({ id:'l1_sumdiff', fn:()=>{
+      const em = randInt(3,15), diff = randInt(2,10);
+      const anh = em+diff, sum = em+anh;
+      return mk(`Tổng số tuổi của hai anh em là ${sum}. Anh hơn em ${diff} tuổi. Tính tuổi của em.`, '', '', 'Lấy tổng trừ đi hiệu rồi chia đôi để tìm số bé (tuổi em).', em);
+    }});
+    return pickFromPool('c3_lv1', pool);
+  }
+  if(tier==='medium'){
+    const pool = [];
+    pool.push({ id:'l2_sumdiff_future', fn:()=>{
+      const em = randInt(4,20), diff = randInt(2,12);
+      const anh = em+diff;
+      const y = randInt(2,8);
+      return mk(`Hiện nay em ${em} tuổi, anh hơn em ${diff} tuổi. Hỏi ${y} năm nữa, tổng số tuổi của hai anh em là bao nhiêu?`, '', '', 'Sau y năm, mỗi người tăng thêm y tuổi — tính tuổi từng người rồi cộng lại (hoặc lấy tổng hiện tại cộng thêm 2×y).', em+anh+2*y);
+    }});
+    return pickFromPool('c3_lv2', pool);
+  }
+  const pool = [];
+  pool.push({ id:'l3_ratio_change', fn:()=>{
+    for(let attempt=0; attempt<80; attempt++){
+      const x = randInt(4,12);
+      const k = randInt(3,5);
+      const y = randInt(2,9);
+      const bo = k*x;
+      const futureCon = x+y, futureBo = bo+y;
+      if(futureBo % futureCon === 0){
+        const k2 = futureBo/futureCon;
+        if(k2>=2 && k2<k){
+          return mk(`Hiện nay tuổi bố gấp ${k} lần tuổi con. ${y} năm nữa tuổi bố gấp ${k2} lần tuổi con. Tính tuổi con hiện nay.`, '', '', 'Sau y năm, cả hai đều tăng thêm y tuổi, nhưng tỉ số giữa hai tuổi thay đổi — lập luận để tìm tuổi con.', x);
+        }
+      }
+    }
+    const em = randInt(4,15), diff=randInt(2,10);
+    return mk(`Tổng số tuổi của hai anh em là ${em*2+diff}. Anh hơn em ${diff} tuổi. Tính tuổi của em.`, '', '', 'Lấy tổng trừ đi hiệu rồi chia đôi.', em);
+  }});
+  return pickFromPool('c3_lv3', pool);
+}
 
-/* ============ Quiz build ============ */
+// C4. Toán trồng cây – hàng rào — Lv1: đường thẳng | Lv2: hàng rào khép kín | Lv3: đổi đơn vị (km -> m) trước khi tính
+function genC4(grade, tier){
+  if(tier==='basic'){
+    const pool = [];
+    pool.push({ id:'l1_straight', fn:()=>{
+      const s = pick([2,4,5,8,10]);
+      const numGaps = randInt(4,15);
+      const L = s*numGaps;
+      const variant = randInt(0,2);
+      if(variant===0) return mk(`Trồng cây dọc một con đường dài ${L}m, mỗi cây cách nhau ${s}m, trồng ở cả hai đầu đường. Hỏi trồng tất cả bao nhiêu cây?`, '', '', 'Số cây = số khoảng cách + 1 khi trồng cả hai đầu.', numGaps+1);
+      if(variant===1) return mk(`Trồng cây dọc một con đường dài ${L}m, mỗi cây cách nhau ${s}m, chỉ trồng ở một đầu đường. Hỏi trồng tất cả bao nhiêu cây?`, '', '', 'Số cây = số khoảng cách khi chỉ trồng một đầu.', numGaps);
+      return mk(`Trồng cây dọc một con đường dài ${L}m, mỗi cây cách nhau ${s}m, không trồng ở cả hai đầu đường. Hỏi trồng tất cả bao nhiêu cây?`, '', '', 'Số cây = số khoảng cách − 1 khi không trồng ở hai đầu.', numGaps-1);
+    }});
+    return pickFromPool('c4_lv1', pool);
+  }
+  if(tier==='medium'){
+    const pool = [];
+    pool.push({ id:'l2_loop', fn:()=>{
+      const s = pick([2,3,4,5]);
+      const perimeter = s*randInt(6,30);
+      return mk(`Một khu vườn hình chữ nhật có chu vi ${perimeter}m được rào xung quanh (khép kín), cứ ${s}m cắm 1 cọc. Hỏi cần bao nhiêu cọc?`, '', '', 'Vì đường rào khép kín (không có điểm đầu/cuối), số cọc = chu vi ÷ khoảng cách giữa hai cọc (KHÔNG cộng thêm 1 như đường thẳng).', perimeter/s);
+    }});
+    return pickFromPool('c4_lv2', pool);
+  }
+  const pool = [];
+  pool.push({ id:'l3_unit_convert', fn:()=>{
+    const sMeters = pick([50,100]);
+    const numGaps = randInt(10,40);
+    const Lm = sMeters*numGaps;
+    const Lkm = Math.round((Lm/1000)*1000)/1000;
+    return mk(`Trồng cây dọc một con đường dài ${Lkm}km, mỗi cây cách nhau ${sMeters}m, trồng ở cả hai đầu đường. Hỏi trồng tất cả bao nhiêu cây?`, '', '', 'Đổi độ dài con đường từ km sang m trước (1km = 1000m), rồi mới tính số khoảng cách và cộng thêm 1.', numGaps+1);
+  }});
+  return pickFromPool('c4_lv3', pool);
+}
+
+// C5. Toán chuyển động — Lv1: S=vt cơ bản | Lv2: đổi đơn vị (phút -> giờ) | Lv3: hai xe gặp/đuổi nhau
+function genC5(grade, tier){
+  const gs = gradeScale(grade);
+  if(tier==='basic'){
+    const pool = [];
+    pool.push({ id:'l1_basic', fn:()=>{
+      const v = randInt(Math.round(15*gs), Math.round(60*gs));
+      const t = randInt(2,6);
+      const variant = randInt(0,2);
+      const S = v*t;
+      if(variant===0) return mk(`Một ô tô đi từ A đến B với vận tốc ${v}km/h trong ${t} giờ. Tính quãng đường AB.`, '(đơn vị: km)', '', 'Quãng đường = vận tốc × thời gian.', S);
+      if(variant===1) return mk(`Một ô tô đi quãng đường ${S}km từ A đến B hết ${t} giờ. Tính vận tốc của ô tô.`, '(đơn vị: km/h)', '', 'Vận tốc = quãng đường ÷ thời gian.', v);
+      return mk(`Một ô tô đi quãng đường ${S}km từ A đến B với vận tốc ${v}km/h. Tính thời gian ô tô đi hết quãng đường đó.`, '(đơn vị: giờ)', '', 'Thời gian = quãng đường ÷ vận tốc.', t);
+    }});
+    return pickFromPool('c5_lv1', pool);
+  }
+  if(tier==='medium'){
+    const pool = [];
+    pool.push({ id:'l2_unit_convert', fn:()=>{
+      const v = randInt(Math.round(20*gs), Math.round(70*gs));
+      const tMin = pick([30,45,90,120,150]);
+      const S = Math.round(v*tMin/60);
+      return mk(`Một xe máy đi với vận tốc ${v}km/h trong ${tMin} phút. Tính quãng đường xe đi được.`, '(đơn vị: km — đổi phút sang giờ trước khi tính)', '', 'Đổi thời gian từ phút sang giờ (chia 60), rồi mới áp dụng quãng đường = vận tốc × thời gian.', S);
+    }});
+    return pickFromPool('c5_lv2', pool);
+  }
+  const pool = [];
+  pool.push({ id:'l3_meet_or_chase', fn:()=>{
+    const t = randInt(2,7);
+    const oppositeDir = Math.random()<0.5;
+    if(oppositeDir){
+      const v1 = randInt(Math.round(15*gs),Math.round(50*gs)), v2 = randInt(Math.round(15*gs),Math.round(50*gs));
+      const D = (v1+v2)*t;
+      return mk(`Hai xe xuất phát cùng lúc từ hai địa điểm A và B cách nhau ${D}km, đi ngược chiều nhau để gặp nhau. Vận tốc xe thứ nhất là ${v1}km/h, xe thứ hai là ${v2}km/h. Hỏi sau bao nhiêu giờ hai xe gặp nhau?`, '(đơn vị: giờ)', '', 'Thời gian gặp nhau = quãng đường ÷ tổng hai vận tốc (đi ngược chiều).', t);
+    }
+    const v1 = randInt(Math.round(15*gs),Math.round(40*gs)), v2 = v1 + randInt(5,20);
+    const D = (v2-v1)*t;
+    return mk(`Xe thứ hai xuất phát sau và cách xe thứ nhất ${D}km, đuổi theo cùng chiều với xe thứ nhất. Vận tốc xe thứ nhất là ${v1}km/h, xe thứ hai là ${v2}km/h. Hỏi sau bao nhiêu giờ xe thứ hai đuổi kịp xe thứ nhất?`, '(đơn vị: giờ)', '', 'Thời gian đuổi kịp = khoảng cách ÷ hiệu hai vận tốc (đi cùng chiều).', t);
+  }});
+  return pickFromPool('c5_lv3', pool);
+}
+
+// C6. Toán tổng-tỉ / hiệu-tỉ — Lv1: tổng-tỉ 2 số | Lv2: hiệu-tỉ 2 số | Lv3: tổng-tỉ 3 phần
+function genC6(grade, tier){
+  const gs = gradeScale(grade);
+  const cap = Math.max(20, Math.round(60*gs));
+  if(tier==='basic'){
+    const pool = [];
+    pool.push({ id:'l1_sum_ratio', fn:()=>{
+      const k = randInt(2,4);
+      const small = randInt(3, Math.max(4,Math.round(cap/(k+1))));
+      const sum = small*(k+1);
+      return mk(`Tổng của hai số là ${sum}. Biết số lớn gấp ${k} lần số bé. Tìm số bé.`, '', '', `Vẽ sơ đồ đoạn thẳng: số bé ứng với 1 phần, số lớn ứng với ${k} phần, tổng số phần bằng ${k+1}.`, small);
+    }});
+    return pickFromPool('c6_lv1', pool);
+  }
+  if(tier==='medium'){
+    const pool = [];
+    pool.push({ id:'l2_diff_ratio', fn:()=>{
+      const k = randInt(2,5);
+      const small = randInt(3, Math.max(6,Math.round(cap/(k+1))));
+      const diff = small*(k-1);
+      return mk(`Hiệu của hai số là ${diff}. Biết số lớn gấp ${k} lần số bé. Tìm số bé.`, '', '', `Vẽ sơ đồ đoạn thẳng: hiệu số phần bằng ${k-1} phần, tương ứng với hiệu đã cho.`, small);
+    }});
+    return pickFromPool('c6_lv2', pool);
+  }
+  const pool = [];
+  pool.push({ id:'l3_three_parts', fn:()=>{
+    const r1=1, r2=randInt(2,4), r3=r2+randInt(1,3);
+    const unit = randInt(3, Math.max(4,Math.round(cap/(r1+r2+r3))));
+    const total = unit*(r1+r2+r3);
+    return mk(`Ba bạn chia nhau ${total} viên bi theo tỉ số ${r1}:${r2}:${r3}. Hỏi bạn được chia nhiều bi nhất nhận được bao nhiêu viên?`, '', '', 'Chia tổng theo tổng số phần (3 phần thay vì 2), tìm giá trị 1 phần rồi nhân với số phần lớn nhất.', r3*unit);
+  }});
+  return pickFromPool('c6_lv3', pool);
+}
+
+// C7. Toán trung bình cộng — Lv1: TBC 2 số | Lv2: đảo chiều tìm số thứ 3 | Lv3: đảo chiều tìm số thứ 4 (nhiều số hơn)
+function genC7(grade, tier){
+  const gs = gradeScale(grade);
+  const cap = Math.max(10, Math.round(60*gs));
+  if(tier==='basic'){
+    const pool = [];
+    pool.push({ id:'l1_avg_two', fn:()=>{
+      const a=randInt(2,cap); let b=randInt(2,cap); if((a+b)%2!==0) b+=1;
+      return mk(`Tính trung bình cộng của hai số ${a} và ${b}.`, '', '', 'Trung bình cộng = tổng hai số chia 2.', (a+b)/2);
+    }});
+    return pickFromPool('c7_lv1', pool);
+  }
+  if(tier==='medium'){
+    const pool = [];
+    pool.push({ id:'l2_find_third', fn:()=>{
+      const a = randInt(2,Math.round(cap/3)), b = randInt(2,Math.round(cap/3));
+      const avg = randInt(Math.round((a+b)/2)+1, Math.round(cap/2));
+      const c = avg*3 - a - b;
+      return mk(`Trung bình cộng của ba số là ${avg}. Biết số thứ nhất là ${a}, số thứ hai là ${b}. Tìm số thứ ba.`, '', '', 'Tổng ba số = trung bình cộng × 3, sau đó trừ đi hai số đã biết.', Math.max(0,c));
+    }});
+    return pickFromPool('c7_lv2', pool);
+  }
+  const pool = [];
+  pool.push({ id:'l3_find_fourth', fn:()=>{
+    const a=randInt(2,Math.round(cap/4)), b=randInt(2,Math.round(cap/4)), c=randInt(2,Math.round(cap/4));
+    const avg = randInt(Math.round((a+b+c)/3)+1, Math.round(cap/3));
+    const d = avg*4-a-b-c;
+    return mk(`Trung bình cộng của bốn số là ${avg}. Biết ba số đầu lần lượt là ${a}, ${b}, ${c}. Tìm số thứ tư.`, '', '', 'Tổng bốn số = trung bình cộng × 4, sau đó trừ đi ba số đã biết (nhiều số hơn mức trước).', Math.max(0,d));
+  }});
+  return pickFromPool('c7_lv3', pool);
+}
+
+// C8. Toán phần trăm nâng cao — Lv1: tính % của tổng | Lv2: tính % rồi +/- thêm 1 bước | Lv3: đảo chiều tìm giá gốc
+function genC8(grade, tier){
+  const gs = gradeScale(grade);
+  const cap = Math.max(20, Math.round(200*gs));
+  if(tier==='basic'){
+    const pool = [];
+    pool.push({ id:'l1_percent_of_total', fn:()=>{
+      const p = pick([10,20,25,50]);
+      const times = 100/p;
+      const total = times*randInt(2, Math.max(3,Math.round(cap/(times*2))));
+      return mk(`Một trường có ${total} học sinh, trong đó có ${p}% là học sinh giỏi. Hỏi trường đó có bao nhiêu học sinh giỏi?`, '(đơn vị: học sinh)', '', `Số học sinh giỏi = tổng số học sinh × ${p} ÷ 100.`, total*p/100);
+    }});
+    return pickFromPool('c8_lv1', pool);
+  }
+  if(tier==='medium'){
+    const pool = [];
+    pool.push({ id:'l2_percent_plus_step', fn:()=>{
+      const p = pick([10,20,25,50]);
+      const times = 100/p;
+      const total = times*randInt(2, Math.max(3,Math.round(cap/(times*2))));
+      const extra = randInt(2,10);
+      return mk(`Một trường có ${total} học sinh, trong đó có ${p}% là học sinh giỏi, còn lại là học sinh khá. Sau đó có thêm ${extra} học sinh giỏi mới chuyển đến. Hỏi trường có tất cả bao nhiêu học sinh giỏi?`, '(đơn vị: học sinh)', '', `Tính số học sinh giỏi ban đầu (× ${p} ÷ 100), rồi cộng thêm số mới chuyển đến.`, total*p/100 + extra);
+    }});
+    return pickFromPool('c8_lv2', pool);
+  }
+  const pool = [];
+  pool.push({ id:'l3_reverse_percent', fn:()=>{
+    const p = pick([10,20,25,50]);
+    const moneyUnit = grade<=2 ? 1000 : grade<=4 ? 5000 : 10000;
+    const k = randInt(2, Math.max(3,Math.round(cap/10)));
+    const original = (100/gcdFn(100-p,100))*k*moneyUnit;
+    const finalV = original*(100-p)/100;
+    return mk(`Sau khi giảm giá ${p}%, một món hàng còn ${finalV.toLocaleString('vi-VN')} đồng. Hỏi giá gốc ban đầu là bao nhiêu đồng?`, '', '', 'Giá sau giảm ứng với (100−p)%; lập tỉ lệ để suy ra giá gốc ứng với 100% (làm ngược lại chiều tính phần trăm).', original);
+  }});
+  return pickFromPool('c8_lv3', pool);
+}
+
+// D1. Chu vi hình vuông – chữ nhật
+function genD1(grade, tier){
+  const gs = gradeScale(grade);
+  const cap = Math.max(8, Math.round(30*gs));
+  if(tier==='basic'){
+    const pool = [];
+    pool.push({ id:'l1_square', fn:()=>{
+      const s = randInt(3, Math.max(5,Math.round(cap*0.8)));
+      return mk(`Một mảnh vườn hình vuông có cạnh dài ${s}cm (xem hình). Tính chu vi mảnh vườn đó.`, '', '', 'Chu vi hình vuông = cạnh × 4.', s*4, { geo:{type:'square', s} });
+    }});
+    pool.push({ id:'l1_rect', fn:()=>{
+      const l=randInt(5, Math.round(cap*1.2)), w=randInt(2,l-1);
+      return mk(`Một mảnh vườn hình chữ nhật dài ${l}cm, rộng ${w}cm (xem hình). Tính chu vi mảnh vườn đó.`, '', '', 'Chu vi hình chữ nhật = (dài + rộng) × 2.', (l+w)*2, { geo:{type:'rect', l, w} });
+    }});
+    return pickFromPool('d1_lv1', pool);
+  }
+  if(tier==='medium'){
+    const pool = [];
+    pool.push({ id:'l2_extra_step', fn:()=>{
+      const l=randInt(6, Math.round(cap*1.6)), w=randInt(2,l-1), extra=randInt(1,10);
+      return mk(`Một hình chữ nhật dài ${l}cm, rộng ${w}cm (xem hình). Tính chu vi rồi cộng thêm ${extra}cm nữa. Kết quả là bao nhiêu?`, '', '', 'Tính chu vi trước, sau đó cộng thêm số đã cho (2 bước).', (l+w)*2+extra, { geo:{type:'rect', l, w} });
+    }});
+    pool.push({ id:'l2_unit_convert', fn:()=>{
+      const sDm = randInt(3, Math.round(cap*0.4));
+      const sCm = sDm*10;
+      return mk(`Một mảnh vườn hình vuông có cạnh dài ${sDm}dm (xem hình, kích thước tương tự). Tính chu vi mảnh vườn đó theo đơn vị cm.`, '', '', 'Đổi cạnh từ dm sang cm trước (1dm = 10cm), rồi mới tính chu vi = cạnh × 4.', sCm*4, { geo:{type:'square', s:sCm} });
+    }});
+    return pickFromPool('d1_lv2', pool);
+  }
+  const pool = [];
+  pool.push({ id:'l3_delta_reasoning', fn:()=>{
+    const l=randInt(6, Math.round(cap*1.4)), w=randInt(2,l-1);
+    const k = randInt(1,10);
+    return mk(`Một hình chữ nhật dài ${l}cm, rộng ${w}cm (xem hình). Nếu tăng cả chiều dài và chiều rộng thêm ${k}cm mỗi chiều thì chu vi mới tăng thêm bao nhiêu cm so với chu vi ban đầu?`, '', '', 'Không cần tính lại toàn bộ chu vi — chu vi tăng thêm đúng bằng 4 lần phần tăng mỗi chiều (vì chu vi mới = chu vi cũ + 2×k + 2×k).', 4*k, { geo:{type:'rect', l, w} });
+  }});
+  return pickFromPool('d1_lv3', pool);
+}
+
+// D2. Diện tích hình vuông – chữ nhật
+function genD2(grade, tier){
+  const gs = gradeScale(grade);
+  const cap = Math.max(6, Math.round(25*gs));
+  if(tier==='basic'){
+    const pool = [];
+    pool.push({ id:'l1_square', fn:()=>{
+      const s = randInt(4, Math.max(6,Math.round(cap*0.8)));
+      return mk(`Một mảnh vườn hình vuông có cạnh ${s}m (xem hình). Tính diện tích mảnh vườn đó.`, '', '', 'Diện tích hình vuông = cạnh × cạnh.', s*s, { geo:{type:'square', s, unit:'m'} });
+    }});
+    pool.push({ id:'l1_rect', fn:()=>{
+      const l=randInt(6, Math.round(cap*1.6)), w=randInt(3,l-1);
+      return mk(`Một khu đất hình chữ nhật dài ${l}m, rộng ${w}m (xem hình). Tính diện tích khu đất đó.`, '', '', 'Diện tích hình chữ nhật = dài × rộng.', l*w, { geo:{type:'rect', l, w, unit:'m'} });
+    }});
+    return pickFromPool('d2_lv1', pool);
+  }
+  if(tier==='medium'){
+    const pool = [];
+    pool.push({ id:'l2_extra_step', fn:()=>{
+      const l=randInt(6, Math.round(cap*1.6)), w=randInt(3,l-1), extra=randInt(1,15);
+      const useMinus = Math.random()<0.5;
+      const ans = useMinus? l*w-extra : l*w+extra;
+      return mk(`Một hình chữ nhật dài ${l}cm, rộng ${w}cm (xem hình). Tính diện tích rồi ${useMinus?'trừ đi':'cộng thêm'} ${extra}cm². Kết quả là bao nhiêu?`, '', '', 'Tính diện tích trước, sau đó '+(useMinus?'trừ đi':'cộng thêm')+' số đã cho (2 bước).', ans, { geo:{type:'rect', l, w} });
+    }});
+    pool.push({ id:'l2_unit_convert', fn:()=>{
+      const lDm = randInt(6, Math.round(cap*1.2)), wDm = randInt(3,lDm-1);
+      const lCm=lDm*10, wCm=wDm*10;
+      return mk(`Một khu đất hình chữ nhật dài ${lDm}dm, rộng ${wDm}dm. Tính diện tích khu đất đó theo đơn vị cm².`, '', '', 'Đổi cả chiều dài và chiều rộng sang cm trước (1dm = 10cm), rồi mới tính diện tích = dài × rộng.', lCm*wCm, { geo:{type:'rect', l:lCm, w:wCm} });
+    }});
+    return pickFromPool('d2_lv2', pool);
+  }
+  const pool = [];
+  pool.push({ id:'l3_ratio_perimeter_combo', fn:()=>{
+    const w = randInt(3, Math.round(cap*0.8));
+    const l = w*2;
+    const P = (l+w)*2;
+    return mk(`Một hình chữ nhật có chiều dài gấp đôi chiều rộng và có chu vi ${P}cm. Tính diện tích hình chữ nhật đó (đơn vị: cm²).`, '', '', 'Từ chu vi và tỉ lệ dài gấp đôi rộng, suy ra (dài + rộng) rồi tìm từng cạnh, sau đó mới tính diện tích = dài × rộng.', l*w, { geo:{type:'rect', l, w} });
+  }});
+  return pickFromPool('d2_lv3', pool);
+}
+
+// D3. Diện tích hình tam giác
+function genD3(grade, tier){
+  const gs = gradeScale(grade);
+  const cap = Math.max(6, Math.round(30*gs));
+  if(tier==='basic'){
+    const pool = [];
+    pool.push({ id:'l1_direct', fn:()=>{
+      const h = randInt(3, Math.max(4,Math.round(cap*0.6)))*2;
+      const b = randInt(4, Math.round(cap*1.2));
+      const area = Math.round(b*h/2);
+      return mk(`Một mảnh vườn hình tam giác có đáy ${b}m, chiều cao ${h}m (xem hình). Tính diện tích mảnh vườn đó (đơn vị: m²).`, '', '', 'Diện tích tam giác = (đáy × chiều cao) ÷ 2.', area, { geo:{type:'tri', b, h} });
+    }});
+    return pickFromPool('d3_lv1', pool);
+  }
+  if(tier==='medium'){
+    const pool = [];
+    pool.push({ id:'l2_unit_convert', fn:()=>{
+      const bDm = randInt(4, Math.round(cap*0.8));
+      let hDm; do{ hDm = randInt(3, Math.round(cap*0.8)); } while((bDm*hDm)%2!==0);
+      const bCm=bDm*10, hCm=hDm*10;
+      const area = bCm*hCm/2;
+      return mk(`Một mảnh vườn hình tam giác có đáy ${bDm}dm, chiều cao ${hDm}dm. Tính diện tích mảnh vườn đó theo đơn vị cm².`, '', '', 'Đổi đáy và chiều cao sang cm trước (1dm = 10cm), rồi mới áp dụng công thức diện tích tam giác.', area, { geo:{type:'tri', b:bCm, h:hCm} });
+    }});
+    return pickFromPool('d3_lv2', pool);
+  }
+  const pool = [];
+  pool.push({ id:'l3_reverse_height', fn:()=>{
+    const b = randInt(4, Math.round(cap*1.2));
+    let h; do{ h = randInt(3, Math.round(cap)); } while((b*h)%2!==0);
+    const area = b*h/2;
+    return mk(`Một hình tam giác có diện tích ${area}m² và đáy ${b}m. Tính chiều cao của tam giác đó.`, '', '', 'Chiều cao = (diện tích × 2) ÷ đáy — làm ngược lại công thức diện tích.', h, { geo:{type:'tri', b, h} });
+  }});
+  return pickFromPool('d3_lv3', pool);
+}
+
+// D4. Diện tích hình thang
+function genD4(grade, tier){
+  const gs = gradeScale(grade);
+  const cap = Math.max(6, Math.round(25*gs));
+  if(tier==='basic'){
+    const pool = [];
+    pool.push({ id:'l1_direct', fn:()=>{
+      let a,b,h,area;
+      do{ a=randInt(6,Math.round(cap*1.1)); b=randInt(3,a-1); h=randInt(3,Math.round(cap*0.8)); area=(a+b)*h; } while(area%2!==0);
+      return mk(`Một thửa ruộng hình thang có đáy lớn ${a}m, đáy bé ${b}m, chiều cao ${h}m (xem hình). Tính diện tích thửa ruộng đó (đơn vị: m²).`, '', '', 'Diện tích hình thang = (đáy lớn + đáy bé) × chiều cao ÷ 2.', area/2, { geo:{type:'trap', a, b, h} });
+    }});
+    return pickFromPool('d4_lv1', pool);
+  }
+  if(tier==='medium'){
+    const pool = [];
+    pool.push({ id:'l2_extra_step', fn:()=>{
+      let a,b,h,area;
+      do{ a=randInt(6,Math.round(cap*1.3)); b=randInt(3,a-1); h=randInt(3,Math.round(cap)); area=(a+b)*h; } while(area%2!==0);
+      const extra = randInt(1,10);
+      return mk(`Một thửa ruộng hình thang có đáy lớn ${a}m, đáy bé ${b}m, chiều cao ${h}m (xem hình). Tính diện tích rồi trừ đi ${extra}m² (phần lối đi). Kết quả còn lại là bao nhiêu?`, '', '', 'Tính diện tích hình thang trước, sau đó trừ đi phần lối đi (2 bước).', area/2-extra, { geo:{type:'trap', a, b, h} });
+    }});
+    return pickFromPool('d4_lv2', pool);
+  }
+  const pool = [];
+  pool.push({ id:'l3_reverse_height', fn:()=>{
+    let a,b,h,area;
+    const topCap = Math.round(cap*1.4);
+    do{ a=randInt(6,topCap); b=randInt(3,a-1); h=randInt(3,Math.round(cap)); } while(((a+b)*h)%2!==0);
+    area = (a+b)*h/2;
+    return mk(`Một hình thang có diện tích ${area}m², đáy lớn ${a}m, đáy bé ${b}m. Tính chiều cao hình thang đó.`, '', '', 'Chiều cao = diện tích × 2 ÷ (đáy lớn + đáy bé) — làm ngược lại công thức diện tích.', h, { geo:{type:'trap', a, b, h} });
+  }});
+  return pickFromPool('d4_lv3', pool);
+}
+
+// D5. Bài toán ngược — tìm cạnh
+function genD5(grade, tier){
+  const gs = gradeScale(grade);
+  const cap = Math.max(6, Math.round(30*gs));
+  if(tier==='basic'){
+    const pool = [];
+    pool.push({ id:'l1_square_from_perim', fn:()=>{
+      const s = randInt(3, Math.round(cap*1.2));
+      const P = s*4;
+      return mk(`Một hình vuông có chu vi ${P}cm (xem hình). Tính độ dài cạnh hình vuông đó.`, '', '', 'Cạnh hình vuông = chu vi ÷ 4.', s, { geo:{type:'square', s} });
+    }});
+    pool.push({ id:'l1_square_from_area', fn:()=>{
+      const s = randInt(4, Math.round(cap*1.1));
+      const A = s*s;
+      return mk(`Một hình vuông có diện tích ${A}cm² (xem hình). Tính cạnh của hình vuông đó.`, '(đơn vị: cm)', '', 'Tìm số mà khi nhân với chính nó bằng diện tích đã cho.', s, { geo:{type:'square', s} });
+    }});
+    return pickFromPool('d5_lv1', pool);
+  }
+  if(tier==='medium'){
+    const pool = [];
+    pool.push({ id:'l2_rect_from_perim', fn:()=>{
+      const l=randInt(6, Math.round(cap*1.4)), w=randInt(3,l-2);
+      const P = 2*(l+w);
+      return mk(`Một hình chữ nhật có chu vi ${P}cm và chiều dài ${l}cm (xem hình). Tính chiều rộng.`, '(đơn vị: cm)', '', 'Lấy chu vi chia 2 để được (dài + rộng), rồi trừ đi chiều dài đã biết (2 bước).', w, { geo:{type:'rect', l, w} });
+    }});
+    return pickFromPool('d5_lv2', pool);
+  }
+  const pool = [];
+  pool.push({ id:'l3_area_ratio_combo', fn:()=>{
+    const w = randInt(3, Math.round(cap*0.8));
+    const l = w*randInt(2,3);
+    const A = l*w;
+    const ratio = l/w;
+    return mk(`Một hình chữ nhật có diện tích ${A}m², biết chiều dài gấp ${ratio} lần chiều rộng. Tính chiều dài của hình chữ nhật đó.`, '(đơn vị: m)', '', 'Gọi chiều rộng là 1 phần thì chiều dài là '+ratio+' phần; diện tích = '+ratio+' phần × 1 phần. Thử các giá trị để tìm chiều rộng, rồi suy ra chiều dài.', l, { geo:{type:'rect', l, w} });
+  }});
+  return pickFromPool('d5_lv3', pool);
+}
+
+// D6. So sánh chu vi/diện tích 2 hình
+function genD6(grade, tier){
+  const gs = gradeScale(grade);
+  const cap = Math.max(6, Math.round(25*gs));
+  if(tier==='basic'){
+    const pool = [];
+    pool.push({ id:'l1_compare_perim', fn:()=>{
+      const l1=randInt(6, Math.round(cap*1.6)), w1=randInt(2,l1-1);
+      let l2,w2,perimB;
+      do{ l2=randInt(4, Math.round(cap*1.4)); w2=randInt(2,l2-1); perimB=(l2+w2)*2; } while(perimB>=(l1+w1)*2);
+      return mk(`Hình chữ nhật A dài ${l1}cm, rộng ${w1}cm (xem hình A). Hình chữ nhật B dài ${l2}cm, rộng ${w2}cm. Hỏi chu vi hình A lớn hơn chu vi hình B bao nhiêu cm?`, '', '', 'Tính chu vi từng hình rồi lấy hiệu.', (l1+w1)*2-perimB, { geo:{type:'rect', l:l1, w:w1} });
+    }});
+    return pickFromPool('d6_lv1', pool);
+  }
+  if(tier==='medium'){
+    const pool = [];
+    pool.push({ id:'l2_compare_area', fn:()=>{
+      const l1=randInt(6, Math.round(cap*1.6)), w1=randInt(3,l1-1);
+      let l2,w2,areaB;
+      do{ l2=randInt(4, Math.round(cap*1.3)); w2=randInt(2,l2-1); areaB=l2*w2; } while(areaB>=l1*w1);
+      return mk(`Hình chữ nhật A dài ${l1}cm, rộng ${w1}cm (xem hình A). Hình chữ nhật B dài ${l2}cm, rộng ${w2}cm. Hỏi diện tích hình A lớn hơn diện tích hình B bao nhiêu cm²?`, '', '', 'Tính diện tích từng hình rồi lấy hiệu.', l1*w1-areaB, { geo:{type:'rect', l:l1, w:w1} });
+    }});
+    return pickFromPool('d6_lv2', pool);
+  }
+  const pool = [];
+  pool.push({ id:'l3_same_perim_diff_area', fn:()=>{
+    const side = randInt(6, Math.round(cap*1.2));
+    const P = side*4;
+    const half = P/2;
+    const w = randInt(2, Math.floor(half/2)-1);
+    const l = half - w;
+    const squareArea = side*side, rectArea = l*w;
+    return mk(`Một hình vuông cạnh ${side}cm và một hình chữ nhật dài ${l}cm rộng ${w}cm có CÙNG chu vi (xem hình vuông). Hỏi diện tích hình nào lớn hơn, và lớn hơn bao nhiêu cm²?`, '(chỉ gõ số cm² chênh lệch)', '', 'Với cùng chu vi, hình vuông luôn có diện tích lớn hơn hoặc bằng hình chữ nhật — tính cả hai diện tích rồi lấy hiệu để kiểm chứng.', squareArea-rectArea, { geo:{type:'square', s:side} });
+  }});
+  return pickFromPool('d6_lv3', pool);
+}
+
+// D7. Ghép hình chữ L, chữ T
+function genD7(grade, tier){
+  const gs = gradeScale(grade);
+  const cap = Math.max(5, Math.round(20*gs));
+  if(tier==='basic'){
+    const pool = [];
+    pool.push({ id:'l1_lshape', fn:()=>{
+      const l1=randInt(6, Math.round(cap*1.3)), w1=randInt(3,l1-1), l2=randInt(3, Math.round(cap*0.8)), w2=randInt(2,l2-1);
+      const total = l1*w1 + l2*w2;
+      return mk(`Một mảnh đất hình chữ L gồm 2 hình chữ nhật ghép lại (xem hình): phần thứ nhất dài ${l1}m rộng ${w1}m, phần thứ hai dài ${l2}m rộng ${w2}m. Tính tổng diện tích mảnh đất.`, '(đơn vị: m²)', '', 'Tính diện tích từng hình chữ nhật rồi cộng lại.', total, { geo:{type:'lshape', l1,w1,l2,w2} });
+    }});
+    return pickFromPool('d7_lv1', pool);
+  }
+  if(tier==='medium'){
+    const pool = [];
+    pool.push({ id:'l2_lshape_minus', fn:()=>{
+      const l1=randInt(8, Math.round(cap*1.5)), w1=randInt(3,l1-1), l2=randInt(3, Math.round(cap*0.8)), w2=randInt(2,l2-1);
+      const total = l1*w1 + l2*w2;
+      const path = randInt(1, Math.round(total*0.1));
+      return mk(`Một mảnh đất hình chữ L gồm 2 hình chữ nhật ghép lại (xem hình): phần thứ nhất dài ${l1}m rộng ${w1}m, phần thứ hai dài ${l2}m rộng ${w2}m. Trên mảnh đất có 1 lối đi diện tích ${path}m² không trồng được. Hỏi diện tích còn lại để trồng cây là bao nhiêu?`, '(đơn vị: m²)', '', 'Tính tổng diện tích 2 hình chữ nhật ghép lại, sau đó trừ đi phần lối đi (3 bước).', total-path, { geo:{type:'lshape', l1,w1,l2,w2} });
+    }});
+    return pickFromPool('d7_lv2', pool);
+  }
+  const pool = [];
+  pool.push({ id:'l3_tshape', fn:()=>{
+    const l1=randInt(8, Math.round(cap*1.6)), w1=randInt(3,10), l2=randInt(3,10), w2=randInt(6, Math.max(6,l1-2));
+    const total = l1*w1 + l2*w2;
+    return mk(`Một khu vườn hình chữ T được ghép từ 2 hình chữ nhật (xem hình): phần nằm ngang dài ${l1}m rộng ${w1}m, phần nằm dọc dài ${w2}m rộng ${l2}m. Tính tổng diện tích khu vườn.`, '(đơn vị: m²)', '', 'Chia hình chữ T thành 2 hình chữ nhật theo hướng khác (ngang/dọc thay vì trên/dưới như hình L), tính diện tích từng phần rồi cộng lại.', total, { geo:{type:'tshape', l1,w1,l2,w2} });
+  }});
+  return pickFromPool('d7_lv3', pool);
+}
+
+// D8. Kết hợp nhiều bước chu vi & diện tích
+function genD8(grade, tier){
+  const gs = gradeScale(grade);
+  const cap = Math.max(8, Math.round(30*gs));
+  if(tier==='basic'){
+    const pool = [];
+    pool.push({ id:'l1_area_minus_perim', fn:()=>{
+      const l=randInt(10, Math.round(cap*1.6)), w=randInt(4,l-1);
+      return mk(`Một khu đất hình chữ nhật dài ${l}m, rộng ${w}m (xem hình). Tính diện tích rồi lấy diện tích trừ đi chu vi. Kết quả là bao nhiêu?`, '', '', 'Tính diện tích và chu vi riêng của CÙNG 1 hình, rồi lấy hiệu.', l*w-(l+w)*2, { geo:{type:'rect', l, w, unit:'m'} });
+    }});
+    return pickFromPool('d8_lv1', pool);
+  }
+  if(tier==='medium'){
+    const pool = [];
+    pool.push({ id:'l2_two_shapes_combine', fn:()=>{
+      const s = randInt(3, Math.round(cap*0.8));
+      const l=randInt(5, Math.round(cap*1.2)), w=randInt(2,l-1);
+      const total = s*4 + l*w;
+      return mk(`Một hình vuông cạnh ${s}cm và một hình chữ nhật dài ${l}cm rộng ${w}cm (2 HÌNH KHÁC NHAU). Tính tổng của chu vi hình vuông và diện tích hình chữ nhật.`, '', '', 'Tính chu vi hình vuông, tính diện tích hình chữ nhật (2 hình khác nhau), rồi cộng hai kết quả lại.', total, { geo:{type:'rect', l, w} });
+    }});
+    return pickFromPool('d8_lv2', pool);
+  }
+  const pool = [];
+  pool.push({ id:'l3_three_quantity_chain', fn:()=>{
+    const l1=randInt(8, Math.round(cap*1.3)), w1=randInt(3,l1-1);
+    const l2=randInt(5, Math.round(cap*0.9)), w2=randInt(2,l2-1);
+    const areaA = l1*w1, areaB = l2*w2, perimA = (l1+w1)*2;
+    const result = areaA - areaB + perimA;
+    return mk(`Hình chữ nhật A dài ${l1}cm rộng ${w1}cm; hình chữ nhật B dài ${l2}cm rộng ${w2}cm. Tính: (diện tích A) − (diện tích B) + (chu vi A).`, '', '', 'Tính lần lượt 3 đại lượng của 2 hình khác nhau, rồi kết hợp theo đúng thứ tự cộng/trừ trong đề (3 bước tính).', result, { geo:{type:'rect', l:l1, w:w1} });
+  }});
+  return pickFromPool('d8_lv3', pool);
+}
+
+// D9. Toán rào vườn nâng cao
+function genD9(grade, tier){
+  const gs = gradeScale(grade);
+  if(tier==='basic'){
+    const pool = [];
+    pool.push({ id:'l1_rect_fence', fn:()=>{
+      const w = randInt(3, Math.max(4,Math.round(15*gs)));
+      const l = w + randInt(2, Math.max(4,Math.round(20*gs)));
+      const P = 2*(l+w);
+      const candidates = [2,3,4,5,6,8,10].filter(d=>P%d===0);
+      const s = candidates.length ? pick(candidates) : 2;
+      return mk(`Một khu vườn hình chữ nhật dài ${l}m, rộng ${w}m (xem hình). Người ta rào xung quanh vườn, cứ ${s}m cắm 1 cọc (các cọc cách đều nhau quanh hàng rào khép kín). Hỏi cần bao nhiêu cọc rào?`, '', '', 'Vì hàng rào khép kín, số cọc = chu vi ÷ khoảng cách giữa hai cọc.', P/s, { geo:{type:'rect', l, w, unit:'m'} });
+    }});
+    return pickFromPool('d9_lv1', pool);
+  }
+  if(tier==='medium'){
+    const pool = [];
+    pool.push({ id:'l2_square_fence_unit', fn:()=>{
+      const sideDm = randInt(Math.max(4,Math.round(2*gs)), Math.max(12,Math.round(10*gs)));
+      const sideM = sideDm; // keep meters directly for garden, but distance in different unit
+      const P = sideM*4;
+      const candidates = [2,3,4,5,6,8,10].filter(d=>P%d===0);
+      const s = candidates.length ? pick(candidates) : 2;
+      return mk(`Một khu vườn hình vuông có cạnh ${sideM}m (xem hình). Người ta rào xung quanh vườn, cứ ${s*10}dm cắm 1 cọc (đổi ra mét để tính). Hỏi cần bao nhiêu cọc rào (hàng rào khép kín)?`, '', '', `Đổi khoảng cách cọc từ dm sang m trước (${s*10}dm = ${s}m), rồi lấy chu vi chia cho khoảng cách đó.`, P/s, { geo:{type:'square', s:sideM, unit:'m'} });
+    }});
+    return pickFromPool('d9_lv2', pool);
+  }
+  const pool = [];
+  pool.push({ id:'l3_fence_with_gate', fn:()=>{
+    const w = randInt(3, Math.max(4,Math.round(18*gs)));
+    const l = w + randInt(2, Math.max(4,Math.round(24*gs)));
+    const P = 2*(l+w);
+    const candidates = [2,3,4,5,6,8,10].filter(d=>P%d===0);
+    const s = candidates.length ? pick(candidates) : 2;
+    const totalPosts = P/s;
+    const answer = totalPosts - 1;
+    return mk(`Một khu vườn hình chữ nhật dài ${l}m, rộng ${w}m (xem hình) được rào xung quanh, cứ ${s}m cắm 1 cọc. Biết vườn có 1 cổng ra vào rộng đúng ${s}m và tại vị trí cổng KHÔNG cắm cọc. Hỏi cần bao nhiêu cọc rào?`, '', '', 'Tính số cọc như hàng rào khép kín bình thường (chu vi ÷ khoảng cách), sau đó trừ đi đúng 1 cọc tại vị trí cổng.', answer, { geo:{type:'rect', l, w, unit:'m'} });
+  }});
+  return pickFromPool('d9_lv3', pool);
+}
+
+/* ============================================================
+   ĐĂNG KÝ CHỦ ĐỀ / DẠNG CON
+   ============================================================ */
+const TOPICS = {
+  arithmetic: { name:'Number Theory & Reasoning', vi:'Số học & Suy luận',
+    subs: {
+      a1:{ name:'Biểu thức nhiều bước', example:'(4 × 6) - (3 × 2) + 5', note:'Tính giá trị biểu thức nhiều phép tính, hoặc tìm số ẩn trong đẳng thức.', usage:'Rèn <b>thứ tự thực hiện phép tính</b> và kỹ năng tính ngược để tìm số chưa biết.', gen:genA1 },
+      a2:{ name:'Chia hết & số dư', example:'17 chia cho 5 dư mấy?', note:'Dấu hiệu chia hết, số dư, đếm bội số trong một khoảng.', usage:'Vận dụng <b>chia hết và số dư</b> để giải các bài suy luận số học.', gen:genA2 },
+      a3:{ name:'Tìm chữ số / số ẩn', example:'Tổng hai chữ số bằng 9, hiệu bằng 3', note:'Suy luận từ điều kiện tổng/hiệu để tìm ra số có 2-3 chữ số.', usage:'Rèn <b>lập luận đại số sơ cấp</b> trên cấu tạo số.', gen:genA3 },
+      a4:{ name:'Ước – Bội – ƯCLN – BCNN', example:'ƯCLN(18, 24) = ?', note:'Tổng các ước, ước chung lớn nhất, bội chung nhỏ nhất.', usage:'Nắm vững <b>ước và bội</b> — nền tảng của số học nâng cao.', gen:genA4 },
+      a5:{ name:'Số nguyên tố nâng cao', example:'Số nguyên tố lớn nhất nhỏ hơn 40?', note:'Tìm số nguyên tố theo điều kiện, đếm số nguyên tố trong khoảng.', usage:'Làm quen với <b>số nguyên tố</b> ở mức vận dụng, không chỉ nhận biết.', gen:genA5 },
+    }},
+  sequence: { name:'Sequences & Patterns', vi:'Dãy số & Quy luật',
+    subs: {
+      b1:{ name:'Dãy số cộng/trừ đều', example:'2, 5, 8, 11, ___', note:'Tìm số còn thiếu hoặc số hạng thứ n của dãy cộng/trừ đều.', usage:'Phát hiện <b>quy luật cộng/trừ đều</b> để suy ra số hạng bất kỳ.', gen:genB1 },
+      b2:{ name:'Dãy số nhân/chia đều', example:'2, 4, 8, 16, ___', note:'Quy luật nhân/chia đều, và dãy kiểu Fibonacci.', usage:'Nhận diện <b>quy luật nhân/chia</b> và quy luật cộng dồn hai số liền trước.', gen:genB2 },
+      b3:{ name:'Quy luật hình theo tầng', example:'Tầng 1: 1 hình, tầng 2: 4 hình...', note:'Số hình ở mỗi tầng theo quy luật bình phương hoặc tổng liên tiếp.', usage:'Kết nối <b>quy luật số học</b> với hình ảnh trực quan theo tầng.', gen:genB3 },
+      b4:{ name:'Tổ hợp & đếm cơ bản', example:'3 áo × 2 quần = ? cách phối', note:'Đếm cách chọn, cách xếp, cách bắt tay.', usage:'Làm quen với <b>nguyên lý đếm</b> nhân và các bài đếm cơ bản.', gen:genB4 },
+    }},
+  wordproblem: { name:'Advanced Word Problems', vi:'Lời văn nâng cao',
+    subs: {
+      c1:{ name:'Toán đố nhiều bước cơ bản', example:'Bán hàng 2 buổi, còn lại bao nhiêu?', note:'Bài toán 2 bước tính đơn giản.', usage:'Luyện <b>giải toán nhiều bước</b> ở mức cơ bản.', gen:genC1 },
+      c2:{ name:'Toán đố nhiều bước nâng cao', example:'Chia đều rồi nhận thêm, hoặc bán 1 phần rồi nhập thêm', note:'Bài toán 3 bước kết hợp chia phần, phân số, nhập/xuất.', usage:'Luyện <b>giải toán nhiều bước</b> ở mức nâng cao, kết hợp nhiều phép tính.', gen:genC2 },
+      c3:{ name:'Toán tuổi', example:'Tổng tuổi hai anh em, hiệu tuổi', note:'Toán tổng-hiệu tuổi, và tỉ số tuổi thay đổi theo thời gian.', usage:'Áp dụng <b>tổng-hiệu và tỉ số</b> vào bài toán tuổi kinh điển.', gen:genC3 },
+      c4:{ name:'Toán trồng cây – hàng rào', example:'Trồng cây cách đều, đếm số cây/cọc', note:'Bài toán trồng cây hai đầu/một đầu/không đầu, rào vườn khép kín.', usage:'Rèn tư duy <b>đếm khoảng cách và mốc</b> — dạng toán cổ điển.', gen:genC4 },
+      c5:{ name:'Toán chuyển động', example:'Vận tốc, quãng đường, thời gian; hai xe gặp/đuổi nhau', note:'Chuyển động cơ bản và hai xe gặp nhau/đuổi kịp nhau.', usage:'Áp dụng công thức <b>quãng đường – vận tốc – thời gian</b> và bài toán hai chuyển động.', gen:genC5 },
+      c6:{ name:'Toán tổng-tỉ / hiệu-tỉ', example:'Tổng 2 số là 20, số lớn gấp 3 lần số bé', note:'Tổng-tỉ, hiệu-tỉ, chia phần theo tỉ số ba đối tượng.', usage:'Vận dụng <b>sơ đồ đoạn thẳng tổng-tỉ/hiệu-tỉ</b> — trọng tâm Model Method.', gen:genC6 },
+      c7:{ name:'Toán trung bình cộng', example:'TBC của 3 số là 10, biết 2 số, tìm số còn lại', note:'Tìm số hạng còn thiếu khi biết trung bình cộng.', usage:'Vận dụng công thức <b>trung bình cộng</b> để tìm số hạng chưa biết.', gen:genC7 },
+      c8:{ name:'Toán phần trăm nâng cao', example:'Giảm giá 20%, còn lại bao nhiêu?', note:'Tính phần trăm của một số, và bài toán ngược tìm giá gốc.', usage:'Áp dụng <b>phần trăm</b> hai chiều: xuôi (tìm phần) và ngược (tìm gốc).', gen:genC8 },
+    }},
+  geometry: { name:'Advanced Geometry', vi:'Hình học nâng cao',
+    subs: {
+      d1:{ name:'Chu vi hình vuông – chữ nhật', example:'Chu vi hình chữ nhật dài 8cm rộng 5cm', note:'Tính chu vi cơ bản và chu vi kết hợp cộng thêm.', usage:'Thành thạo công thức <b>chu vi</b> hình vuông và hình chữ nhật.', gen:genD1 },
+      d2:{ name:'Diện tích hình vuông – chữ nhật', example:'Diện tích hình vuông cạnh 6m', note:'Diện tích cơ bản và diện tích kết hợp cộng/trừ thêm.', usage:'Thành thạo công thức <b>diện tích</b> hình vuông và hình chữ nhật.', gen:genD2 },
+      d3:{ name:'Diện tích hình tam giác', example:'Đáy 8m, chiều cao 5m', note:'Tính diện tích và bài toán ngược tìm chiều cao.', usage:'Áp dụng công thức <b>diện tích tam giác</b> xuôi và ngược.', gen:genD3 },
+      d4:{ name:'Diện tích hình thang', example:'Đáy lớn 10m, đáy bé 6m, cao 4m', note:'Tính diện tích và bài toán ngược tìm chiều cao.', usage:'Áp dụng công thức <b>diện tích hình thang</b> xuôi và ngược.', gen:genD4 },
+      d5:{ name:'Bài toán ngược — tìm cạnh', example:'Biết chu vi, tìm cạnh còn thiếu', note:'Tìm cạnh từ chu vi/diện tích đã cho.', usage:'Rèn tư duy <b>ngược</b>: từ chu vi/diện tích suy ra kích thước cạnh.', gen:genD5 },
+      d6:{ name:'So sánh chu vi/diện tích 2 hình', example:'Hình A và B, A hơn B bao nhiêu?', note:'So sánh hai hình chữ nhật khác kích thước.', usage:'Rèn kỹ năng <b>so sánh</b> thông qua tính toán hai đối tượng.', gen:genD6 },
+      d7:{ name:'Ghép hình chữ L, chữ T', example:'2 hình chữ nhật ghép thành hình L', note:'Tính tổng diện tích của hình ghép từ nhiều hình chữ nhật.', usage:'Nhận diện <b>hình ghép</b> — chia nhỏ để tính rồi cộng lại.', gen:genD7 },
+      d8:{ name:'Kết hợp nhiều bước chu vi & diện tích', example:'Diện tích trừ chu vi, hoặc cộng hai đại lượng của 2 hình', note:'Kết hợp chu vi và diện tích trong cùng một bài.', usage:'Rèn khả năng <b>kết hợp nhiều đại lượng hình học</b> trong một bài toán.', gen:genD8 },
+      d9:{ name:'Toán rào vườn nâng cao', example:'Chu vi vườn, khoảng cách cọc → số cọc', note:'Đếm số cọc rào quanh vườn hình chữ nhật hoặc hình vuông (khép kín).', usage:'Áp dụng bài toán <b>trồng cây/cọc rào khép kín</b> (không cộng thêm 1 như đường thẳng).', gen:genD9 },
+    }},
+};
+const TIER_LABEL = { basic:'Lv 1', medium:'Lv 2', hard:'Lv 3' };
+const ROWS = ['Lớp 1','Lớp 2','Lớp 3','Lớp 4','Lớp 5'];
+const MAX_MIX = 4;
+
+function findSub(id){
+  for(const [tid,t] of Object.entries(TOPICS)){
+    if(t.subs[id]) return { ...t.subs[id], id, topicId: tid };
+  }
+  return null;
+}
+
+/* ============ 3-tier plan (40% cơ bản / 40% nâng cao / 20% tư duy) ============ */
 function buildDifficultyPlan(count){
   const nBasic = Math.round(count*0.4);
   const nMedium = Math.round(count*0.4);
@@ -798,23 +1413,24 @@ function buildDifficultyPlan(count){
   for(let i=0;i<nBasic;i++) plan.push({tier:'basic', scale:0});
   for(let i=0;i<nMedium;i++) plan.push({tier:'medium', scale: nMedium<=1 ? 1 : i/(nMedium-1)});
   for(let i=0;i<nHard;i++) plan.push({tier:'hard', scale:1});
+  // shuffle plan order so tiers aren't grouped together in the quiz
+  for(let i=plan.length-1;i>0;i--){ const j=randInt(0,i); [plan[i],plan[j]]=[plan[j],plan[i]]; }
   return plan;
 }
-function generateQuiz(gradeId, topicIds, count){
+
+function generateQuiz(gradeId, subIds, count){
   resetUnseen();
   const plan = buildDifficultyPlan(count);
-  const arr = [];
-  for(let i=0;i<count;i++){
-    const tid = topicIds[randInt(0,topicIds.length-1)];
-    const {tier, scale} = plan[i];
-    arr.push({ ...GEN[tid](gradeId, tier, scale), topic: tid, tier });
-  }
-  return arr;
+  return plan.map(({tier, scale})=>{
+    const subId = subIds[randInt(0, subIds.length-1)];
+    const sub = findSub(subId);
+    const q = sub.gen(gradeId, tier, scale);
+    q.svg = buildSvgForQuestion(q);
+    return { ...q, sub: subId, topicId: sub.topicId, tier };
+  });
 }
 
-/* ============ State ============ */
-let selectedTopics = []; let mixMode = false; let currentGrade = null; let currentTopics = []; let quizCount = 10; let currentQuiz = [];
-
+/* ============ DOM wiring ============ */
 const placeholder = document.getElementById('placeholder');
 const quizArea = document.getElementById('quizArea');
 const refName = document.getElementById('refName');
@@ -831,14 +1447,95 @@ const exportWordBtn = document.getElementById('exportWordBtn');
 const mixToggle = document.getElementById('mixToggle');
 const mixHint = document.getElementById('mixHint');
 const countBtns = document.getElementById('countBtns');
+const gradeRow = document.getElementById('gradeRow');
+const topicTabs = document.getElementById('topicTabs');
+const subGrid = document.getElementById('subGrid');
 
-function renderReference(gradeId, topicIds){
-  const tid = topicIds[0]; const t = TOPICS[tid];
-  refName.textContent = `${ROWS[gradeId-1]} · ${t.name}`;
-  refTag.textContent = topicIds.length>1 ? `${topicIds.length} DẠNG BÀI` : t.vi.toUpperCase();
-  refExample.querySelector('.en').textContent = t.en;
-  refExample.querySelector('.vi').textContent = t.vi2;
-  refUsage.innerHTML = t.usage;
+let selectedGrade = null;
+let selectedTopic = null;
+let selectedSubs = [];
+let mixMode = false;
+let quizCount = 10;
+let currentGrade = null;
+let currentSubs = [];
+let currentQuiz = [];
+
+function buildGradeRow(){
+  gradeRow.innerHTML = [1,2,3,4,5].map(g=>`<button class="tbtn" data-grade="${g}">${ROWS[g-1]}</button>`).join('');
+}
+gradeRow.addEventListener('click', (e)=>{
+  const btn = e.target.closest('.tbtn'); if(!btn) return;
+  selectedGrade = parseInt(btn.dataset.grade,10);
+  gradeRow.querySelectorAll('.tbtn').forEach(b=> b.classList.toggle('active', b===btn));
+  if(currentSubs.length){ startTopics(selectedGrade, currentSubs); }
+});
+
+function buildTopicTabs(){
+  topicTabs.innerHTML = Object.entries(TOPICS).map(([id,t])=>`<button class="tbtn" data-topicid="${id}">${t.vi}</button>`).join('');
+}
+topicTabs.addEventListener('click', (e)=>{
+  const btn = e.target.closest('.tbtn'); if(!btn) return;
+  selectedTopic = btn.dataset.topicid;
+  topicTabs.querySelectorAll('.tbtn').forEach(b=> b.classList.toggle('active', b===btn));
+  selectedSubs = [];
+  renderSubGrid();
+  if(mixMode){ mixHint.style.display='block'; mixHint.textContent = `Chọn 2-${MAX_MIX} dạng con để trộn`; }
+});
+
+function renderSubGrid(){
+  if(!selectedTopic){ subGrid.innerHTML = `<div class="sub-empty">— Chọn chủ đề ở bước 2 —</div>`; return; }
+  const subs = TOPICS[selectedTopic].subs;
+  subGrid.innerHTML = Object.entries(subs).map(([id,s])=>`<button class="tbtn" data-subid="${id}">${s.name}</button>`).join('');
+}
+subGrid.addEventListener('click', (e)=>{
+  const btn = e.target.closest('.tbtn'); if(!btn) return;
+  const subId = btn.dataset.subid;
+  if(!selectedGrade){
+    mixHint.style.display='block';
+    mixHint.textContent = '⚠️ Vui lòng chọn Lớp ở bước 1 trước.';
+    return;
+  }
+  if(!mixMode){
+    subGrid.querySelectorAll('.tbtn').forEach(b=> b.classList.toggle('active', b===btn));
+    startTopics(selectedGrade, [subId]);
+    return;
+  }
+  const idx = selectedSubs.indexOf(subId);
+  if(idx>=0){ selectedSubs.splice(idx,1); btn.classList.remove('active'); }
+  else{
+    if(selectedSubs.length>=MAX_MIX){
+      const oldId = selectedSubs.shift();
+      const oldBtn = subGrid.querySelector(`.tbtn[data-subid="${oldId}"]`);
+      if(oldBtn) oldBtn.classList.remove('active');
+    }
+    selectedSubs.push(subId); btn.classList.add('active');
+  }
+  mixHint.style.display='block';
+  if(selectedSubs.length>=2){
+    mixHint.textContent = `Đang trộn (${selectedSubs.length}/${MAX_MIX}): ` + selectedSubs.map(id=>findSub(id).name).join(' + ');
+    startTopics(selectedGrade, selectedSubs.slice());
+  } else if(selectedSubs.length===1){
+    mixHint.textContent = `Đã chọn ${findSub(selectedSubs[0]).name} — chọn thêm ít nhất 1 dạng nữa`;
+  } else {
+    mixHint.textContent = `Chọn 2-${MAX_MIX} dạng con để trộn`;
+  }
+});
+
+mixToggle.addEventListener('change', ()=>{
+  mixMode = mixToggle.checked;
+  selectedSubs = [];
+  subGrid.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('active'));
+  mixHint.style.display = mixMode ? 'block' : 'none';
+  mixHint.textContent = mixMode ? `Chọn 2-${MAX_MIX} dạng con để trộn` : '';
+});
+
+function renderReference(gradeId, subIds){
+  const first = findSub(subIds[0]);
+  refName.textContent = `${ROWS[gradeId-1]} · ${TOPICS[first.topicId].vi}`;
+  refTag.textContent = subIds.length>1 ? `${subIds.length} DẠNG CON` : first.name.toUpperCase();
+  refExample.querySelector('.en').textContent = first.example || first.name;
+  refExample.querySelector('.vi').textContent = first.note || '';
+  refUsage.innerHTML = first.usage || '';
 }
 
 function normalize(s){ return String(s).trim().toLowerCase().replace(/\s+/g,' '); }
@@ -847,11 +1544,14 @@ function renderQuiz(){
   qlist.innerHTML = '';
   scoreBar.style.display = 'none';
   currentQuiz.forEach((q,i)=>{
+    const sub = findSub(q.sub);
+    const topicName = TOPICS[sub.topicId].vi;
     const row = document.createElement('div');
     row.className = 'qrow';
     row.innerHTML = `
-      <div class="qnum">Câu ${i+1} · ${TOPICS[q.topic].name} <span class="lvl lvl-${q.tier}">${TIER_LABEL[q.tier]}</span></div>
+      <div class="qnum">Câu ${i+1} · ${topicName} — ${sub.name} <span class="lvl lvl-${q.tier}">${TIER_LABEL[q.tier]}</span></div>
       <div class="qsentence">${q.before} <input type="text" class="qinput" data-idx="${i}" placeholder="?"> ${q.after}</div>
+      ${q.svg?`<div class="qsvg">${q.svg}</div>`:''}
       ${q.hint?`<div class="qvi">${q.hint}</div>`:''}
       <div class="qvi">${q.vi}</div>
       <div class="qfeedback" style="display:none;"></div>
@@ -882,106 +1582,49 @@ function checkAnswers(){
   scoreBar.innerHTML = `<span>Kết quả: <b>${correct}/${currentQuiz.length}</b> (${pct}%)</span><span>${msg}</span>`;
 }
 
-function startTopics(gradeId, topicIds){
-  currentGrade = gradeId; currentTopics = topicIds;
-  document.querySelectorAll('.tbtn').forEach(b=> b.classList.toggle('active', b.dataset.grade==gradeId && topicIds.includes(b.dataset.topic)));
+function startTopics(gradeId, subIds){
+  currentGrade = gradeId; currentSubs = subIds;
+  selectedGrade = gradeId;
+  gradeRow.querySelectorAll('.tbtn').forEach(b=> b.classList.toggle('active', parseInt(b.dataset.grade,10)===gradeId));
   placeholder.style.display = 'none';
   quizArea.style.display = 'block';
-  renderReference(gradeId, topicIds);
-  quizTitle.textContent = quizCount + ' câu luyện tập';
-  currentQuiz = generateQuiz(gradeId, topicIds, quizCount);
+  renderReference(gradeId, subIds);
+  quizTitle.textContent = quizCount + ' câu · Lv 1 / Lv 2 / Lv 3';
+  currentQuiz = generateQuiz(gradeId, subIds, quizCount);
   renderQuiz();
 }
 
-/* ============ Picker grid ============ */
-const grid = document.getElementById('grid12');
-function buildGrid(){
-  let html = `<div></div>`;
-  COLS.forEach(c=> html += `<div class="col-h">${c}</div>`);
-  grid.innerHTML = html;
-  ROWS.forEach((r,ri)=>{
-    grid.innerHTML += `<div class="row-h">${r}</div>`;
-    Object.entries(TOPICS).forEach(([id,t])=>{
-      grid.innerHTML += `<button class="tbtn" data-grade="${ri+1}" data-topic="${id}" style="grid-column:${t.col+2}">${t.vi}</button>`;
-    });
-  });
-}
-buildGrid();
-
-const picker = document.getElementById('picker');
-document.getElementById('pickerHead').addEventListener('click', ()=> picker.classList.toggle('open'));
-
-mixToggle.addEventListener('change', ()=>{
-  mixMode = mixToggle.checked;
-  selectedTopics = [];
-  document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('active'));
-  mixHint.style.display = mixMode ? 'block' : 'none';
-  mixHint.textContent = mixMode ? `Chọn 1 lớp rồi chọn 2-${MAX_MIX} dạng bài để trộn` : '';
-});
-
-grid.addEventListener('click', (e)=>{
-  const btn = e.target.closest('.tbtn');
-  if(!btn) return;
-  const gradeId = parseInt(btn.dataset.grade,10);
-  const topicId = btn.dataset.topic;
-
-  if(!mixMode){ startTopics(gradeId, [topicId]); return; }
-
-  if(currentGrade !== null && currentGrade !== gradeId){
-    selectedTopics = [];
-    document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('active'));
-  }
-  currentGrade = gradeId;
-
-  const idx = selectedTopics.indexOf(topicId);
-  if(idx >= 0){ selectedTopics.splice(idx,1); btn.classList.remove('active'); }
-  else {
-    if(selectedTopics.length >= MAX_MIX){
-      const oldId = selectedTopics.shift();
-      const oldBtn = document.querySelector(`.tbtn[data-grade="${gradeId}"][data-topic="${oldId}"]`);
-      if(oldBtn) oldBtn.classList.remove('active');
-    }
-    selectedTopics.push(topicId); btn.classList.add('active');
-  }
-
-  if(selectedTopics.length >= 2){
-    mixHint.textContent = `${ROWS[gradeId-1]} — Đang trộn (${selectedTopics.length}/${MAX_MIX}): ` + selectedTopics.map(tid=>TOPICS[tid].vi).join(' + ');
-    startTopics(gradeId, selectedTopics.slice());
-  } else if(selectedTopics.length === 1){
-    mixHint.textContent = `${ROWS[gradeId-1]} — Đã chọn ${TOPICS[selectedTopics[0]].vi} — chọn thêm ít nhất 1 dạng nữa`;
-  } else {
-    mixHint.textContent = `Chọn 1 lớp rồi chọn 2-${MAX_MIX} dạng bài để trộn`;
-  }
-});
-
 countBtns.addEventListener('click', (e)=>{
-  const btn = e.target.closest('.cbtn');
-  if(!btn) return;
+  const btn = e.target.closest('.cbtn'); if(!btn) return;
   quizCount = parseInt(btn.dataset.count, 10);
   countBtns.querySelectorAll('.cbtn').forEach(b=> b.classList.toggle('active', b===btn));
-  if(currentTopics.length){
-    quizTitle.textContent = quizCount + ' câu luyện tập';
-    currentQuiz = generateQuiz(currentGrade, currentTopics, quizCount);
+  if(currentSubs.length){
+    quizTitle.textContent = quizCount + ' câu · Lv 1 / Lv 2 / Lv 3';
+    currentQuiz = generateQuiz(currentGrade, currentSubs, quizCount);
     renderQuiz();
   }
 });
 
 checkBtn.addEventListener('click', checkAnswers);
 reshuffleBtn.addEventListener('click', ()=>{
-  if(!currentTopics.length) return;
-  currentQuiz = generateQuiz(currentGrade, currentTopics, quizCount);
+  if(!currentSubs.length) return;
+  currentQuiz = generateQuiz(currentGrade, currentSubs, quizCount);
   renderQuiz();
 });
 
+const picker = document.getElementById('picker');
+document.getElementById('pickerHead').addEventListener('click', ()=> picker.classList.toggle('open'));
+
 /* ============ Copy đề bài ============ */
 function buildPlainText(){
-  const topicNames = currentTopics.map(id=>TOPICS[id].name + ' (' + TOPICS[id].vi + ')').join(' + ');
+  const topicName = TOPICS[findSub(currentSubs[0]).topicId].vi;
+  const subNames = currentSubs.map(id=>findSub(id).name).join(' + ');
   const lines = [];
   lines.push('PHIẾU BÀI TẬP — TOÁN NÂNG CAO');
-  lines.push('Lớp: ' + ROWS[currentGrade-1] + ' | Dạng bài: ' + topicNames);
+  lines.push('Lớp: ' + ROWS[currentGrade-1] + ' | Chủ đề: ' + topicName + ' | Dạng con: ' + subNames);
   lines.push('Số câu: ' + currentQuiz.length);
   lines.push(''); lines.push('--- ĐỀ BÀI ---');
-  currentQuiz.forEach((q,i)=>{ lines.push(`${i+1}. ${q.before} ${q.hint} __________ ${q.after}`.replace(/\s+/g,' ').trim()); });
+  currentQuiz.forEach((q,i)=>{ lines.push(`${i+1}. [${TIER_LABEL[q.tier]}] ${q.before.replace(/<[^>]+>/g,'')} ${q.hint} __________ ${q.after}`.replace(/\s+/g,' ').trim()); });
   lines.push(''); lines.push('--- ĐÁP ÁN ---');
   currentQuiz.forEach((q,i)=>{ lines.push(`${i+1}. ${q.answer}`); });
   return lines.join('\n');
@@ -1005,9 +1648,10 @@ copyBtn.addEventListener('click', async ()=>{
 /* ============ Xuất Word (.doc) ============ */
 function escapeHtml(str){ return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function buildWordDoc(){
-  const topicNames = currentTopics.map(id=>TOPICS[id].name + ' (' + TOPICS[id].vi + ')').join(' + ');
+  const topicName = TOPICS[findSub(currentSubs[0]).topicId].vi;
+  const subNames = currentSubs.map(id=>findSub(id).name).join(' + ');
   const dateStr = new Date().toLocaleDateString('vi-VN');
-  const qRows = currentQuiz.map((q,i)=>`<p style="margin:0 0 10px 0; font-size:13pt; line-height:1.5;"><b>${i+1}.</b> ${escapeHtml(q.before)} ${escapeHtml(q.hint)} ______________________ ${escapeHtml(q.after)}</p>`).join('');
+  const qRows = currentQuiz.map((q,i)=>`<p style="margin:0 0 10px 0; font-size:13pt; line-height:1.5;"><b>${i+1}.</b> <span style="font-size:9pt; color:#666;">[${TIER_LABEL[q.tier]}]</span> ${escapeHtml(q.before)} ${escapeHtml(q.hint)} ______________________ ${escapeHtml(q.after)}</p>`).join('');
   const aRows = currentQuiz.map((q,i)=>`<p style="margin:0 0 6px 0; font-size:12pt;"><b>${i+1}.</b> ${escapeHtml(q.answer)}</p>`).join('');
   return `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
   <head><meta charset="utf-8"><title>Phiếu bài tập - Toán nâng cao</title>
@@ -1016,7 +1660,7 @@ function buildWordDoc(){
   .section-title{font-size:14pt;font-weight:bold;margin:18px 0 10px;border-bottom:1px solid #999;padding-bottom:4px;} .page-break{page-break-before:always;}</style></head>
   <body>
     <h1>PHIẾU BÀI TẬP — TOÁN NÂNG CAO</h1>
-    <p class="meta">Lớp: <b>${ROWS[currentGrade-1]}</b> &nbsp;|&nbsp; Dạng bài: <b>${escapeHtml(topicNames)}</b><br>
+    <p class="meta">Lớp: <b>${ROWS[currentGrade-1]}</b> &nbsp;|&nbsp; Chủ đề: <b>${escapeHtml(topicName)}</b> &nbsp;|&nbsp; Dạng con: <b>${escapeHtml(subNames)}</b><br>
     Số câu: <b>${currentQuiz.length}</b> &nbsp;|&nbsp; Ngày: ${dateStr}<br>
     Họ và tên: ______________________________ &nbsp;&nbsp; Lớp: ____________ &nbsp;&nbsp; Điểm: ______ /10</p>
     <div class="section-title">I. ĐỀ BÀI</div>${qRows}
@@ -1035,6 +1679,11 @@ exportWordBtn.addEventListener('click', ()=>{
   setTimeout(()=> URL.revokeObjectURL(url), 2000);
   flashBtn(exportWordBtn, '✓ Đã tải!');
 });
+
+/* ---- Init ---- */
+buildGradeRow();
+buildTopicTabs();
+renderSubGrid();
 </script>
 </body>
 </html>
