@@ -212,15 +212,19 @@ function mk(before,hint,after,vi,answer){ return { before, hint: hint||'', after
 function fmtVND(n){ return n.toLocaleString('vi-VN') + ' đồng'; }
 
 const ROWS = ['Lớp 1','Lớp 2','Lớp 3','Lớp 4','Lớp 5'];
-const NAMES = ['An','Bình','Chi','Dũng','Hoa','Khang','Lan','Minh','Nga','Phúc'];
+const NAMES = ['An','Bình','Chi','Dũng','Hoa','Khang','Lan','Minh','Nga','Phúc','Tú','Vy','Quân','Hạnh','Kiên','Thảo','Long','Hằng','Đức','Yến'];
 const ANIMALS = [ {n:'gà', legs:2}, {n:'chó', legs:4}, {n:'vịt', legs:2}, {n:'mèo', legs:4}, {n:'ngựa', legs:4}, {n:'chim', legs:2} ];
 const WEEKDAYS = ['Chủ nhật','thứ Hai','thứ Ba','thứ Tư','thứ Năm','thứ Sáu','thứ Bảy'];
 const SHAPES = [
   {sym:'●', name:'hình tròn'}, {sym:'▲', name:'hình tam giác'}, {sym:'■', name:'hình vuông'},
-  {sym:'★', name:'ngôi sao'}, {sym:'♦', name:'hình thoi'},
+  {sym:'★', name:'ngôi sao'}, {sym:'♦', name:'hình thoi'}, {sym:'♥', name:'trái tim'}, {sym:'⬢', name:'hình lục giác'},
 ];
 const ITEMS = ['quyển vở','cây bút','cái kẹo','quả táo','bông hoa','viên bi','cuốn sách','cái bánh'];
 const FRUITS = ['táo','cam','chuối','xoài','nho'];
+// Bảng (n, số ước của n) đã tính sẵn — n là số NHỎ NHẤT có đúng từng ấy ước số (2..150, 71 giá trị).
+// Dùng bảng này thay vì chọn n ngẫu nhiên đều, vì số ước phân bố rất lệch (n ngẫu nhiên hầu như luôn
+// rơi vào vài chục giá trị số ước quen thuộc dù n chạy tới hàng trăm nghìn).
+const DIVISOR_COUNT_TABLE = [[2,2],[4,3],[6,4],[16,5],[12,6],[64,7],[24,8],[36,9],[48,10],[1024,11],[60,12],[4096,13],[192,14],[144,15],[120,16],[65536,17],[180,18],[262144,19],[240,20],[576,21],[3072,22],[360,24],[1296,25],[12288,26],[900,27],[960,28],[720,30],[840,32],[9216,33],[196608,34],[5184,35],[1260,36],[36864,39],[1680,40],[2880,42],[15360,44],[3600,45],[2520,48],[46656,49],[6480,50],[589824,51],[61440,52],[6300,54],[82944,55],[6720,56],[5040,60],[14400,63],[7560,64],[331776,65],[46080,66],[25920,70],[10080,72],[32400,75],[184320,78],[15120,80],[44100,81],[20160,84],[107520,88],[25200,90],[27720,96],[233280,98],[230400,99],[45360,100],[430080,104],[129600,105],[50400,108],[414720,110],[60480,112],[55440,120],[100800,126],[83160,128],[322560,132],[176400,135],[181440,140],[110880,144],[226800,150],[166320,160],[352800,162],[221760,168],[277200,180],[332640,192],[498960,200],[554400,216]];
 
 function gradeConfig(g){
   return {
@@ -268,12 +272,20 @@ function genT1A(grade, level){ // Số tự nhiên
     }
     return mk(`Từ các chữ số ${digits.join(', ')}, hãy lập số ${wantLargest?'lớn nhất':'nhỏ nhất'} có ${dCount} chữ số (chữ số đầu khác 0).`, '', '', 'Số lớn nhất xếp giảm dần, số nhỏ nhất xếp tăng dần (đổi chữ số 0 ra sau nếu cần).', Number(arr.join('')));
   }
-  // level5
-  const dCount = grade<=2?2:3;
-  const pool = grade<=2?[1,2,3]:[1,2,3,4];
-  let count = pool.length;
-  for(let i=1;i<dCount;i++) count *= (pool.length-i);
-  return mk(`Có bao nhiêu số có ${dCount} chữ số khác nhau lập được từ các chữ số {${pool.join(', ')}} (mỗi chữ số dùng không quá 1 lần)?`, '', '', 'Đếm số cách chọn từng vị trí (không lặp lại) rồi nhân các kết quả với nhau.', count);
+  // level5: 2 biến thể — pool chữ số thực (0-9, tối đa 10 kí tự nên bị chặn trần) và pool trừu tượng
+  // "n kí tự cho sẵn" (n tới 40, không bị chặn bởi số lượng chữ số 0-9) để đáp số đa dạng hơn nhiều
+  if(Math.random()<0.35){
+    const poolSize = randInt(4, 10);
+    const dCount = randInt(2, Math.min(6, poolSize-1));
+    const digitBag = shuffle([0,1,2,3,4,5,6,7,8,9]).slice(0,poolSize).sort((a,b)=>a-b);
+    let count = digitBag.length;
+    for(let i=1;i<dCount;i++) count *= (digitBag.length-i);
+    return mk(`Có bao nhiêu số có ${dCount} chữ số khác nhau lập được từ các chữ số {${digitBag.join(', ')}} (mỗi chữ số dùng không quá 1 lần)?`, '', '', 'Đếm số cách chọn từng vị trí (không lặp lại) rồi nhân các kết quả với nhau.', count);
+  }
+  const nSym = randInt(5, 40);
+  const kSym = randInt(2, Math.min(6, nSym-1));
+  let count2 = 1; for(let i=0;i<kSym;i++) count2 *= (nSym-i);
+  return mk(`Một mã số gồm ${kSym} kí tự khác nhau được ghép từ ${nSym} kí tự cho sẵn (không lặp lại kí tự nào, có phân biệt thứ tự). Hỏi có thể tạo được bao nhiêu mã số khác nhau?`, '', '', `Chọn lần lượt cho từng vị trí: ${nSym} cách cho vị trí 1, ${nSym-1} cách cho vị trí 2,... nhân các kết quả lại (chỉnh hợp chập ${kSym} của ${nSym}).`, count2);
 }
 
 function genT1B(grade, level){ // Bốn phép tính nâng cao
@@ -303,11 +315,17 @@ function genT1B(grade, level){ // Bốn phép tính nâng cao
     const val = a + b*c;
     return mk(`Tính giá trị biểu thức: ${a} + ${b} × ${c} =`, '', '', 'Thực hiện phép nhân trước, phép cộng sau (thứ tự thực hiện phép tính).', val);
   }
-  // level5: đếm số cách điền dấu +,- vào giữa 3 số để ra 1 kết quả cho trước là ví dụ khó -> thay bằng đếm số cặp (x,y) thỏa mãn
-  const s = randInt(6, Math.min(20,hi));
-  let count = 0;
-  for(let x=1;x<s;x++){ const y=s-x; if(y>=1) count++; }
-  return mk(`Có bao nhiêu cặp số tự nhiên khác 0 (x, y) sao cho x + y = ${s}?`, '', '', 'Liệt kê x từ 1 đến ${s-1} và kiểm tra y = ${s} − x có thỏa điều kiện không.'.replace('${s-1}',s-1).replace('${s}',s), count);
+  // level5: 2 biến thể — cặp cộng và cặp nhân — mở rộng mạnh, tách khỏi trần hi của lớp
+  if(Math.random()<0.5){
+    const s = randInt(6, 200);
+    let count = 0;
+    for(let x=1;x<s;x++){ const y=s-x; if(y>=1) count++; }
+    return mk(`Có bao nhiêu cặp số tự nhiên khác 0 (x, y) sao cho x + y = ${s}?`, '', '', `Liệt kê x từ 1 đến ${s-1} và kiểm tra y = ${s} − x có thỏa điều kiện không.`, count);
+  }
+  const p = randInt(6, 500);
+  let count2 = 0;
+  for(let x=1;x<=p;x++){ if(p%x===0) count2++; }
+  return mk(`Có bao nhiêu cặp số tự nhiên khác 0 (x, y) sao cho x × y = ${p}?`, '', '', 'Mỗi ước số x của tích cho ra đúng 1 cặp (x, y) với y = tích : x.', count2);
 }
 
 function genT1C(grade, level){ // Chia hết
@@ -333,10 +351,11 @@ function genT1C(grade, level){ // Chia hết
     const g = gcd(a,b);
     return mk(`Tìm ước chung lớn nhất (ƯCLN) của ${a} và ${b}.`, '', '', 'Tìm ước chung của hai số rồi lấy ước lớn nhất.', g);
   }
-  // level5: đếm số ước
-  const n = randInt(12, Math.min(100,hi));
-  let count=0; for(let i=1;i<=n;i++){ if(n%i===0) count++; }
-  return mk(`Số ${n} có tất cả bao nhiêu ước số?`, '', '', 'Đếm tất cả các số từ 1 đến chính nó mà chia hết cho số đó.', count);
+  // level5: đếm số ước — dùng bảng (n, số ước) đã tính sẵn (DIVISOR_COUNT_TABLE, 71 giá trị số ước
+  // khác nhau từ 2 đến 150) để đảm bảo mọi giá trị số ước đều THỰC SỰ đạt được, thay vì sinh n ngẫu
+  // nhiên (kể cả có cấu trúc lũy thừa) vẫn bị lệch phân phối nặng, chỉ ra được ~23-25 giá trị.
+  const [n5, count5] = pick(DIVISOR_COUNT_TABLE);
+  return mk(`Số ${n5} có tất cả bao nhiêu ước số?`, '', '', 'Phân tích n thành tích các thừa số nguyên tố, mỗi thừa số có số mũ riêng; số ước = tích của (mỗi số mũ + 1).', count5);
 }
 
 function genT1D(grade, level){ // Dãy số & quy luật
@@ -372,10 +391,11 @@ function genT1D(grade, level){ // Dãy số & quy luật
     for(let i=0;i<4;i++) seq.push(seq[i]+diffs[i]);
     return mk(`Dãy số: ${seq.join(', ')}, ___. Biết khoảng cách giữa hai số liền nhau tăng dần đều. Tìm số tiếp theo.`, '', '', 'Tính khoảng cách giữa các số liền kề trước, xem khoảng cách đó tăng thế nào rồi suy ra số tiếp theo.', seq[4]+ (diffs[3]+ (diffs[3]-diffs[2])));
   }
-  // level5: đếm số hạng của dãy thỏa quy luật nằm trong khoảng
-  const start = randInt(1,10);
-  const step = randInt(3, grade<=2?6:12);
-  const limit = start + step*randInt(8,15);
+  // level5: đếm số hạng của dãy thỏa quy luật nằm trong khoảng — mở rộng kTerms mạnh
+  const start = randInt(1,20);
+  const step = randInt(2, grade<=2?8:20);
+  const kTerms = randInt(5,150);
+  const limit = start + step*kTerms;
   const count = Math.floor((limit-start)/step)+1;
   return mk(`Một dãy số bắt đầu từ ${start}, mỗi số sau hơn số trước ${step} đơn vị. Hỏi có bao nhiêu số hạng của dãy không vượt quá ${limit}?`, '', '', 'Số hạng cuối ≤ giới hạn → tìm n lớn nhất sao cho start+(n−1)×bước ≤ giới hạn.', count);
 }
@@ -403,8 +423,8 @@ function genT1E(grade, level){ // Phân số – thập phân – phần trăm
     if(left>right) ans='>'; else if(left<right) ans='<'; else ans='=';
     return mk(`So sánh hai phân số: ${a1}/${b1} và ${a2}/${b2}. Điền dấu >, < hoặc =.`, '', '', 'Quy đồng mẫu số rồi so sánh tử số.', ans);
   }
-  // level5: đếm phân số tối giản có mẫu cho trước trong khoảng
-  const b = pick([6,8,9,10]);
+  // level5: đếm phân số tối giản có mẫu cho trước trong khoảng — mở rộng mạnh khoảng mẫu số
+  const b = randInt(6,1000);
   let count=0; for(let a=1;a<b;a++){ if(gcd(a,b)===1) count++; }
   return mk(`Có bao nhiêu phân số tối giản có mẫu số là ${b} và tử số nhỏ hơn ${b} (tử số ≥ 1)?`, '', '', 'Đếm các tử số từ 1 đến mẫu−1 mà không có ước chung với mẫu (ngoài 1).', count);
 }
@@ -434,9 +454,9 @@ function genT1F(grade, level){ // Bài toán số nâng cao (tuổi, TB, tổng-
     const big = ratioB*unit;
     return mk(`Tổng của hai số là ${sum}. Biết tỉ số của số bé và số lớn là ${ratioA}:${ratioB}. Tìm số lớn.`, '', '', 'Chia tổng theo số phần bằng nhau (tổng số phần = ${ratioA}+${ratioB}), rồi tính giá trị 1 phần.'.replace('${ratioA}',ratioA).replace('${ratioB}',ratioB), big);
   }
-  // level5: bài toán ẩn số kiểu "tôi là số" với nhiều điều kiện — đếm số thỏa mãn
-  const lo=randInt(10,40), hi=lo+randInt(20,50);
-  const d = pick([3,4,5]);
+  // level5: bài toán ẩn số — mở rộng mạnh khoảng đoạn số để đếm bội số đa dạng hơn
+  const lo=randInt(10,300), hi=lo+randInt(20,500);
+  const d = randInt(2,9);
   let count=0; for(let n=lo;n<=hi;n++){ if(n%d===0) count++; }
   return mk(`Có bao nhiêu số tự nhiên từ ${lo} đến ${hi} (kể cả hai đầu) chia hết cho ${d}?`, '', '', 'Liệt kê hoặc tính bằng cách tìm bội đầu tiên và cuối cùng của ${d} trong đoạn rồi đếm.'.replace(/\$\{d\}/g,d), count);
 }
@@ -467,13 +487,14 @@ function genT2A(grade, level){ // Suy luận logic (so sánh bắc cầu)
     const text = `${names[0]} cao hơn ${names[1]}. ${names[1]} cao hơn ${names[2]}. ${names[2]} cao hơn ${names[3]}. Hỏi ai ${ask}?`;
     return mk(text,'','', 'Ghép các dữ kiện thành một dãy thứ tự liên tiếp.', ask==='cao nhất'?names[0]:names[3]);
   }
-  // level5: sắp xếp 4 người với 1 dữ kiện gián tiếp — đếm số cách sắp xếp còn lại thỏa mãn
-  const names = shuffle(NAMES).slice(0,4);
-  return mk(`Biết ${names[0]} không cao nhất và không thấp nhất trong 4 bạn ${names.join(', ')}. Hỏi có bao nhiêu bạn CÓ THỂ là người cao nhất?`, '', '', 'Loại ${A} khỏi vị trí cao nhất/thấp nhất, đếm số bạn còn lại có thể ở vị trí cao nhất.'.replace('${A}',names[0]), 3);
+  // level5: không liệt kê tên từng bạn (không khả thi khi N lớn) — dùng "một nhóm gồm N bạn" để N tự do lớn
+  const nPeople = randInt(4,100);
+  const name0 = pick(NAMES);
+  return mk(`Biết ${name0} không cao nhất và không thấp nhất trong một nhóm gồm ${nPeople} bạn (không có ai cao bằng ai). Hỏi có bao nhiêu bạn CÓ THỂ là người cao nhất?`, '', '', `Loại ${name0} khỏi vị trí cao nhất/thấp nhất, đếm số bạn còn lại có thể ở vị trí cao nhất.`, nPeople-1);
 }
 
 function genT2B(grade, level){ // Bảng logic (loại trừ)
-  const SUBJECTS = ['Toán','Văn','Vẽ','Nhạc'];
+  const SUBJECTS = ['Toán','Văn','Vẽ','Nhạc','Anh','Khoa học','Thể dục','Tin học'];
   if(level<=2){
     const names = shuffle(NAMES).slice(0,2);
     const subs = shuffle(SUBJECTS).slice(0,2);
@@ -489,10 +510,20 @@ function genT2B(grade, level){ // Bảng logic (loại trừ)
     const subs = shuffle(SUBJECTS).slice(0,3);
     return mk(`Ba bạn ${names.join(', ')} mỗi bạn thích một môn khác nhau trong ba môn ${subs.join(', ')}. Biết: ${names[0]} không thích ${subs[0]}; ${names[1]} không thích ${subs[0]} và không thích ${subs[1]}. Hỏi ${names[1]} thích môn gì?`, '', '', 'Lập bảng loại trừ từng dữ kiện cho mỗi bạn.', subs[2]);
   }
-  // level5
-  const names = shuffle(NAMES).slice(0,3);
-  const subs = shuffle(SUBJECTS).slice(0,3);
-  return mk(`Ba bạn ${names.join(', ')} mỗi bạn thích một môn khác nhau trong ba môn ${subs.join(', ')}, không ai thích môn giống môn mình có tên trùng chữ cái đầu. Có tất cả bao nhiêu cách phân công 3 môn cho 3 bạn sao cho mỗi bạn một môn khác nhau (không xét thêm điều kiện nào khác)?`, '', '', 'Đây là số cách sắp xếp (hoán vị) 3 phần tử: 3! = 3×2×1.', 6);
+  // level5: 2 biến thể — hoán vị đầy đủ n! (bị chặn trần ở 6 giá trị do SUBJECTS.length) và chỉnh hợp
+  // chập k P(n,k) (đa dạng hơn nhiều) — ưu tiên biến thể 2 để tổng thể đa dạng hơn
+  if(Math.random()<0.25){
+    const nSub = randInt(3, SUBJECTS.length);
+    const names5 = shuffle(NAMES).slice(0,nSub);
+    const subs5 = shuffle(SUBJECTS).slice(0,nSub);
+    let fact5=1; for(let i=2;i<=nSub;i++) fact5*=i;
+    return mk(`${nSub} bạn ${names5.join(', ')}, mỗi bạn thích một môn khác nhau trong ${nSub} môn ${subs5.join(', ')}. Có tất cả bao nhiêu cách phân công môn cho các bạn sao cho mỗi bạn một môn khác nhau?`, '', '', `Đây là số cách sắp xếp (hoán vị) ${nSub} phần tử: ${nSub}! = tích các số từ 1 đến ${nSub}.`, fact5);
+  }
+  const nAll = randInt(4, 20);
+  const kPick = randInt(2, nAll-1);
+  const names6 = shuffle(NAMES).slice(0,nAll);
+  let perm=1; for(let i=0;i<kPick;i++) perm*=(nAll-i);
+  return mk(`Có ${nAll} bạn ${names6.join(', ')}. Chọn ra ${kPick} bạn để phân công vào ${kPick} vai trò khác nhau (mỗi vai trò 1 bạn, mỗi bạn tối đa 1 vai trò). Hỏi có tất cả bao nhiêu cách phân công?`, '', '', `Chọn lần lượt cho từng vai trò: ${nAll} cách cho vai trò 1, ${nAll-1} cách cho vai trò 2,... nhân các kết quả lại (chỉnh hợp chập ${kPick} của ${nAll}).`, perm);
 }
 
 function genT2C(grade, level){ // Đúng - sai (hiệp sĩ / kẻ dối trá)
@@ -502,7 +533,9 @@ function genT2C(grade, level){ // Đúng - sai (hiệp sĩ / kẻ dối trá)
   }
   if(level===2){
     const name=pick(NAMES);
-    return mk(`${name} luôn nói dối. ${name} nói: "Tôi cao hơn 1 mét." Hỏi thực tế ${name} cao hơn hay thấp hơn 1 mét? (gõ: cao hơn / thấp hơn)`, '', '', 'Người nói dối thì sự thật ngược lại với câu nói.', 'thấp hơn');
+    const claim = pick(['cao hơn','thấp hơn']);
+    const truth2 = claim==='cao hơn' ? 'thấp hơn' : 'cao hơn';
+    return mk(`${name} luôn nói dối. ${name} nói: "Tôi ${claim} 1 mét." Hỏi thực tế ${name} cao hơn hay thấp hơn 1 mét? (gõ: cao hơn / thấp hơn)`, '', '', 'Người nói dối thì sự thật ngược lại với câu nói.', truth2);
   }
   if(level===3){
     const [a,b] = shuffle(NAMES).slice(0,2);
@@ -512,9 +545,9 @@ function genT2C(grade, level){ // Đúng - sai (hiệp sĩ / kẻ dối trá)
     const [a,b] = shuffle(NAMES).slice(0,2);
     return mk(`${a} nói: "${b} luôn nói dối." ${b} nói: "Cả hai chúng tôi đều nói thật." Hỏi ai đang nói dối? (gõ tên)`, '', '', 'Nếu ${b} nói thật thì cả hai nói thật — mâu thuẫn với câu của ${a}. Vậy ${b} nói dối.'.replace(/\$\{a\}/g,a).replace(/\$\{b\}/g,b), b);
   }
-  // level5
-  const people = shuffle(NAMES).slice(0,3);
-  return mk(`Trong 3 bạn ${people.join(', ')}, chỉ có đúng 1 bạn luôn nói thật, còn lại nói dối. Mỗi bạn đều tự nhận "Tôi nói thật". Hỏi có bao nhiêu bạn CÓ THỂ là người nói thật (xét trên mọi khả năng, không có thêm dữ kiện nào khác)?`, '', '', 'Vì chỉ có 1 người nói thật và không có dữ kiện phân biệt thêm, cả 3 vị trí đều là khả năng hợp lệ.', 3);
+  // level5: không liệt kê tên (để N tự do lớn), đáp số = N nên phụ thuộc trực tiếp số liệu random
+  const nPeople5 = randInt(3,100);
+  return mk(`Trong một nhóm gồm ${nPeople5} bạn, chỉ có đúng 1 bạn luôn nói thật, còn lại nói dối. Mỗi bạn đều tự nhận "Tôi nói thật". Hỏi có bao nhiêu bạn CÓ THỂ là người nói thật (xét trên mọi khả năng, không có thêm dữ kiện nào khác)?`, '', '', `Vì chỉ có 1 người nói thật và không có dữ kiện phân biệt thêm, cả ${nPeople5} vị trí đều là khả năng hợp lệ.`, nPeople5);
 }
 
 function genT2D(grade, level){ // Tổ hợp & đếm
@@ -523,23 +556,29 @@ function genT2D(grade, level){ // Tổ hợp & đếm
     return mk(`Có ${n} chiếc áo và ${m} chiếc quần. Hỏi có bao nhiêu cách chọn một bộ gồm 1 áo và 1 quần?`, '', '', 'Số cách chọn áo × số cách chọn quần.', n*m);
   }
   if(level===2){
-    const n=randInt(3,6);
+    const n=randInt(3,12);
     return mk(`Có ${n} bạn học sinh, mỗi bạn bắt tay với tất cả các bạn còn lại đúng 1 lần. Hỏi có tất cả bao nhiêu cái bắt tay?`, '', '', 'Số cái bắt tay = n×(n−1):2.', n*(n-1)/2);
   }
   if(level===3){
-    const n=randInt(3,5);
+    const n=randInt(3,7);
     let fact=1; for(let i=2;i<=n;i++) fact*=i;
     return mk(`Có ${n} quyển sách khác nhau xếp thành một hàng trên kệ. Hỏi có bao nhiêu cách xếp?`, '', '', 'Số cách xếp = ${n}! = tích các số từ 1 đến ${n}.'.replace(/\$\{n\}/g,n), fact);
   }
   if(level===4){
-    const n=randInt(4,6), k=2;
+    const n=randInt(4,12), k=2;
     const comb = n*(n-1)/2;
     return mk(`Chọn ${k} bạn trong số ${n} bạn để làm tổ trưởng và tổ phó (hai vai trò khác nhau). Hỏi có bao nhiêu cách chọn?`, '', '', 'Cách chọn tổ trưởng có ${n} khả năng, sau đó chọn tổ phó trong số còn lại.'.replace(/\$\{n\}/g,n), n*(n-1));
   }
-  // level5: bài toán đặt hạt vào lưới (kiểu Trần Đại Nghĩa) - đơn giản hoá: số cách đặt n quân xe không ăn nhau trên bàn n x n
-  const n = randInt(3,4);
-  let fact=1; for(let i=2;i<=n;i++) fact*=i;
-  return mk(`Trên một lưới ô vuông ${n}×${n}, hỏi có bao nhiêu cách đặt ${n} hạt đậu vào các ô sao cho mỗi hàng và mỗi cột chỉ có đúng 1 hạt?`, '', '', 'Đây chính là số cách sắp xếp ${n} phần tử: ${n}!.'.replace(/\$\{n\}/g,n), fact);
+  // level5: 2 biến thể — lưới vuông n×n (n! bị chặn trần ở 6 giá trị vì n chỉ 3-8) và lưới chữ nhật
+  // đặt k hạt (chỉnh hợp chập k, đa dạng hơn nhiều) — ưu tiên biến thể 2
+  if(Math.random()<0.2){
+    const n = randInt(3,8);
+    let fact=1; for(let i=2;i<=n;i++) fact*=i;
+    return mk(`Trên một lưới ô vuông ${n}×${n}, hỏi có bao nhiêu cách đặt ${n} hạt đậu vào các ô sao cho mỗi hàng và mỗi cột chỉ có đúng 1 hạt?`, '', '', `Đây chính là số cách sắp xếp ${n} phần tử: ${n}!.`, fact);
+  }
+  const rows = randInt(4,25), kPlace = randInt(2, Math.min(6,rows-1));
+  let perm=1; for(let i=0;i<kPlace;i++) perm*=(rows-i);
+  return mk(`Trên một lưới ô vuông ${rows}×${rows}, hỏi có bao nhiêu cách đặt ${kPlace} hạt đậu vào các ô sao cho không có 2 hạt nào cùng hàng hoặc cùng cột (dùng ${kPlace} trong tổng số ${rows} hàng và ${rows} cột)?`, '', '', `Đặt hạt lần lượt: hạt đầu có ${rows} lựa chọn cột, hạt sau ít hơn 1 lựa chọn,... (chỉnh hợp chập ${kPlace} của ${rows}).`, perm);
 }
 
 function genT2E(grade, level){ // Chiến lược (heuristics)
@@ -566,8 +605,8 @@ function genT2E(grade, level){ // Chiến lược (heuristics)
     const rows = randInt(2,4), cols = randInt(2,3);
     return mk(`Vẽ sơ đồ: Đi từ góc trên-trái đến góc dưới-phải của lưới ${rows}×${cols} ô, chỉ được đi sang phải hoặc đi xuống. Hỏi có bao nhiêu đường đi ngắn nhất?`, '', '', 'Số đường đi = C(rows+cols, rows) — có thể vẽ sơ đồ và ghi số đường đi vào từng ô để cộng dần.', (function(){ function C(n,k){ let r=1; for(let i=1;i<=k;i++) r=r*(n-k+i)/i; return Math.round(r);} return C(rows+cols, rows); })());
   }
-  // level5
-  const n = randInt(5,9);
+  // level5: mở rộng khoảng n mạnh hơn để số lượng đáp số đa dạng hơn nhiều
+  const n = randInt(10,300);
   return mk(`Loại trừ: Trong các số từ 1 đến ${n}, có bao nhiêu số KHÔNG chia hết cho 2 và cũng KHÔNG chia hết cho 3?`, '', '', 'Đếm tổng số, trừ đi các số chia hết cho 2 hoặc 3 (dùng nguyên lý bù trừ).', (function(){ let c=0; for(let i=1;i<=n;i++){ if(i%2!==0 && i%3!==0) c++; } return c; })());
 }
 
@@ -584,15 +623,19 @@ function genT2F(grade, level){ // Bài toán mở (không thuật toán rõ ràn
     return mk(`Một rổ có ${a} quả cam. Lấy ra một số quả sao cho số còn lại gấp đôi số đã lấy ra. Hỏi đã lấy ra bao nhiêu quả (nếu ${a} chia hết cho 3)?`, '', '', 'Tổng chia thành 3 phần bằng nhau: 1 phần lấy ra, 2 phần còn lại.', a%3===0? a/3 : Math.floor(a/3));
   }
   if(level===3){
-    const total=randInt(10,cfg.max);
-    return mk(`Một cửa hàng có ${total} quả bóng gồm 2 màu xanh và đỏ, số bóng xanh nhiều hơn bóng đỏ. Nếu chuyển 2 quả xanh sang đỏ thì số bóng đỏ nhiều hơn xanh. Hỏi trước khi chuyển, số bóng xanh hơn số bóng đỏ nhiều nhất mấy quả (số nguyên nhỏ nhất thỏa điều kiện)?`, '', '', 'Thử với chênh lệch nhỏ nhất có thể lớn hơn 0: chênh lệch phải nhỏ hơn 4 (vì chuyển 2 quả làm thay đổi 4 đơn vị chênh lệch).', 2);
+    const kTransfer = randInt(1,10);
+    return mk(`Một cửa hàng có bóng gồm 2 màu xanh và đỏ, số bóng xanh nhiều hơn bóng đỏ. Nếu chuyển ${kTransfer} quả xanh sang đỏ thì số bóng đỏ nhiều hơn xanh. Hỏi trước khi chuyển, số bóng xanh hơn số bóng đỏ nhiều nhất mấy quả (số nguyên lớn nhất thỏa điều kiện)?`, '', '', `Chuyển ${kTransfer} quả làm chênh lệch giảm đi ${2*kTransfer} đơn vị (xanh giảm ${kTransfer}, đỏ tăng ${kTransfer}). Để đảo vai, chênh lệch ban đầu phải nhỏ hơn ${2*kTransfer}.`, 2*kTransfer-1);
   }
   if(level===4){
-    return mk(`Một bể có 2 vòi nước. Vòi 1 chảy đầy bể trong ${randInt(2,6)} giờ nếu chảy một mình. Nếu cả hai vòi cùng chảy thì đầy bể nhanh hơn vòi 1 chảy một mình. Hỏi điều đó có hợp lý không? (gõ: có)`, '', '', 'Khi có thêm vòi 2 hỗ trợ, tổng lượng nước chảy vào mỗi giờ tăng lên, nên thời gian đầy bể luôn ngắn hơn.', 'có');
+    const capA = randInt(2,10), capB = capA + randInt(1,8);
+    return mk(`Một bể có 2 vòi nước. Vòi 1 một mình đổ đầy bể trong ${capA} giờ. Vòi 2 một mình đổ đầy bể trong ${capB} giờ (chậm hơn vòi 1). Hỏi nếu chỉ dùng vòi 2, sẽ mất nhiều hơn vòi 1 bao nhiêu giờ để đổ đầy bể?`, '', '', 'So sánh trực tiếp thời gian của 2 vòi: lấy thời gian vòi chậm trừ đi thời gian vòi nhanh.', capB-capA);
   }
-  // level5
-  const n = randInt(6,10);
-  return mk(`Có ${n} bạn xếp thành một hàng. Hỏi có bao nhiêu cách xếp sao cho bạn đầu tiên (từ trái) và bạn cuối cùng (bên phải) là 2 bạn cụ thể đã được chọn trước (2 vị trí này cố định, ${n-2} bạn còn lại xếp tự do ở giữa)?`, '', '', 'Chỉ còn ${n-2} bạn cần xếp tự do vào các vị trí giữa: số cách = (n−2)!.'.replace(/\$\{n-2\}/g,n-2), (function(){ let f=1; for(let i=2;i<=n-2;i++) f*=i; return f; })());
+  // level5: n! bùng nổ quá nhanh nên không thể mở n rộng — đổi sang chỉnh hợp chập K nhỏ (K=2-5)
+  // của (N-2), nhờ đó N có thể chạy rộng (6-80) mà đáp số vẫn là số hợp lý, đồng thời đa dạng hơn nhiều
+  const nAll = randInt(6, 80);
+  const kFree = randInt(2, Math.min(5, nAll-3));
+  let perm = 1; for(let i=0;i<kFree;i++) perm *= (nAll-2-i);
+  return mk(`Có ${nAll} bạn xếp thành một hàng có ${nAll} chỗ. 2 bạn cụ thể đã được xếp cố định ở chỗ đầu tiên và chỗ cuối cùng. Trong số ${nAll-2} bạn còn lại, chọn ra ${kFree} bạn để xếp vào ${kFree} chỗ trống liền kề đầu tiên ở giữa (có phân biệt thứ tự). Hỏi có bao nhiêu cách xếp?`, '', '', `Chọn lần lượt cho từng chỗ: chỗ đầu có ${nAll-2} lựa chọn, chỗ sau ít hơn 1 lựa chọn,... (chỉnh hợp chập ${kFree} của ${nAll-2}).`, perm);
 }
 
 /* ============ CHỦ ĐỀ 3 — HÌNH HỌC & KHÔNG GIAN ============ */
@@ -616,8 +659,8 @@ function genT3A(grade, level){ // Hình cơ bản
     let kind = deg===90?'vuông': deg<90?'nhọn':'tù';
     return mk(`Một góc có số đo ${deg}°. Đó là góc vuông, góc nhọn hay góc tù? (gõ: vuông / nhọn / tù)`, '', '', 'Góc vuông = 90°, góc nhọn < 90°, góc tù > 90°.', kind);
   }
-  // level5
-  const n = randInt(4,6);
+  // level5: mở rộng số cạnh đa giác mạnh hơn để số đường chéo trải rộng hơn nhiều
+  const n = randInt(4,100);
   const diag = n*(n-3)/2;
   return mk(`Một đa giác có ${n} cạnh (đa giác lồi). Hỏi có thể vẽ được bao nhiêu đường chéo?`, '', '', 'Số đường chéo = n×(n−3):2.', diag);
 }
@@ -646,8 +689,8 @@ function genT3B(grade, level){ // Chu vi - diện tích
     const area = a*b - cut*cut;
     return mk(`Một hình chữ nhật kích thước ${a}cm × ${b}cm bị cắt mất một góc hình vuông cạnh ${cut}cm. Tính diện tích phần còn lại (cm²).`, '', '', 'Diện tích còn lại = diện tích hình chữ nhật ban đầu − diện tích phần bị cắt.', area);
   }
-  // level5
-  const side = randInt(6,12);
+  // level5: mở rộng kích thước lưới mạnh hơn để tổng số hình vuông trải rộng hơn nhiều
+  const side = randInt(4,90);
   // đếm số hình vuông con 1x1 trong lưới side x side có bao nhiêu hình vuông tất cả các kích thước
   let count=0; for(let s=1;s<=side;s++){ count += (side-s+1)*(side-s+1); }
   return mk(`Một lưới ô vuông kích thước ${side}×${side} (mỗi ô nhỏ là 1×1). Hỏi đếm được tất cả bao nhiêu hình vuông (mọi kích thước)?`, '', '', 'Với mỗi kích thước k×k, số hình vuông là (n−k+1)². Cộng dồn với k từ 1 đến n.', count);
@@ -655,29 +698,45 @@ function genT3B(grade, level){ // Chu vi - diện tích
 
 function genT3C(grade, level){ // Cắt - ghép
   if(level===1){
-    return mk(`Một tờ giấy hình vuông được cắt theo đường chéo thành 2 phần bằng nhau. Mỗi phần là hình gì?`, '', '', 'Đường chéo chia hình vuông thành hai tam giác.', 'tam giác');
+    // Trước đây câu hỏi này hoàn toàn tĩnh (luôn "tam giác"). Thêm nhiều biến thể khái niệm khác
+    // nhau, chọn ngẫu nhiên, để cả đề bài lẫn đáp án đều thay đổi giữa các lần.
+    const variants1 = [
+      ()=>mk(`Một tờ giấy hình vuông được cắt theo đường chéo thành 2 phần bằng nhau. Mỗi phần là hình gì?`, '', '', 'Đường chéo chia hình vuông thành hai tam giác.', 'tam giác'),
+      ()=>mk(`Một tờ giấy hình chữ nhật được cắt theo đường chéo thành 2 phần bằng nhau. Mỗi phần là hình gì?`, '', '', 'Đường chéo chia hình chữ nhật thành hai tam giác.', 'tam giác'),
+      ()=>mk(`Một tờ giấy hình tròn được cắt theo đường kính thành 2 phần bằng nhau. Mỗi phần được gọi là gì?`, '', '', 'Đường kính chia hình tròn thành hai nửa hình tròn (bán nguyệt).', 'nửa hình tròn'),
+      ()=>mk(`Một tờ giấy hình vuông được cắt theo một đường thẳng song song với 1 cạnh, chia thành 2 phần bằng nhau. Mỗi phần là hình gì?`, '', '', 'Đường cắt song song với cạnh tạo ra 2 hình chữ nhật nhỏ.', 'hình chữ nhật'),
+    ];
+    return pick(variants1)();
   }
   if(level===2){
-    const n = pick([2,4]);
-    return mk(`Một hình chữ nhật được cắt thành ${n} phần bằng nhau bởi các đường thẳng song song với chiều rộng. Mỗi phần là hình gì?`, '', '', 'Các đường cắt song song tạo ra các hình chữ nhật nhỏ hơn.', 'hình chữ nhật');
+    const variants2 = [
+      ()=>{ const n = pick([2,4]); return mk(`Một hình chữ nhật được cắt thành ${n} phần bằng nhau bởi các đường thẳng song song với chiều rộng. Mỗi phần là hình gì?`, '', '', 'Các đường cắt song song tạo ra các hình chữ nhật nhỏ hơn.', 'hình chữ nhật'); },
+      ()=>{ const n = pick([2,4,6]); return mk(`Một hình tròn được cắt thành ${n} phần bằng nhau bởi các đường thẳng đi qua tâm. Mỗi phần được gọi là gì?`, '', '', 'Các đường cắt qua tâm chia hình tròn thành các hình quạt.', 'hình quạt'); },
+      ()=>{ const n = pick([2,3]); return mk(`Một hình vuông được cắt thành ${n} phần bằng nhau bởi các đường thẳng song song với 1 cạnh. Mỗi phần là hình gì?`, '', '', 'Các đường cắt song song với cạnh tạo ra các hình chữ nhật nhỏ hơn.', 'hình chữ nhật'); },
+    ];
+    return pick(variants2)();
   }
   if(level===3){
-    const a=randInt(2,6)*2;
+    const a=randInt(2,30)*2;
     return mk(`Một hình vuông cạnh ${a}cm được cắt thành 2 hình chữ nhật bằng nhau bởi một đường thẳng song song với 1 cạnh. Tính chu vi của mỗi hình chữ nhật nhỏ (cm).`, '', '', 'Mỗi hình chữ nhật nhỏ có kích thước cạnh × (cạnh chia đôi).', 2*(a + a/2));
   }
   if(level===4){
     const a=randInt(6,12), b=randInt(6,12);
     return mk(`Ghép 2 hình chữ nhật giống nhau, mỗi hình kích thước ${a}cm × ${b}cm, cạnh kề nhau (theo cạnh dài ${a}cm) để tạo thành 1 hình chữ nhật lớn. Tính diện tích hình lớn (cm²).`, '', '', 'Diện tích hình lớn = 2 lần diện tích một hình nhỏ (vì ghép 2 hình bằng nhau).', 2*a*b);
   }
-  // level5
-  const n = randInt(3,5);
+  // level5: mở rộng số đường thẳng mạnh hơn để số phần trải rộng hơn nhiều
+  const n = randInt(3,90);
   return mk(`Một hình vuông được cắt bởi ${n} đường thẳng (không đường nào song song, không có 2 đường nào cắt nhau tại cùng 1 điểm bên trong). Hỏi số phần nhiều nhất có thể tạo ra là bao nhiêu? (Gợi ý: số phần = 1 + số đường + số giao điểm bên trong)`, '', '', 'Với n đường thẳng cắt nhau đôi một tại các điểm phân biệt bên trong hình, số phần tối đa = 1 + n + C(n,2).', (function(){ const c = n*(n-1)/2; return 1+n+c; })());
 }
 
 function genT3D(grade, level){ // Hình lồng nhau
   if(level===1){
     const inner=randInt(2,8), outer=inner+randInt(1,6);
-    return mk(`Hai hình vuông lồng nhau, cạnh hình nhỏ là ${inner}cm, cạnh hình lớn là ${outer}cm. Hình nào có diện tích lớn hơn? (gõ: nhỏ / lớn)`, '', '', 'Cạnh lớn hơn thì diện tích cũng lớn hơn.', 'lớn');
+    const askBigger1 = Math.random()<0.5;
+    if(askBigger1){
+      return mk(`Hai hình vuông lồng nhau, cạnh hình nhỏ là ${inner}cm, cạnh hình lớn là ${outer}cm. Hình nào có diện tích lớn hơn? (gõ: nhỏ / lớn)`, '', '', 'Cạnh lớn hơn thì diện tích cũng lớn hơn.', 'lớn');
+    }
+    return mk(`Hai hình vuông lồng nhau, cạnh hình nhỏ là ${inner}cm, cạnh hình lớn là ${outer}cm. Hình nào có diện tích nhỏ hơn? (gõ: nhỏ / lớn)`, '', '', 'Cạnh nhỏ hơn thì diện tích cũng nhỏ hơn.', 'nhỏ');
   }
   if(level===2){
     const inner=randInt(2,10), outer=inner+randInt(1,8);
@@ -691,38 +750,51 @@ function genT3D(grade, level){ // Hình lồng nhau
     const a=randInt(3,8), b=a+randInt(1,4), c=b+randInt(1,4);
     return mk(`Ba hình vuông lồng nhau có cạnh lần lượt là ${a}cm, ${b}cm, ${c}cm (từ nhỏ đến lớn). Tính tổng diện tích của 2 phần "vành khăn" ở giữa (không tính hình nhỏ nhất) (cm²).`, '', '', 'Tổng 2 phần vành khăn = diện tích hình lớn nhất − diện tích hình nhỏ nhất.', c*c - a*a);
   }
-  // level5
-  const n = randInt(3,6);
+  // level5: mở rộng số hình vuông lồng nhau mạnh hơn
+  const n = randInt(3,90);
   return mk(`Có ${n} hình vuông lồng nhau, chung tâm, có cạnh theo thứ tự 1cm, 2cm, 3cm,... đến ${n}cm. Hỏi đếm được tất cả bao nhiêu hình vuông trong hình vẽ này?`, '', '', 'Mỗi hình vuông trong dãy là một hình riêng biệt, đếm số hình đã cho.', n);
 }
 
 function genT3E(grade, level){ // Đếm hình (theo mẫu ký hiệu, giữ cơ chế cũ)
   const cfg = gradeConfig(grade);
+  if(level===5){
+    // Root fix: câu hỏi cũ (đếm số LOẠI hình khác nhau = period) bị chặn trần ở SHAPES.length (tối đa 5)
+    // và period vốn chỉ phụ thuộc lớp (cố định). Đổi sang đếm SỐ LẦN xuất hiện của 1 hình mục tiêu,
+    // với period và askLen được random hoá độc lập — cho dải đáp số rộng hơn nhiều.
+    const period5 = randInt(2, SHAPES.length);
+    const chosen5=[]; while(chosen5.length<period5){ const s=pick(SHAPES); if(!chosen5.find(c=>c.sym===s.sym)) chosen5.push(s); }
+    const repeats5 = randInt(10, 160);
+    const fullSeq5=[]; for(let i=0;i<period5*repeats5;i++) fullSeq5.push(chosen5[i%period5]);
+    const target5 = pick(chosen5);
+    const askLen5 = randInt(period5*2, fullSeq5.length);
+    const answer5 = fullSeq5.slice(0, askLen5).filter(s=>s.sym===target5.sym).length;
+    const displayUnit5 = chosen5.map(s=>s.sym).join('');
+    return mk(`Dãy hình lặp lại theo chu kỳ: ${displayUnit5} (lặp lại nhiều lần). Trong ${askLen5} hình đầu tiên, có bao nhiêu`, `(${target5.name})`, '?', 'Xác định chu kỳ lặp, tính số chu kỳ trọn vẹn rồi cộng phần dư để đếm chính xác.', answer5);
+  }
   const periodBase = Math.min(cfg.shapeCount, SHAPES.length);
   const period = level<=2 ? Math.max(2, periodBase-1) : level===3 ? periodBase : Math.min(SHAPES.length, periodBase+1);
   const chosen=[]; while(chosen.length<period){ const s=pick(SHAPES); if(!chosen.find(c=>c.sym===s.sym)) chosen.push(s); }
-  const repeatsBase = grade<=2?3:(grade<=4?4:5);
+  const repeatsBase = grade<=2?5:(grade<=4?4:5);
   const repeats = level>=4 ? repeatsBase+2 : repeatsBase;
   const fullSeq=[]; for(let i=0;i<period*repeats;i++) fullSeq.push(chosen[i%period]);
   const target = pick(chosen);
   const countInFull = fullSeq.length;
-  const askLen = level<=2 ? Math.min(countInFull, period*randInt(1,2))
+  const askLen = level<=2 ? Math.min(countInFull, period*randInt(1,4))
                : level===3 ? randInt(Math.max(period*2,Math.floor(countInFull*0.5)), countInFull)
                : randInt(Math.max(period*2, Math.floor(countInFull*0.7)), countInFull);
   const slice = fullSeq.slice(0, askLen);
   const answer = slice.filter(s=>s.sym===target.sym).length;
   const displayUnit = chosen.map(s=>s.sym).join('');
-  if(level===5){
-    return mk(`Dãy hình lặp lại theo chu kỳ: ${displayUnit} (lặp lại nhiều lần). Hỏi trong ${askLen} hình đầu tiên có tất cả bao nhiêu loại hình khác nhau xuất hiện?`, `(gợi ý: đếm số hình khác nhau trong 1 chu kỳ: ${displayUnit})`, '', 'Số loại hình khác nhau chính là độ dài của 1 chu kỳ (nếu askLen ≥ 1 chu kỳ).', period);
-  }
   return mk(`Dãy hình lặp lại theo chu kỳ: ${displayUnit} (lặp lại nhiều lần). Trong ${askLen} hình đầu tiên, có bao nhiêu`, `(${target.name})`, '?', 'Xác định chu kỳ lặp, tính số chu kỳ trọn vẹn rồi cộng phần dư để đếm chính xác.', answer);
 }
 
 function genT3F(grade, level){ // Đối xứng
   const SYM_LETTERS = { 'A':1,'B':1,'C':1,'D':1,'E':1,'H':2,'O':4,'I':2,'M':1,'T':1,'U':1,'V':1,'W':1,'X':2,'Y':1 };
+  const NONSYM_LETTERS1 = ['F','G','J','L','N','P','Q','R','S','Z','K'];
   if(level===1){
-    const l = pick(['A','H','O','T']);
-    return mk(`Chữ cái "${l}" có trục đối xứng không? (gõ: có / không)`, '', '', 'Trục đối xứng chia hình thành hai phần giống hệt nhau khi gấp lại.', 'có');
+    const l = pick([...Object.keys(SYM_LETTERS), ...NONSYM_LETTERS1]);
+    const isSym1 = SYM_LETTERS.hasOwnProperty(l);
+    return mk(`Chữ cái "${l}" có trục đối xứng không? (gõ: có / không)`, '', '', 'Trục đối xứng chia hình thành hai phần giống hệt nhau khi gấp lại.', isSym1?'có':'không');
   }
   if(level===2){
     const shape = pick(['hình vuông','hình tròn','hình chữ nhật','tam giác đều']);
@@ -737,31 +809,45 @@ function genT3F(grade, level){ // Đối xứng
     const a=randInt(2,10);
     return mk(`Một hình chữ nhật có chiều dài gấp đôi chiều rộng, chiều rộng ${a}cm, được gấp đôi theo trục đối xứng dọc. Tính diện tích của phần sau khi gấp (cm²).`, '', '', 'Sau khi gấp theo trục dọc, chiều dài giảm một nửa, diện tích giảm một nửa so với ban đầu.', (2*a*a)/2);
   }
-  // level5
-  const word = pick(['HOA','MINH','TOAN','LAN AI','AN','MAI HOA']);
-  const letters = word.replace(/\s/g,'').split('');
-  const symCount = letters.filter(l => 'AHOIMTUVWXY'.includes(l)).length;
-  return mk(`Trong từ "${word}", có bao nhiêu chữ cái (kể cả lặp) có ít nhất 1 trục đối xứng (xét các chữ in hoa: A,H,I,M,O,T,U,V,W,X,Y có trục đối xứng)?`, '', '', 'Kiểm tra từng chữ cái trong từ xem có nằm trong nhóm chữ đối xứng hay không.', symCount);
+  // level5: sinh chuỗi chữ cái ngẫu nhiên với TỈ LỆ chữ đối xứng cũng ngẫu nhiên mỗi lần (thay vì cố
+  // định 50/50 — vốn khiến symCount tập trung quanh giữa) để phân phối đáp số trải đều hơn nhiều.
+  const SYM_POOL5 = ['A','H','I','M','O','T','U','V','W','X','Y'];
+  const NONSYM_POOL5 = ['B','C','D','F','G','J','K','L','N','P','Q','R','S','Z'];
+  const wordLen5 = randInt(10,150);
+  const symRatio5 = Math.random();
+  const letters5 = Array.from({length:wordLen5}, ()=> Math.random()<symRatio5 ? pick(SYM_POOL5) : pick(NONSYM_POOL5));
+  const word5 = letters5.join('');
+  const symCount5 = letters5.filter(l=>SYM_POOL5.includes(l)).length;
+  return mk(`Cho chuỗi chữ cái: "${word5}". Có bao nhiêu chữ cái (kể cả lặp) có ít nhất 1 trục đối xứng (xét các chữ in hoa: A,H,I,M,O,T,U,V,W,X,Y có trục đối xứng)?`, '', '', 'Kiểm tra từng chữ cái trong chuỗi xem có nằm trong nhóm chữ đối xứng hay không.', symCount5);
 }
 
 function genT3G(grade, level){ // Không gian (khối)
   const CUBE_FACES=6, CUBE_EDGES=12, CUBE_VERTICES=8;
   if(level===1){
-    return mk(`Một khối lập phương có bao nhiêu mặt?`, '', '', 'Khối lập phương giống một viên xúc xắc, đếm số mặt của nó.', CUBE_FACES);
+    // Trước đây luôn hỏi đúng 1 câu (mặt khối lập phương). Thêm biến thể hỏi mặt/cạnh/đỉnh của cả
+    // khối lập phương lẫn khối hộp chữ nhật để đáp án thực sự thay đổi.
+    const shapeName1 = pick(['khối lập phương', 'khối hộp chữ nhật']);
+    const askType1 = pick(['mặt', 'cạnh', 'đỉnh']);
+    const ans1 = askType1==='mặt' ? CUBE_FACES : askType1==='cạnh' ? CUBE_EDGES : CUBE_VERTICES;
+    const hint1 = askType1==='mặt' ? 'Đếm số mặt phẳng bao quanh khối.' : askType1==='cạnh' ? 'Đếm số cạnh (đường giao giữa 2 mặt).' : 'Đếm số đỉnh (điểm giao giữa các cạnh).';
+    return mk(`Một ${shapeName1} có bao nhiêu ${askType1}?`, '', '', hint1, ans1);
   }
   if(level===2){
-    return mk(`Một khối hộp chữ nhật có bao nhiêu cạnh?`, '', '', 'Khối hộp chữ nhật có hình dạng giống khối lập phương, đếm số cạnh.', CUBE_EDGES);
+    const shapeName2 = pick(['khối lập phương', 'khối hộp chữ nhật']);
+    const askType2 = pick(['cạnh', 'mặt', 'đỉnh']);
+    const ans2 = askType2==='mặt' ? CUBE_FACES : askType2==='cạnh' ? CUBE_EDGES : CUBE_VERTICES;
+    return mk(`Một ${shapeName2} có bao nhiêu ${askType2}?`, '', '', `${shapeName2.charAt(0).toUpperCase()+shapeName2.slice(1)} có hình dạng giống khối lập phương, đếm số ${askType2}.`, ans2);
   }
   if(level===3){
-    const n = randInt(2,4);
+    const n = randInt(2,15);
     return mk(`Xếp chồng ${n} khối lập phương nhỏ thành một cột thẳng đứng. Hỏi cột đó có bao nhiêu mặt được nhìn thấy từ bên ngoài (không tính 2 mặt trên/dưới cùng, chỉ tính 4 mặt bên của mỗi khối)?`, '', '', 'Mỗi khối có 4 mặt bên có thể nhìn thấy, nhân với số khối.', 4*n);
   }
   if(level===4){
-    const a=randInt(2,3),b=randInt(2,3),c=randInt(2,3);
+    const a=randInt(2,6),b=randInt(2,6),c=randInt(2,6);
     return mk(`Một khối hộp chữ nhật được ghép từ các khối lập phương nhỏ 1cm³, có kích thước ${a}×${b}×${c} (khối). Hỏi khối hộp lớn được ghép từ bao nhiêu khối lập phương nhỏ?`, '', '', 'Số khối nhỏ = dài × rộng × cao (theo đơn vị khối).', a*b*c);
   }
-  // level5
-  const n = randInt(2,4);
+  // level5: mở rộng cạnh khối lập phương mạnh hơn nhiều
+  const n = randInt(2,90);
   const total = n*n*n;
   const inside = Math.max(0,(n-2))**3;
   const surface = total - inside;
@@ -771,25 +857,26 @@ function genT3G(grade, level){ // Không gian (khối)
 function genT3H(grade, level){ // Đường đi (đếm số đường đi ngắn nhất trên lưới)
   function C(n,k){ let r=1; for(let i=1;i<=k;i++) r=r*(n-k+i)/i; return Math.round(r); }
   if(level===1){
-    return mk(`Trên lưới ô vuông, để đi từ A đến B chỉ được đi sang phải hoặc đi xuống, cần đi qua 2 bước sang phải và 1 bước xuống (tổng 3 bước). Hỏi có bao nhiêu đường đi ngắn nhất? (Gợi ý: đây là số cách chọn vị trí cho bước "xuống" trong 3 bước)`, '', '', 'Số đường đi = C(3,1) = 3.', C(3,1));
+    const right1=randInt(1,3), down1=1;
+    return mk(`Trên lưới ô vuông, để đi từ A đến B chỉ được đi sang phải hoặc đi xuống, cần đi qua ${right1} bước sang phải và ${down1} bước đi xuống (tổng ${right1+down1} bước). Hỏi có bao nhiêu đường đi ngắn nhất? (Gợi ý: đây là số cách chọn vị trí cho bước "xuống" trong ${right1+down1} bước)`, '', '', `Số đường đi = C(${right1+down1}, ${down1}) = ${right1+down1}.`, C(right1+down1, down1));
   }
   if(level===2){
-    const right=randInt(2,3), down=randInt(1,2);
+    const right=randInt(2,5), down=randInt(1,4);
     return mk(`Trên lưới ô vuông, đi từ A đến B cần đúng ${right} bước sang phải và ${down} bước đi xuống. Hỏi có bao nhiêu đường đi ngắn nhất?`, '', '', `Số đường đi = C(${right+down}, ${down}).`, C(right+down, down));
   }
   if(level===3){
-    const rows=randInt(2,3), cols=randInt(2,3);
+    const rows=randInt(2,5), cols=randInt(2,5);
     return mk(`Trên lưới ô vuông kích thước ${rows}×${cols} ô, đi từ góc trên-trái đến góc dưới-phải, chỉ được đi sang phải hoặc đi xuống. Hỏi có bao nhiêu đường đi ngắn nhất?`, '', '', 'Số đường đi = C(rows+cols, rows).', C(rows+cols, rows));
   }
   if(level===4){
     // đường đi đi qua 1 điểm trung gian P cố định trên lưới m x n
-    const m=randInt(3,4), n=randInt(3,4);
+    const m=randInt(3,6), n=randInt(3,6);
     const px=randInt(1,m-1), py=randInt(1,n-1);
     const via = C(px+py, px) * C((m-px)+(n-py), m-px);
     return mk(`Trên lưới ô vuông ${m}×${n} ô, đi từ góc trên-trái đến góc dưới-phải (chỉ đi phải hoặc xuống), hỏi có bao nhiêu đường đi ngắn nhất bắt buộc đi qua điểm P nằm cách góc trên-trái đúng ${px} bước phải và ${py} bước xuống?`, '', '', 'Số đường đi qua P = (số đường từ đầu đến P) × (số đường từ P đến cuối), nhân hai kết quả với nhau.', via);
   }
-  // level5: đếm đường đi tránh 1 ô cấm
-  const m=randInt(3,4), n=randInt(3,4);
+  // level5: đếm đường đi tránh 1 ô cấm — mở rộng lưới hơn nữa để đáp số đa dạng hơn nhiều
+  const m=randInt(3,10), n=randInt(3,10);
   const bx=randInt(1,m-1), by=randInt(1,n-1);
   const total = C(m+n, m);
   const throughBlocked = C(bx+by, bx) * C((m-bx)+(n-by), m-bx);
@@ -823,9 +910,9 @@ function genT4A(grade, level){ // Tiền
     const finalPrice = price - price*discountPct/100;
     return mk(`Một món hàng giá ${price.toLocaleString('vi-VN')} đồng được giảm giá ${discountPct}%. Hỏi giá sau khi giảm là bao nhiêu (đồng)?`, '', '', 'Số tiền giảm = giá × phần trăm giảm : 100. Giá sau giảm = giá ban đầu − số tiền giảm.', finalPrice);
   }
-  // level5
-  const budget = randInt(20,60)*unit;
-  const price = randInt(3,10)*unit;
+  // level5: mở rộng ngân sách/giá mạnh hơn nữa để số lượng mua tối đa trải rộng hơn
+  const budget = randInt(15,600)*unit;
+  const price = randInt(2,15)*unit;
   const maxQty = Math.floor(budget/price);
   return mk(`Với số tiền ${budget.toLocaleString('vi-VN')} đồng, mỗi ${pick(ITEMS)} giá ${price.toLocaleString('vi-VN')} đồng. Hỏi mua được nhiều nhất bao nhiêu cái?`, '', '', 'Lấy tổng số tiền chia cho giá 1 cái, chỉ lấy phần nguyên.', maxQty);
 }
@@ -851,8 +938,8 @@ function genT4B(grade, level){ // Thời gian
     const endH = Math.floor(totalM/60)%24, endM = totalM%60;
     return mk(`Một chuyến xe khởi hành lúc ${startH} giờ ${startM} phút, đi trong ${durM} phút. Hỏi xe đến nơi lúc mấy giờ mấy phút? (gõ dạng: X giờ Y phút)`, '', '', 'Cộng thời gian đi vào giờ khởi hành, nếu số phút ≥ 60 thì đổi thành giờ.', `${endH} giờ ${endM} phút`);
   }
-  // level5
-  const n = randInt(20,60);
+  // level5: mở rộng số ngày mạnh hơn nữa để đáp số trải rộng hơn
+  const n = randInt(10,700);
   let count=0; for(let d=1;d<=n;d++){ const idx=d%7; if(idx===0||idx===6) count++; }
   return mk(`Bắt đầu từ một ngày thứ Hai, trong ${n} ngày liên tiếp tiếp theo (không tính ngày thứ Hai đầu tiên), có bao nhiêu ngày là thứ Bảy hoặc Chủ nhật?`, '', '', 'Cứ mỗi 7 ngày có 2 ngày cuối tuần; đếm số chu kỳ 7 ngày và phần dư.', count);
 }
@@ -873,12 +960,12 @@ function genT4C(grade, level){ // Chuyển động
     return mk(`Một xe máy đi quãng đường ${s}km với vận tốc ${v}km/giờ. Hỏi xe đi hết bao nhiêu giờ?`, '', '', 'Thời gian = quãng đường : vận tốc.', s/v);
   }
   if(level===4){
-    const v1=randInt(30,50), v2=randInt(30,50), t=randInt(1,3);
+    const v1=randInt(30,50), v2=randInt(30,50), t=randInt(1,10);
     const dist = (v1+v2)*t;
     return mk(`Hai xe xuất phát cùng lúc từ hai điểm A và B cách nhau ${dist}km, đi ngược chiều nhau. Xe từ A đi với vận tốc ${v1}km/giờ, xe từ B đi với vận tốc ${v2}km/giờ. Hỏi sau bao nhiêu giờ hai xe gặp nhau?`, '', '', 'Khi đi ngược chiều, vận tốc gặp nhau = tổng hai vận tốc. Thời gian gặp nhau = quãng đường : tổng vận tốc.', t);
   }
-  // level5
-  const v1=randInt(30,50), v2=v1+randInt(5,20), gap=randInt(1,4)*(v2-v1);
+  // level5: mở rộng khoảng thời gian đuổi kịp mạnh hơn nữa để đáp số trải rộng hơn
+  const v1=randInt(20,60), v2=v1+randInt(5,25), gap=randInt(1,120)*(v2-v1);
   const t = gap/(v2-v1);
   return mk(`Xe A xuất phát trước, đi với vận tốc ${v1}km/giờ. Sau khi xe A đi được ${gap}km, xe B xuất phát đuổi theo cùng đường với vận tốc ${v2}km/giờ. Hỏi sau bao nhiêu giờ (kể từ khi xe B xuất phát) thì xe B đuổi kịp xe A?`, '', '', 'Vận tốc đuổi kịp = hiệu hai vận tốc. Thời gian đuổi kịp = khoảng cách ban đầu : hiệu vận tốc.', t);
 }
@@ -903,9 +990,9 @@ function genT4D(grade, level){ // Tỉ số - tỉ lệ
     const sum=(r1+r2)*unit;
     return mk(`Số học sinh nam và nữ trong lớp có tỉ số ${r1}:${r2}. Biết tổng số học sinh là ${sum}. Hỏi có bao nhiêu học sinh nữ?`, '', '', 'Chia tổng theo tổng số phần bằng nhau (${r1}+${r2} phần) rồi tính số học sinh nữ (${r2} phần).'.replace(/\$\{r1\}/g,r1).replace(/\$\{r2\}/g,r2), r2*unit);
   }
-  // level5
-  const total = randInt(20,60);
-  const r1=randInt(1,3), r2=r1+randInt(1,3), r3=r2+randInt(1,3);
+  // level5: mở rộng tổng và tỉ số mạnh hơn nữa để đáp số trải rộng hơn
+  const total = randInt(20,600);
+  const r1=randInt(1,8), r2=r1+randInt(1,8), r3=r2+randInt(1,8);
   const unit = Math.floor(total/(r1+r2+r3));
   const realTotal = unit*(r1+r2+r3);
   return mk(`Ba bạn chia nhau ${realTotal} viên kẹo theo tỉ số ${r1}:${r2}:${r3}. Hỏi bạn được chia nhiều kẹo nhất nhận được bao nhiêu viên?`, '', '', 'Chia tổng theo tổng số phần (${r1}+${r2}+${r3}), tìm giá trị 1 phần rồi nhân với số phần lớn nhất.'.replace(/\$\{r1\}/g,r1).replace(/\$\{r2\}/g,r2).replace(/\$\{r3\}/g,r3), r3*unit);
@@ -965,32 +1052,45 @@ function genT4F(grade, level){ // Bảng & biểu đồ
     const avg = Math.round((total/5)*100)/100;
     return mk(`Bảng số lượng sách bán được: ${days.map((d,i)=>`${d}: ${vals[i]}`).join(', ')}. Tính trung bình mỗi ngày bán được bao nhiêu quyển.`, '', '', 'Trung bình = tổng số liệu chia cho số ngày.', avg);
   }
-  // level5
-  const vals = Array.from({length:5}, ()=>randInt(2,30));
+  // level5: mở rộng khoảng giá trị bảng số liệu mạnh hơn để hiệu max-min trải rộng hơn
+  const vals = Array.from({length:5}, ()=>randInt(2,300));
   const days = ['Thứ 2','Thứ 3','Thứ 4','Thứ 5','Thứ 6'];
-  const avg = vals.reduce((a,b)=>a+b,0)/5;
-  const countAbove = vals.filter(v=>v>avg).length;
-  return mk(`Bảng số lượng sách bán được: ${days.map((d,i)=>`${d}: ${vals[i]}`).join(', ')}. Hỏi có bao nhiêu ngày bán được số sách CAO HƠN mức trung bình của cả tuần?`, '', '', 'Tính trung bình cả tuần trước, sau đó đếm số ngày có giá trị lớn hơn mức trung bình đó.', countAbove);
+  const spread = Math.max(...vals) - Math.min(...vals);
+  return mk(`Bảng số lượng sách bán được: ${days.map((d,i)=>`${d}: ${vals[i]}`).join(', ')}. Hỏi ngày bán được NHIỀU sách nhất hơn ngày bán được ÍT sách nhất là bao nhiêu quyển?`, '', '', 'Tìm giá trị lớn nhất và nhỏ nhất trong bảng, rồi lấy hiệu của chúng.', spread);
 }
 
 function genT4G(grade, level){ // Xác suất (mức tiểu học)
   if(level===1){
-    return mk(`Trong hộp có 5 quả bóng đỏ, không có quả bóng màu nào khác. Lấy ngẫu nhiên 1 quả. Khả năng lấy được bóng xanh là: chắc chắn, có thể, hay không thể? (gõ: không thể)`, '', '', 'Vì trong hộp không có bóng xanh nên không thể lấy được.', 'không thể');
+    const redOnly = randInt(3,12);
+    const otherColor = pick(['xanh','vàng','tím','trắng']);
+    const askOwnColor = Math.random()<0.5;
+    if(askOwnColor){
+      return mk(`Trong hộp có ${redOnly} quả bóng đỏ, không có quả bóng màu nào khác. Lấy ngẫu nhiên 1 quả. Khả năng lấy được bóng đỏ là: chắc chắn, có thể, hay không thể? (gõ: chắc chắn)`, '', '', 'Vì trong hộp chỉ toàn bóng đỏ nên chắc chắn lấy được bóng đỏ.', 'chắc chắn');
+    }
+    return mk(`Trong hộp có ${redOnly} quả bóng đỏ, không có quả bóng màu nào khác. Lấy ngẫu nhiên 1 quả. Khả năng lấy được bóng ${otherColor} là: chắc chắn, có thể, hay không thể? (gõ: không thể)`, '', '', `Vì trong hộp không có bóng ${otherColor} nên không thể lấy được.`, 'không thể');
   }
   if(level===2){
     const red=randInt(2,8), blue=randInt(2,8);
     return mk(`Một hộp có ${red} quả bóng đỏ và ${blue} quả bóng xanh. Lấy ngẫu nhiên 1 quả. Có tất cả bao nhiêu kết quả có thể xảy ra (tổng số bóng)?`, '', '', 'Tổng số kết quả có thể = tổng số bóng trong hộp.', red+blue);
   }
   if(level===3){
-    const red=randInt(2,8), blue=randInt(2,8);
+    const red=randInt(2,30), blue=randInt(2,30);
     return mk(`Một hộp có ${red} quả bóng đỏ và ${blue} quả bóng xanh. Lấy ngẫu nhiên 1 quả. Hỏi có bao nhiêu khả năng lấy được bóng đỏ?`, '', '', 'Số khả năng lấy được bóng đỏ = số quả bóng đỏ trong hộp.', red);
   }
   if(level===4){
     const sides=[1,2,3,4,5,6];
-    return mk(`Gieo một con xúc xắc 6 mặt (các số từ 1 đến 6). Hỏi có bao nhiêu khả năng để mặt xuất hiện là số chẵn?`, '', '', 'Đếm các số chẵn trong tập {1,2,3,4,5,6}.', 3);
+    const variants4 = [
+      ()=>({label:'số chẵn', ans: sides.filter(x=>x%2===0).length, hint:'Đếm các số chẵn trong tập {1,2,3,4,5,6}.'}),
+      ()=>({label:'số lẻ', ans: sides.filter(x=>x%2!==0).length, hint:'Đếm các số lẻ trong tập {1,2,3,4,5,6}.'}),
+      ()=>({label:'lớn hơn 3', ans: sides.filter(x=>x>3).length, hint:'Đếm các số lớn hơn 3 trong tập {1,2,3,4,5,6}.'}),
+      ()=>({label:'nhỏ hơn hoặc bằng 4', ans: sides.filter(x=>x<=4).length, hint:'Đếm các số ≤4 trong tập {1,2,3,4,5,6}.'}),
+      ()=>({label:'là bội của 3', ans: sides.filter(x=>x%3===0).length, hint:'Đếm các bội của 3 trong tập {1,2,3,4,5,6}.'}),
+    ];
+    const v4 = pick(variants4)();
+    return mk(`Gieo một con xúc xắc 6 mặt (các số từ 1 đến 6). Hỏi có bao nhiêu khả năng để mặt xuất hiện là ${v4.label}?`, '', '', v4.hint, v4.ans);
   }
-  // level5
-  const red=randInt(2,6), blue=randInt(2,6), green=randInt(2,6);
+  // level5: mở rộng số lượng bóng mỗi màu mạnh hơn nhiều để đáp số trải rộng hơn
+  const red=randInt(2,100), blue=randInt(2,100), green=randInt(2,100);
   const total = red+blue+green;
   return mk(`Một hộp có ${red} bóng đỏ, ${blue} bóng xanh, ${green} bóng vàng. Lấy ngẫu nhiên 1 quả. Hỏi có bao nhiêu khả năng lấy được bóng KHÔNG PHẢI màu đỏ?`, '', '', 'Số khả năng không phải đỏ = tổng số bóng − số bóng đỏ.', total-red);
 }
@@ -1012,16 +1112,27 @@ function genT4H(grade, level){ // Mô hình hóa
     return mk(`Một kho có ${totalBoxes} thùng hàng, mỗi thùng ${perBox} sản phẩm. Đã bán ${used} sản phẩm. Hỏi trong kho còn lại bao nhiêu sản phẩm?`, '', '', 'Tính tổng số sản phẩm trong kho trước, rồi trừ đi số đã bán.', total-used);
   }
   if(level===4){
-    const capacity = randInt(20,50);
+    const capacity = randInt(20,150);
     const cur = randInt(5,capacity-5);
-    const inflow = randInt(2,8);
+    const inflow = randInt(2,12);
     const t = Math.ceil((capacity-cur)/inflow);
     return mk(`Một bể có sức chứa ${capacity} lít, hiện đã có ${cur} lít nước. Mỗi phút có thêm ${inflow} lít nước chảy vào. Hỏi sau ít nhất bao nhiêu phút thì bể đầy?`, '', '', 'Tính số lít còn thiếu, chia cho lượng nước chảy vào mỗi phút (làm tròn lên nếu có dư).', t);
   }
-  // level5
-  const a=randInt(3,10), b=randInt(3,10), c=randInt(3,10);
-  const stock = a*randInt(2,4)+b*randInt(2,4)+c*randInt(2,4);
-  return mk(`Một cửa hàng có ${stock} sản phẩm cần đóng vào các thùng loại ${a}, ${b} và ${c} sản phẩm/thùng (có thể dùng phối hợp nhiều loại thùng, mỗi thùng phải đầy). Hỏi nếu chỉ dùng MỘT loại thùng duy nhất, có bao nhiêu loại thùng (trong 3 loại trên) có thể đóng gói vừa hết số sản phẩm mà không dư?`, '', '', 'Kiểm tra xem ${stock} có chia hết cho từng loại (${a}, ${b}, ${c}) hay không, đếm số loại chia hết.'.replace(/\$\{stock\}/g,stock).replace('${a}',a).replace('${b}',b).replace('${c}',c), [a,b,c].filter(x=>stock%x===0).length);
+  // level5: câu hỏi cũ (đếm số loại thùng chia hết trong 3 loại) bị chặn trần tự nhiên ở 0-3.
+  // Đổi sang hỏi số thùng đầy đóng được nhiều nhất — đáp số phụ thuộc trực tiếp vào stock/boxSize,
+  // cho dải giá trị rộng hơn nhiều. Mở rộng thêm cả 2 biến thể để đạt độ đa dạng cao hơn nữa.
+  const variant = Math.random()<0.5;
+  if(variant){
+    const boxSize = randInt(4,15);
+    const stock = randInt(30,2000);
+    const maxBoxes = Math.floor(stock/boxSize);
+    return mk(`Một cửa hàng có ${stock} sản phẩm, đóng vào các thùng loại ${boxSize} sản phẩm/thùng (mỗi thùng phải đầy, không cần dùng hết sản phẩm). Hỏi đóng được nhiều nhất bao nhiêu thùng đầy?`, '', '', 'Lấy tổng số sản phẩm chia cho số sản phẩm mỗi thùng, chỉ lấy phần nguyên (số thùng đầy).', maxBoxes);
+  }
+  const boxSize2 = randInt(4,100);
+  const fullBoxes = randInt(3,25);
+  const remainder = randInt(1, boxSize2-1);
+  const stock2 = fullBoxes*boxSize2 + remainder;
+  return mk(`Một cửa hàng có ${stock2} sản phẩm, đóng vào các thùng loại ${boxSize2} sản phẩm/thùng (mỗi thùng phải đầy). Sau khi đóng được nhiều thùng đầy nhất có thể, hỏi còn dư lại bao nhiêu sản phẩm?`, '', '', 'Lấy tổng số sản phẩm chia cho số sản phẩm mỗi thùng, số dư chính là số sản phẩm còn lại (phép chia có dư).', remainder);
 }
 
 /* ============ Topic registry ============ */
